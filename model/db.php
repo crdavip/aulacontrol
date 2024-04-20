@@ -4,7 +4,7 @@ class ConnPDO
     private $host = "localhost";
     private $username = "root";
     private $password = "";
-    private $database = "ucloth";
+    private $database = "aulacontrol";
     private $pdo;
 
     public function __construct()

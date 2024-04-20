@@ -47,7 +47,7 @@
                 <label class="inputGroupLabel" for="userDocProfile"><i class="fa-solid fa-id-card"></i> Documento</label>
             </div>
             <div class="inputGroup">
-                <input class="inputGroupInput" type="email" name="userMailProfile" id="userMailProfile" value="<?php echo $userMail; ?>" autocomplete="off" required>
+                <input class="inputGroupInput" type="email" name="userMailProfile" id="userMailProfile" value="<?php echo $userEmail; ?>" autocomplete="off" required>
                 <label class="inputGroupLabel" for="userMailProfile"><i class="fa-solid fa-envelope"></i> Correo</label>
             </div>
             <div class="buttonGroup">
@@ -97,13 +97,13 @@
 
 <?php $connPDO->closeConn(); ?>
 <script src="./view/js/main.js"></script>
-<script src="./view/js/alert.js"></script>
+<script src="./view/js/perfil.js"></script>
 <?php switch ($titlePg) {
     case 'Usuarios':
         echo '<script src="./view/js/user.js"></script>';
         break;
-    case 'Diseños':
-        echo '<script src="./view/js/design.js"></script>';
+    case 'Aulas':
+        echo '';
         break;
 } ?>
 

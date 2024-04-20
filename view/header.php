@@ -1,12 +1,15 @@
 <?php require_once('./model/db.php');
 $connPDO = new ConnPDO;
 $pdo = $connPDO->getConn();
-$userId = $_SESSION['USUARIO_ID'];
-$userName = $_SESSION['NOMBRE'];
-$userRole = $_SESSION['ROL'];
-$userImg = $_SESSION['IMAGEN'];
+$userId = $_SESSION['userId'];
+$userName = $_SESSION['name'];
+$userIdRole = $_SESSION['idRole'];
+$userRole = $_SESSION['role'];
+$userImg = $_SESSION['img'];
+$userImgQr = $_SESSION['imgQr'];
+
 if (!isset($userId)) {
-    header('Location: ./login');
+    header('Location: ./ingreso');
     exit();
 }
 ?>
@@ -27,7 +30,7 @@ if (!isset($userId)) {
 <body>
     <input type="hidden" id="userIdView" value="<?php echo $userId; ?>">
     <input type="hidden" id="userNameView" value="<?php echo $userName; ?>">
-    <input type="hidden" id="userRolView" value="<?php echo $userRole; ?>">
+    <input type="hidden" id="userRolView" value="<?php echo $userIdRole; ?>">
     <input type="hidden" id="userImgView" value="<?php echo $userImg; ?>">
     <nav class="sidenav close">
         <div class="sidenavHeader">
@@ -50,57 +53,57 @@ if (!isset($userId)) {
                             <span class="text navText">Panel</span>
                         </a>
                     </li>
-                    <?php if ($userRole == 1 || $userRole == 2) { ?>
+                    <?php if ($userIdRole == 1 || $userIdRole == 2) { ?>
                         <li class="navLink">
-                            <a href="./design">
+                            <a href="./aulas">
                                 <i class="fa-solid fa-kaaba icon"></i>
                                 <span class="text navText">Aulas</span>
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if ($userRole == 1) { ?>
+                    <?php if ($userIdRole == 1) { ?>
                         <li class="navLink">
-                            <a href="#">
+                            <a href="./fichas">
                                 <i class="fa-solid fa-table icon"></i>
                                 <span class="text navText">Fichas</span>
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if ($userRole == 1) { ?>
+                    <?php if ($userIdRole == 1) { ?>
                         <li class="navLink">
-                            <a href="#">
-                                <i class="fa-solid fa-clipboard-list icon"></i>
+                            <a href="./asistencia">
+                                <i class="fa-solid fa-calendar-check icon"></i>
                                 <span class="text navText">Asistencia</span>
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if ($userRole == 1) { ?>
+                    <?php if ($userIdRole == 1) { ?>
                         <li class="navLink">
-                            <a href="./users">
+                            <a href="./instructores">
                                 <i class="fa-solid fa-user-tie icon"></i>
                                 <span class="text navText">Instructores</span>
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if ($userRole == 1) { ?>
+                    <?php if ($userIdRole == 1) { ?>
                         <li class="navLink">
-                            <a href="./users">
+                            <a href="./aprendices">
                                 <i class="fa-solid fa-user-graduate icon"></i>
                                 <span class="text navText">Aprendices</span>
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if ($userRole == 1 || $userRole == 4) { ?>
+                    <?php if ($userIdRole == 1 || $userIdRole == 4) { ?>
                         <li class="navLink">
-                            <a href="#">
+                            <a href="./equipos">
                                 <i class="fa-solid fa-desktop icon"></i>
                                 <span class="text navText">Equipos</span>
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if ($userRole == 1) { ?>
+                    <?php if ($userIdRole == 1) { ?>
                         <li class="navLink">
-                            <a href="#">
+                            <a href="./observaciones">
                                 <i class="fa-solid fa-binoculars icon"></i>
                                 <span class="text navText">Observaciones</span>
                             </a>

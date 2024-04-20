@@ -1,10 +1,14 @@
 <?php 
 session_start();
-$userId = $_SESSION['USUARIO_ID'];
-$userMail = $_SESSION['EMAIL'];
-$userName = $_SESSION['NOMBRE'];
-$userDoc = $_SESSION['DOCUMENTO'];
-$userRole = $_SESSION['ROL'];
-$userImg = $_SESSION['IMAGEN'];
-$userStatus = $_SESSION['ESTADO'];
+$userId = $_SESSION['userId'];
+$userDoc = $_SESSION['document'];
+$userEmail = $_SESSION['email'];
+$userName = $_SESSION['name'];
+$userIdRole = $_SESSION['idRole'];
+$userRole = $_SESSION['role'];
+$userImg = $_SESSION['img'];
+$userImgQr = $_SESSION['imgQr'];
+$userStatus = $_SESSION['status'];
+$userBirth = $_SESSION['birth'];
+$userDataSheet = $_SESSION['dataSheet'];
 ?>
