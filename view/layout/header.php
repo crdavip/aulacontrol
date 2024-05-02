@@ -7,6 +7,7 @@ $userIdRole = $_SESSION['idRole'];
 $userRole = $_SESSION['role'];
 $userImg = $_SESSION['img'];
 $userImgQr = $_SESSION['imgQr'];
+$userCenter = $_SESSION['center'];
 
 if (!isset($userId)) {
     header('Location: ./ingreso');
@@ -25,6 +26,7 @@ if (!isset($userId)) {
     <link rel="shortcut icon" href="./view/img/fav.svg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="./plugins/qrCode.min.js"></script>
 </head>
 
 <body>
@@ -41,11 +43,6 @@ if (!isset($userId)) {
         </div>
         <div class="sidenavMenu">
             <div class="menu">
-                <li class="sidenavSearch">
-                    <i class="fa-solid fa-magnifying-glass icon"></i>
-                    <input type="text" name="search" id="search" autocomplete="on" placeholder="Buscar..." />
-                </li>
-
                 <ul class="menuLinks">
                     <li class="navLink">
                         <a href="./">
@@ -55,9 +52,9 @@ if (!isset($userId)) {
                     </li>
                     <?php if ($userIdRole == 1 || $userIdRole == 2) { ?>
                         <li class="navLink">
-                            <a href="./aulas">
+                            <a href="./ambientes">
                                 <i class="fa-solid fa-kaaba icon"></i>
-                                <span class="text navText">Aulas</span>
+                                <span class="text navText">Ambientes</span>
                             </a>
                         </li>
                     <?php } ?>
@@ -155,10 +152,10 @@ if (!isset($userId)) {
                     <span id="userWelcome" class="userWelcome">¡Buenos Días!</span>
                 </p>
                 <div class="userProfile">
-                    <div class="userImage">
+                    <div class="userImage" id="userImage">
                         <img class="userImagePic" id="userImagePic" src="" alt="profile">
                     </div>
-                    <div class="userItems">
+                    <div class="userItems" id="userItems">
                         <a onclick="openModal('userProfile')"><i class="fa-solid fa-user"></i>Perfil</a>
                         <a href="./model/logout"><i class="fa-solid fa-right-from-bracket"></i></i>Salir</a>
                     </div>

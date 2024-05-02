@@ -3,8 +3,8 @@ require_once('./model/sessions.php');
 $titlePg = 'Panel';
 $titlePgIcon = 'fa-gauge-high';
 $titlePgRight = '';
-include_once('./view/header.php');
-include_once('./view/titlePg.php');
+include_once('./view/layout/header.php');
+include_once('./view/layout/titlePg.php');
 ?>
 <p>
   Lorem, ipsum dolor sit amet consectetur adipisicing elit. Alias veniam
@@ -233,4 +233,4 @@ include_once('./view/titlePg.php');
   vero deserunt sunt impedit aliquid quaerat exercitationem corporis
   numquam sequi atque.
 </p>
-<?php include('./view/footer.php'); ?>
+<?php include('./view/layout/footer.php'); ?>

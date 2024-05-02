@@ -64,7 +64,7 @@ if (isset($_SESSION['USUARIO_ID'])) {
                         <div class="inputGroup loginExt">
                             <div class="contentRemember">
                                 <label for="remember">Recuérdame:</label>
-                                <input class="remember" type="checkbox" name="remember" id="remember">
+                                <input class="inputCheck" type="checkbox" name="remember" id="remember">
                             </div>
                             <a onclick="openModal('lostPass')" class="lostPassword">Olvidé la contraseña</a>
                         </div>
@@ -86,7 +86,7 @@ if (isset($_SESSION['USUARIO_ID'])) {
                 <i class="fa-solid fa-arrows-rotate"></i>
                 <h3>Recuperar Contraseña</h3>
             </div>
-            <form id="lostPassForm" action="" class="usersForm" autocomplete="off">
+            <form id="lostPassForm" action="" class="form" autocomplete="off">
                 <input type="hidden" name="userIdPassEdit" id="userIdPassEdit" value="<?php echo $userId; ?>">
                 <div class="inputGroup">
                     <input class="inputGroupInput" type="number" name="lostPassDoc" id="lostPassDoc" required>

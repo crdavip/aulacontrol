@@ -10,5 +10,5 @@ $userImg = $_SESSION['img'];
 $userImgQr = $_SESSION['imgQr'];
 $userStatus = $_SESSION['status'];
 $userBirth = $_SESSION['birth'];
-$userDataSheet = $_SESSION['dataSheet'];
+$userCenter = $_SESSION['center'];
 ?>

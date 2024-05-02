@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap");
 
 :root {
+  font-size: 16px;
   --primario: #5eb319;
   --segundario: #1983b3;
   --terciario: #425e2c;
@@ -8,6 +9,7 @@
   --gris-claro: #f2f2f2;
   --gris-oscuro: #222222;
   --blanco: #ffffff;
+  --color-error: #b33f19;
   --primario-svg: invert(65%) sepia(15%) saturate(7356%) hue-rotate(53deg)
     brightness(96%) contrast(80%);
   --blanco-svg: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg)
@@ -92,7 +94,7 @@ a {
   transform: scale(0);
 
   & i {
-    font-size: 30px;
+    font-size: 2rem;
     color: var(--negro);
     transition: all 0.5s;
   }
@@ -146,7 +148,7 @@ a {
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 .sidenav.close .icon {
@@ -162,7 +164,7 @@ a {
 }
 
 .sidenav .text {
-  font-size: 17px;
+  font-size: 1rem;
   font-weight: 500;
   white-space: nowrap;
   opacity: 1;
@@ -199,7 +201,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 1.25rem;
   cursor: pointer;
   transition: var(--tran);
   z-index: 100;
@@ -207,7 +209,7 @@ a {
 
 .sidenav .sidenavHeader .text {
   position: absolute;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 700;
 }
 
@@ -239,7 +241,7 @@ a {
   background: var(--terciario);
   color: var(--blanco);
   border-radius: 5px;
-  font-size: 17px;
+  font-size: 1rem;
   font-weight: 500;
   transition: var(--tran);
 }
@@ -282,7 +284,7 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow-y: scroll;
+  overflow-x: scroll;
 }
 
 .sidenavMenu::-webkit-scrollbar {
@@ -403,7 +405,7 @@ a {
 }
 
 .sidenav .sidenavBottom .created .text {
-  font-size: 12px;
+  font-size: 0.9rem;
   margin-bottom: 0.5rem;
   transition: var(--tran);
 }
@@ -471,14 +473,14 @@ a {
 
 .header .userInfo p {
   color: var(--negro);
-  font-size: 20px;
+  font-size: 1.2rem;
   font-weight: 500;
   text-align: right;
   line-height: 1;
 }
 
 .userWelcome {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--primario);
 }
@@ -510,7 +512,7 @@ a {
 }
 
 .userItems,
-.cardDesignItems {
+.cardRoomMenuItems {
   position: absolute;
   top: 6rem;
   right: 2rem;
@@ -524,18 +526,18 @@ a {
   z-index: 2;
 }
 
-.cardDesignItems {
+.cardRoomMenuItems {
   top: 0;
   right: 0;
-  transform: translateY(0);
+  width: 145px;
 }
 
 .userItems a,
-.cardDesignItems a {
+.cardRoomMenuItems a {
   color: var(--blanco);
   display: block;
   padding: 0.5rem;
-  font-size: 14px;
+  font-size: 0.9;
   cursor: pointer;
 
   & i {
@@ -694,7 +696,7 @@ a {
   height: 35px;
   border-radius: 5px;
   border: none;
-  font-size: 20px;
+  font-size: 1.25rem;
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -725,6 +727,13 @@ a {
   position: relative;
 }
 
+.inputGroupQr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .inputGroup p {
   color: var(--gris-oscuro);
   line-height: 1.25rem;
@@ -750,8 +759,8 @@ a {
 }
 
 .inputGroupInput.inputError {
-  outline: 1px solid var(--segundario);
-  background: var(--segundario);
+  outline: 1px solid var(--color-error);
+  background: var(--color-error);
   color: var(--blanco);
 }
 
@@ -762,7 +771,7 @@ a {
 
 .inputGroupSelect option {
   background: var(--gris-claro);
-  color: var(--terciario);
+  color: var(--gris-oscuro);
 }
 
 .inputGroupInput:is(:focus-visible) {
@@ -853,7 +862,7 @@ a {
 }
 
 .buttonGroup .btn:hover {
-  background: var(--segundario);
+  background: var(--terciario);
   color: var(--blanco);
   cursor: pointer;
 }
@@ -865,7 +874,7 @@ a {
   font-size: 0.8rem;
 }
 
-.contentRemember {
+.contentinputCheck {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -875,7 +884,7 @@ a {
   }
 }
 
-.remember {
+.inputCheck {
   appearance: none;
   outline: 1px solid var(--gris-oscuro);
   width: 1rem;
@@ -888,7 +897,7 @@ a {
   }
 }
 
-.remember:checked::before {
+.inputCheck:checked::before {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -914,12 +923,30 @@ a {
 
 .message {
   font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
   display: none;
+  transition: all 0.5s;
+  width: 100%;
 }
 
-.messageShow {
+.messageOK,
+.messageErr {
   display: block;
   transition: all 0.5s;
+  line-height: 1.1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+}
+
+.messageOK {
+  border: 2px solid var(--primario);
+  color: var(--primario);
+}
+
+.messageErr {
+  border: 2px solid var(--color-error);
+  color: var(--color-error);
 }
 
 .contentLoginBgImg {
@@ -961,17 +988,17 @@ a {
   position: relative;
 }
 
-.usersForm {
+.form {
   display: grid;
   gap: 1em;
   width: 80%;
 }
 
-.usersForm .buttonGroup {
+.form .buttonGroup {
   display: flex;
 }
 
-.usersForm .btn {
+.form .btn {
   background: var(--primario);
   color: var(--gris-claro);
   width: 100%;
@@ -981,11 +1008,11 @@ a {
   }
 }
 
-.usersForm .btnAlt {
+.form .btnAlt {
   background: var(--segundario);
 }
 
-.usersForm .inputGroupLabel {
+.form .inputGroupLabel {
   color: var(--gris-oscuro);
 }
 
@@ -1013,14 +1040,14 @@ a {
 }
 
 .loginH2 {
-  font-size: 26px;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--segundario);
   line-height: 1;
 }
 
 .loginP {
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 300;
   color: var(--gris-oscuro);
 }
@@ -1070,14 +1097,14 @@ a {
   border-bottom: 2px solid var(--primario);
 
   & h1 {
-    font-size: 40px;
+    font-size: 2rem;
     font-weight: 300;
     color: var(--negro);
   }
 }
 
 .titlePg i {
-  font-size: 40px;
+  font-size: 2.5rem;
   color: var(--primario);
 }
 
@@ -1101,8 +1128,11 @@ a {
   height: 100%;
 }
 
-.cardUser,
-.cardDesign {
+.rowAlt {
+  display: flex;
+}
+
+.card {
   background: var(--gris-claro);
   border-radius: 10px;
   overflow: hidden;
@@ -1113,25 +1143,24 @@ a {
   background: var(--primario);
 }
 
-.targetCard .cardDesignTxt h3,
-.targetCard .cardDesignTxt span {
-  color: var(--blanco) !important;
-}
-
 .targetCard .cardLike,
 .targetCard .cardDisLike {
   background: var(--blanco) !important;
   color: var(--primario) !important;
 }
 
-.cardUserTop {
+.cardTop {
   display: flex;
   justify-content: end;
   padding: 1.5em;
   border-bottom: 2px solid var(--blanco);
 }
 
-.cardUserButtons {
+.cardTopRoom {
+  position: relative;
+}
+
+.cardButtons {
   display: flex;
   gap: 10px;
   position: relative;
@@ -1139,7 +1168,7 @@ a {
 
 .btnEdit,
 .btnDelete,
-.cardDesignMenu,
+.cardRoomMenu,
 .cardLike,
 .cardDisLike {
   display: flex;
@@ -1147,7 +1176,7 @@ a {
   align-items: center;
   background: var(--terciario);
   color: var(--blanco);
-  font-size: 20px;
+  font-size: 1.25rem;
   border-radius: 5px;
   width: 36px;
   height: 36px;
@@ -1159,30 +1188,72 @@ a {
   }
 }
 
+.cardRoomMenu {
+  position: absolute;
+  background: transparent;
+  color: var(--negro);
+  top: 0;
+  right: 0;
+
+  &:hover {
+    background: transparent;
+    color: var(--primario);
+  }
+}
+
 .btnDelete {
   background: var(--segundario);
 }
 
-.cardUserBody {
-  display: grid;
+.cardBody {
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
   padding: 1.5rem;
   margin-top: -5rem;
 }
 
-.cardUserPic img {
+.cardBodyRoom {
+  flex-direction: row;
+  align-items: center;
+  margin-top: 0;
+  position: relative;
+}
+
+.cardPic img {
   outline: 2px solid var(--blanco);
-  border-radius: 50%;
+  border-radius: 0.5rem;
   width: 113px;
   height: 113px;
   object-fit: cover;
   object-position: center;
 }
 
-.cardUserTxt {
+.cardRoomNum {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--blanco);
+  outline: 2px solid var(--blanco);
+  border-radius: 0.5rem;
+  width: 113px;
+  height: 113px;
+}
+
+.cardRoomNum h2 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--primario);
+}
+
+.cardRoomNumAlt h2 {
+  color: var(--segundario);
+}
+
+.cardBodyTxt {
   line-height: 1.1;
   color: var(--negro);
-  font-size: 18px;
+  font-size: 1rem;
 
   & p {
     color: var(--primario);
@@ -1199,7 +1270,11 @@ a {
   }
 }
 
-.btnAdd {
+.cardBodyTxtAlt p {
+  color: var(--segundario);
+}
+
+.btnUi {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1212,12 +1287,16 @@ a {
 
   & i {
     color: var(--gris-claro);
-    font-size: 20px;
+    font-size: 1.25rem;
   }
+}
 
-  &:hover {
-    background: var(--segundario);
-  }
+.btnUi:hover {
+  background: var(--terciario);
+}
+
+.btnUiAlt {
+  background: var(--segundario);
 }
 
 .containerFilterPg {
@@ -1225,15 +1304,13 @@ a {
   align-items: center;
   justify-content: center;
   gap: 0.5em;
-  background: transparent;
+  background: var(--gris-claro);
   color: var(--negro);
   border-radius: 5px;
   padding: 0.5em 1em;
-  border: 2px solid var(--negro);
-  font-weight: 700;
 }
 
-.filterPg {
+.filterSelectPg {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1250,48 +1327,25 @@ a {
   }
 }
 
-.filterPg option {
+.filterSelectPg option {
   background: var(--blanco);
   color: var(--negro);
 }
 
-.cardDesignTop {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 2px solid var(--blanco);
-  position: relative;
-  width: 100%;
-}
+.filterSearchPg {
+  background: transparent;
+  color: var(--negro);
+  border: none;
+  font-size: 0.75rem;
+  width: 100px;
 
-.cardDesignMenu {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1;
-}
+  &:focus {
+    outline: none;
+  }
 
-.cardDesignImg {
-  position: relative;
-  width: 100%;
-  min-height: 350px;
-  overflow: hidden;
-}
-
-.cardDesignImg img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  cursor: zoom-in;
-  object-fit: cover;
-  object-position: center;
-}
-
-.cardDesignBody {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
+  &::placeholder {
+    color: var(--negro);
+  }
 }
 
 .cardLike {
@@ -1305,25 +1359,6 @@ a {
 .cardLike:hover,
 .cardDisLike:hover {
   background: var(--terciario);
-}
-
-.cardDesignTxt {
-  width: 100%;
-  text-align: center;
-  font-size: 1rem;
-  line-height: 1;
-
-  & h3 {
-    font-size: 1rem;
-    font-weight: 700;
-  }
-
-  & span {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--terciario);
-    text-transform: uppercase;
-  }
 }
 
 .uploadImg {
@@ -1536,9 +1571,156 @@ a {
   }
 }
 
+.containerModal h3 {
+  font-weight: 700;
+}
+
+.containerQr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.wrapperQr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+}
+
+.wrapperScanQr,
+.wrapperCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.wrapperHidden {
+  display: none;
+}
+
+.wrapperScanQr .buttonGroup {
+  width: 50%;
+}
+
+.titleScanQr {
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.scanQrGif {
+  width: auto;
+  height: 300px;
+  border-radius: 0.5rem;
+}
+
+.canvasQR {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.wrapperSenaCard {
+  background: var(--blanco);
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 100%;
+  padding: 1.5rem;
+}
+
+.headerSenaCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  width: 100%;
+  position: relative;
+  border-bottom: 2px solid var(--primario);
+  padding-bottom: 1rem;
+}
+
+.logoSenaCard {
+  width: auto;
+  height: 80px;
+}
+
+.picSenaCard {
+  width: 150px;
+  height: 180px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0.5rem;
+}
+
+.roleSenaCard {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.bodySenaCard {
+  display: grid;
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.nameSenaCard h3 {
+  width: 80%;
+  color: var(--primario);
+  line-height: 1.5rem;
+}
+
+.dataSenaCard {
+display: flex;
+justify-content: space-between;
+
+  & p {
+    color: var(--negro);
+    font-size: 0.9rem;
+  }
+}
+
+.roomAssocInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.roomAssocStart {
+  font-size: 0.8rem;
+  color: var(--primario);
+}
+
 @media all and (max-width: 600px) {
+  :root {
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.35rem;
+  }
+
   .sidenav {
-    transform: translate(-100%, 40px);
+    transform: translate(-100%, 20px);
     opacity: 0;
     transition: var(--tran);
     top: 80px;
@@ -1565,35 +1747,83 @@ a {
     width: 100%;
   }
 
+  .header {
+    padding: 0 1rem;
+  }
+
   .header.close {
     left: 0;
     width: 100%;
+  }
+
+  .header .logo a > img {
+    height: 35px;
   }
 
   .header .userInfo p {
     display: none;
   }
 
+  .userImage {
+    width: 40px;
+    height: 40px;
+  }
+
+  .userItems {
+    right: 1rem;
+  }
+
+  .titlePg {
+    flex-direction: column;
+    padding: 1em 0;
+
+    & i {
+      font-size: 2rem;
+    }
+  }
+
+  .titlePgRight {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+
+  .containerModal .closeModal {
+    top: 0;
+    right: 0;
+  }
+
+  .containerModal .titlePg {
+    flex-direction: row;
+
+    & h1 {
+      font-size: 1.7rem;
+    }
+  }
+
+  .containerFilterPg {
+    width: 100%;
+  }
+
   .containerPg .content {
-    padding: 130px 2rem;
+    padding: 100px 1rem;
   }
 
   .toggleMobile {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     border-radius: 5px;
     background: var(--primario);
     color: var(--gris-claro);
-    font-size: 25px;
+    font-size: 1.5rem;
     cursor: pointer;
     opacity: 1;
   }
 
   .sidenav.show {
-    transform: translate(0, 40px);
+    transform: translate(0, 20px);
     opacity: 1;
     transition: var(--tran);
   }
@@ -1640,7 +1870,15 @@ a {
     font-size: 1.25rem;
   }
 
-  .usersForm {
+  .form {
     width: 100%;
+  }
+
+  .wrapperQr {
+    flex-direction: column;
+  }
+
+  .scanQrGif {
+    height: 200px;
   }
 }

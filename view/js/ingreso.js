@@ -7,7 +7,6 @@ const inputPass = document.getElementById("pass");
 const messagePass = document.getElementById("labelPass");
 const messagePassOrigin = messagePass.innerHTML;
 const remember = document.getElementById("remember");
-const ingresoAPI = "./controller/ingreso.php";
 
 inputUser.value = localStorage.getItem("acDoc");
 remember.checked = localStorage.getItem("acKey") === "true";
@@ -40,9 +39,9 @@ loginForm.addEventListener("submit", (e) => {
         }
         window.location.href = "./";
       } else if (data.successPass === false) {
-        showError(inputPass, messagePass, data.message);
+        showError(inputPass, messagePass, messagePassOrigin, data.message);
       } else {
-        showError(inputUser, messageUser, data.message);
+        showError(inputUser, messageUser, messageUserOrigin, data.message);
       }
     })
     .catch((err) => {
@@ -80,7 +79,7 @@ lostPassForm.addEventListener("submit", (event) => {
         }, 3500);
       } else {
         messageLostPass.innerHTML = messageLostPassOrigin;
-        showError(inputPassDoc, messagePassUser, data.message);
+        showError(inputPassDoc, messagePassUser, messagePassUserOrigin, data.message);
       }
     })
     .catch((err) => {
@@ -88,12 +87,12 @@ lostPassForm.addEventListener("submit", (event) => {
     });
 });
 
-function showError(input, label, message) {
+function showError(input, label, messageOrigin, message) {
   label.textContent = message;
   label.classList.add("labelError");
   input.classList.add("inputError");
   setTimeout(() => {
-    label.innerHTML = messageUserOrigin;
+    label.innerHTML = messageOrigin;
     label.classList.remove("labelError");
     input.classList.remove("inputError");
   }, 1500);

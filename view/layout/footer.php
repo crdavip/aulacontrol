@@ -6,28 +6,12 @@
 </footer>
 </section>
 
-<!-- Modal Alets -->
-<section class="modal" id="alertModal">
-    <div class="containerModal">
-        <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
-        <div class="titlePg">
-            <i class="fa-solid fa-bell icon"></i>
-            <h3 id="alertBoxTitle"></h3>
-        </div>
-        <div class="alertBox"></div>
-        <div class="buttonGroup">
-            <button class="btn" id="showAlertsBtn"><i class="fa-solid fa-eye"></i> Todas</button>
-            <button class="btn btnAlt" id="deleteAlertsBtn"><i class="bi bi-trash3"></i> Borrar</button>
-        </div>
-    </div>
-</section>
-
 <!-- Modal UserProfile -->
 <section class="modal" id="userProfile">
     <div class="containerModal">
         <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
         <div class="containerModalBg"></div>
-        <form id="userProfileForm" action="" class="usersForm" enctype="multipart/form-data">
+        <form id="userProfileForm" action="" class="form" enctype="multipart/form-data">
             <div class="inputGroup uploadProfileImg">
                 <input type="file" name="userImgProfile" id="userImgProfile" accept="image/jpeg, image/png" hidden>
                 <div class="userImgPreview" id="userImgPreview">
@@ -70,7 +54,7 @@
             <i class="fa-solid fa-arrows-rotate"></i>
             <h3>Cambiar Contraseña</h3>
         </div>
-        <form id="userPassEditForm" action="" class="usersForm">
+        <form id="userPassEditForm" action="" class="form">
             <input type="hidden" name="userIdPassEdit" id="userIdPassEdit" value="<?php echo $userId; ?>">
             <div class="inputGroup">
                 <input class="inputGroupInput" type="password" name="userOldPass" id="userOldPass" autocomplete="off" required>
@@ -96,14 +80,12 @@
 </section>
 
 <?php $connPDO->closeConn(); ?>
+<audio id="beepQr" src="./view/sound/scanner.mp3"></audio>
 <script src="./view/js/main.js"></script>
 <script src="./view/js/perfil.js"></script>
 <?php switch ($titlePg) {
-    case 'Usuarios':
-        echo '<script src="./view/js/user.js"></script>';
-        break;
-    case 'Aulas':
-        echo '';
+    case 'Ambientes':
+        echo '<script src="./view/js/ambientes.js"></script>';
         break;
 } ?>
 

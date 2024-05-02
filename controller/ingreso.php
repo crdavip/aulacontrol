@@ -18,10 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pass = $data['pass'];
 
     try {
-      $sql = "SELECT u.idUsuario, u.documento, u.contrasena, u.estado, ud.*, r.idRol, r.detalle AS rol
+      $sql = "SELECT u.idUsuario, u.documento, u.contrasena, u.estado, ud.*, ce.detalle AS centro, c.idCargo, c.detalle AS cargo
       FROM usuario AS u
-      INNER JOIN usuario_detalle AS ud ON u.idUsuario = ud.usuario
-      INNER JOIN rol AS r ON u.idRol = r.idRol
+      INNER JOIN usuario_detalle AS ud ON u.idUsuario = ud.idUsuario
+      INNER JOIN centro AS ce ON ce.idCentro = ud.idCentro
+      INNER JOIN cargo AS c ON u.idCargo = c.idCargo
       WHERE documento=?";
       $stmt = $pdo->prepare($sql);
       $stmt->execute([$doc]);
@@ -39,13 +40,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['document'] = $row['documento'];
             $_SESSION['email'] = $row['correo'];
             $_SESSION['name'] = $row['nombre'];
-            $_SESSION['idRole'] = $row['idRol'];
-            $_SESSION['role'] = $row['rol'];
+            $_SESSION['idRole'] = $row['idCargo'];
+            $_SESSION['role'] = $row['cargo'];
             $_SESSION['img'] = $row['imagen'];
             $_SESSION['imgQr'] = $row['imagenQr'];
             $_SESSION['status'] = $row['estado'];
             $_SESSION['birth'] = $row['nacimiento'];
-            $_SESSION['dataSheet'] = $row['ficha'];
+            $_SESSION['center'] = $row['centro'];
 
             echo json_encode(['successUser' => true, 'image' => $row['imagen']]);
           } else {
@@ -66,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $doc = $data['lostPassDoc'];
     $sql = "SELECT u.idUsuario, u.estado, ud.correo, ud.nombre
             FROM usuario AS u
-            INNER JOIN usuario_detalle AS ud ON u.idUsuario = ud.usuario
+            INNER JOIN usuario_detalle AS ud ON u.idUsuario = ud.idUsuario
             WHERE u.documento=?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$doc]);
