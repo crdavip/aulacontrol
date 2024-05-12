@@ -270,12 +270,11 @@ const sendForm = async (formId, urlAPI, type, messageId, getFunc, modal) => {
 //Fin SendForm
 
 //Inicio APIList
-const controller = "./controller/";
-const ingresoAPI = `${controller}ingreso`;
-const ambientesAPI = `${controller}ambientes`;
-const regAmbientesAPI = `${controller}registroAmbientes`;
-const centrosAPI = `${controller}centros`;
-const usuariosAPI = `${controller}usuarios`;
+const ingresoAPI = `./controller/ingreso`;
+const ambientesAPI = `./controller/ambientes`;
+const regAmbientesAPI = `./controller/registroAmbientes`;
+const centrosAPI = `./controller/centros`;
+const usuariosAPI = `./controller/usuarios`;
 //Fin APIList
 
 //Inicio LoadDataFilters
@@ -298,7 +297,7 @@ const loadSelectFilters = async (API, selectId, columns) => {
 
 //Inicio GetData
 const getData = async (API) => {
-  const res = await fetch(`${API}`);
+  const res = await fetch(API);
   const data = await res.json();
   return data;
 };

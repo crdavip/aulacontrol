@@ -11,9 +11,11 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 switch ($method) {
     case 'GET':
-        if ($_GET['idAmbiente']) {
+        if (isset($_GET['idAmbiente'])) {
             $idRoom = $_GET['idAmbiente'];
             getRoomHistory($pdo, $idRoom);
+        } else {
+            getAllRoomHistory($pdo);
         }
         break;
     case 'POST':
@@ -51,6 +53,21 @@ switch ($method) {
         break;
     case 'DELETE':
         break;
+}
+
+function getAllRoomHistory($pdo)
+{
+    $sql = "SELECT ra.idRegistro, ud.nombre, ud.imagen, u.documento, a.numero, c.detalle AS centro, ra.inicio, ra.fin, ra.llaves, ra.controlTv, ra.controlAire
+            FROM registro_ambiente AS ra
+            INNER JOIN usuario_detalle AS ud ON ud.idUsuario = ra.idInstructor
+            INNER JOIN usuario AS u ON u.idUsuario = ra.idInstructor
+            INNER JOIN ambiente AS a ON a.idAmbiente = ra.idAmbiente
+            INNER JOIN centro AS c ON c.idCentro = a.idCentro
+            ORDER BY idRegistro DESC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($rows, JSON_UNESCAPED_UNICODE);
 }
 
 function getRoomHistory($pdo, $idAmbiente)

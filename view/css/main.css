@@ -1128,8 +1128,11 @@ a {
   height: 100%;
 }
 
-.rowAlt {
+.rowFull {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .card {
@@ -1299,13 +1302,14 @@ a {
   background: var(--segundario);
 }
 
-.containerFilterPg {
+.containerFilterPg, .pagination {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5em;
   background: var(--gris-claro);
   color: var(--negro);
+  font-size: 0.75rem;
   border-radius: 5px;
   padding: 0.5em 1em;
 }
@@ -1315,6 +1319,7 @@ a {
   align-items: center;
   justify-content: center;
   gap: 0.5em;
+  width: 100px;
   border-radius: 5px;
   background: transparent;
   color: var(--negro);
@@ -1346,6 +1351,70 @@ a {
   &::placeholder {
     color: var(--negro);
   }
+}
+
+.filterDatePg {
+  background: transparent;
+  color: var(--negro);
+  border: none;
+  font-size: 0.75rem;
+  width: 100px;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.selectPgLimit {
+  background: transparent;
+  color: var(--negro);
+  border: none;
+  font-size: 0.75rem;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.paginationBtn {
+  background: var(--segundario);
+  color: var(--blanco);
+  font-size: 1rem;
+  border: none;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  border-radius: .25rem;
+
+  &:hover {
+    background: var(--terciario);
+  }
+
+  &:disabled {
+    cursor: default;
+    background: transparent;
+    color: var(--negro);
+  }
+}
+
+.paginationItem, .paginationItemActive {
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  border-radius: .25rem;
+  color: var(--negro);
+
+  &:hover {
+    background: var(--terciario);
+    color: var(--blanco);
+  }
+}
+
+.paginationItemActive {
+  background: var(--segundario);
+  color: var(--blanco);
 }
 
 .cardLike {
@@ -1681,8 +1750,8 @@ a {
 }
 
 .dataSenaCard {
-display: flex;
-justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 
   & p {
     color: var(--negro);
@@ -1700,6 +1769,120 @@ justify-content: space-between;
 .roomAssocStart {
   font-size: 0.8rem;
   color: var(--primario);
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  padding: .5rem;
+  text-align: left;
+  line-height: 1rem;
+}
+
+th {
+  background-color: var(--primario);
+  color: var(--blanco);
+  font-weight: bold;
+}
+
+tr:hover {
+  background-color: var(--gris-oscuro);
+  color: var(--blanco);
+}
+
+tr:nth-child(odd) {
+  background-color: var(--gris-claro);
+
+  &:hover {
+    background-color: var(--gris-oscuro);
+    color: var(--blanco);
+  }
+}
+
+td img {
+  vertical-align: middle;
+  margin-right: 8px;
+  border-radius: 0.5rem;
+}
+
+.tdCol2 {
+  display: flex;
+  align-items: center;
+}
+
+.tdRow2 {
+  display: flex;
+  flex-direction: column;
+}
+
+.tdBool {
+  width: 100px;
+}
+
+.tdStatus {
+  font-size: .75rem;
+  font-weight: 700;
+  border: 1px solid var(--segundario);
+  padding: 0.5rem 1rem;
+  color: var(--segundario);
+  border-radius: 0.25rem;
+}
+
+.tdTrue, .tdFalse {
+  display: grid;
+  place-content: center;
+  font-size: .75rem;
+  font-weight: 700;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.25rem;
+}
+
+.tdTrue {
+  border: 1px solid var(--primario);
+  color: var(--primario);
+}
+
+.tdFalse {
+  border: 1px solid var(--color-error);
+  color: var(--color-error);
+}
+
+.tdTime {
+  font-size: .85rem;
+  line-height: 1.5rem;
+  font-weight: 300;
+}
+
+.historyUserName, .historyRoomNum, .tdDate {
+  color: var(--primario);
+}
+
+.historyUserDoc, .historyCenterName {
+  font-size: .85rem;
+}
+
+.tablePagination {
+  display: flex;
+  justify-content: space-between;
+}
+
+.selectPgShow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 @media all and (max-width: 600px) {
@@ -1776,6 +1959,10 @@ justify-content: space-between;
   .titlePg {
     flex-direction: column;
     padding: 1em 0;
+
+    & h1 {
+      font-size: 1.75rem;
+    }
 
     & i {
       font-size: 2rem;
@@ -1881,4 +2068,51 @@ justify-content: space-between;
   .scanQrGif {
     height: 200px;
   }
+
+  thead {
+    display: none;
+  }
+
+  .btnUi {
+    width: 100%;
+  }
+
+  table tr{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: .5rem;
+  }
+
+  table td[data-title] {
+    display: flex;
+  }
+
+  table td[data-title]::before {
+    content: attr(data-title);
+    padding-right: 2rem;
+    width: 70px;
+    font-weight: 700;
+    text-align: right;
+  }
+
+  .tdBool {
+    width: inherit;
+  }
+
+  .tdCol2 {
+    align-items: start;
+  }
+
+  .tdTime {
+    line-height: 1rem;
+  }
+
+  .tdTime::before {
+    content: "\00a0";
+  }
+
+  .tablePagination {
+    flex-direction: column;
+}
 }

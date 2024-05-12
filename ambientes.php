@@ -20,7 +20,7 @@ $titlePgRight = '
 include('./view/layout/header.php');
 if ($userIdRole === 1) {
     $titlePgRight .= '
-        <a onclick="" class="btnUi btnUiAlt">
+        <a href="./registro-ambientes" class="btnUi btnUiAlt">
             <i class="fas fa-clipboard-list"></i>
             <p>Ver Registros</p>
         </a>

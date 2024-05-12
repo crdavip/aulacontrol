@@ -87,6 +87,9 @@
     case 'Ambientes':
         echo '<script src="./view/js/ambientes.js"></script>';
         break;
+    case 'Registro de Ambientes':
+        echo '<script src="./view/js/registroAmbientes.js" type="module"></script>';
+        break;
 } ?>
 
 </body>

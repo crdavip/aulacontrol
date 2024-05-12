@@ -36,7 +36,7 @@ if (!isset($userId)) {
     <input type="hidden" id="userImgView" value="<?php echo $userImg; ?>">
     <nav class="sidenav close">
         <div class="sidenavHeader">
-            <i class="fa-solid fa-bars toggle"></i>
+            <i class="fa-solid fa-ellipsis-vertical toggle"></i>
             <div class="text">
                 <span class="text navText">Menu</span>
             </div>

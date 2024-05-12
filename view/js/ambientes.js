@@ -2,11 +2,9 @@ const numberInputFilter = document.getElementById("numberInputFilter");
 const centerSelectFilter = document.getElementById("centerSelectFilter");
 const statusSelectFilter = document.getElementById("statusSelectFilter");
 
-//Cargar campos en filtros
 loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
 loadSelectFilters(ambientesAPI, "statusSelectFilter", ["estado"]);
 
-//Cargar y renderizar los datos de ambientes
 let rooms = [];
 const loadRenderRooms = async () => {
   const data = await getData(ambientesAPI);
@@ -14,15 +12,12 @@ const loadRenderRooms = async () => {
   renderRooms(rooms);
 };
 
-//Llamada inicial para cargar y renderizar los datos
 window.addEventListener("DOMContentLoaded", loadRenderRooms);
 
-//Actualizar y renderizar los datos
 const updateRenderRooms = async () => {
   await loadRenderRooms();
 };
 
-//Crear tarjetas de ambientes
 const createRoomCard = (rooms) => {
   const fragment = document.createDocumentFragment();
   rooms.forEach((room) => {
@@ -33,7 +28,7 @@ const createRoomCard = (rooms) => {
     if (userRolView == 1) {
       const cardRoomMenu = document.createElement("a");
       cardRoomMenu.classList.add("cardRoomMenu");
-      cardRoomMenu.innerHTML = '<i class="fa-solid fa-ellipsis-vertical"></i>';
+      cardRoomMenu.innerHTML = '<i class="fa-solid fa-ellipsis"></i>';
       const cardRoomMenuItems = document.createElement("div");
       cardRoomMenuItems.classList.add("cardRoomMenuItems");
       const btnAssoc = document.createElement("a");
@@ -91,7 +86,6 @@ const createRoomCard = (rooms) => {
   return fragment;
 };
 
-//Renderizar ambientes
 const row = document.querySelector(".row");
 const renderRooms = async (data) => {
   if (data.length > 0) {
@@ -103,7 +97,6 @@ const renderRooms = async (data) => {
   }
 };
 
-//Filtrar ambientes
 const filterRooms = () => {
   const center = centerSelectFilter.value;
   const status = statusSelectFilter.value;
@@ -126,11 +119,9 @@ centerSelectFilter.addEventListener("change", filterRooms);
 statusSelectFilter.addEventListener("change", filterRooms);
 numberInputFilter.addEventListener("keyup", filterRooms);
 
-//Cargar campos en selectForms
 loadSelectFilters(centrosAPI, "centerRoom", ["idCentro", "detalle"]);
 loadSelectFilters(centrosAPI, "centerRoomEdit", ["idCentro", "detalle"]);
 
-//Agregar ambientes
 sendForm(
   "roomCreateForm",
   ambientesAPI,
@@ -141,7 +132,6 @@ sendForm(
   1500
 );
 
-//Editar ambientes
 sendForm(
   "roomEditForm",
   ambientesAPI,
@@ -152,7 +142,6 @@ sendForm(
   1500
 );
 
-//Eliminar ambientes
 sendForm(
   "roomDeleteForm",
   ambientesAPI,
@@ -163,7 +152,6 @@ sendForm(
   1500
 );
 
-//Renderizar informacion de vinculacion
 const roomAssocInfo = async (room) => {
   const roomAssocInfo = document.querySelector(".roomAssocInfo");
   roomAssocInfo.innerHTML = "";
@@ -197,7 +185,6 @@ const roomAssocInfo = async (room) => {
   }
 };
 
-//Modal Vinculacion
 const roomAssoc = (room) => {
   openModal("roomAssoc");
   const titleRoomAssoc = document.getElementById("titleRoomAssoc");
@@ -206,13 +193,9 @@ const roomAssoc = (room) => {
     : (titleRoomAssoc.innerHTML = `Desvincular Ambiente`);
   roomAssocInfo(room);
   renderScanQR();
-  // setTimeout(() => {
-  //   filterDoc(100005);
-  // }, 1500);
   configScanQR(filterDoc);
 };
 
-//Registrar y cerrar vinculacion
 const roomAssocHistory = async (method, json, userData) => {
   const jsonData = JSON.stringify(json);
   const res = await fetch(regAmbientesAPI, {
@@ -246,7 +229,6 @@ const roomAssocHistory = async (method, json, userData) => {
   }
 };
 
-//Filtrar documento
 const filterDoc = async (doc) => {
   const roomIdAssoc = document.getElementById("roomIdAssoc").value;
   const roomStatusAssoc = document.getElementById("roomStatusAssoc").value;
