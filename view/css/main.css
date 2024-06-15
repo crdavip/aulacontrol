@@ -512,6 +512,7 @@ a {
 }
 
 .userItems,
+.cardMenuItems,
 .cardRoomMenuItems {
   position: absolute;
   top: 6rem;
@@ -526,13 +527,14 @@ a {
   z-index: 2;
 }
 
-.cardRoomMenuItems {
+.cardMenuItems, .cardRoomMenuItems {
   top: 0;
   right: 0;
   width: 145px;
 }
 
 .userItems a,
+.cardMenuItems a,
 .cardRoomMenuItems a {
   color: var(--blanco);
   display: block;
@@ -1157,6 +1159,7 @@ a {
   justify-content: end;
   padding: 1.5em;
   border-bottom: 2px solid var(--blanco);
+  position: relative;
 }
 
 .cardTopRoom {
@@ -1171,6 +1174,7 @@ a {
 
 .btnEdit,
 .btnDelete,
+.cardMenu,
 .cardRoomMenu,
 .cardLike,
 .cardDisLike {
@@ -1185,13 +1189,14 @@ a {
   height: 36px;
   padding: 0.5rem;
   cursor: pointer;
+  z-index: 1;
 
   &:hover {
     background: var(--primario);
   }
 }
 
-.cardRoomMenu {
+.cardMenu, .cardRoomMenu {
   position: absolute;
   background: transparent;
   color: var(--negro);
@@ -1204,6 +1209,11 @@ a {
   }
 }
 
+.cardMenu {
+  top: .5rem;
+  right: .5rem;
+}
+
 .btnDelete {
   background: var(--segundario);
 }
@@ -1213,7 +1223,8 @@ a {
   flex-direction: column;
   gap: 1rem;
   padding: 1.5rem;
-  margin-top: -5rem;
+  margin-top: -3rem;
+  position: relative;
 }
 
 .cardBodyRoom {
@@ -1232,7 +1243,7 @@ a {
   object-position: center;
 }
 
-.cardRoomNum {
+.cardRoomNum, .cardDataSheetNum {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1243,7 +1254,13 @@ a {
   height: 113px;
 }
 
-.cardRoomNum h2 {
+.cardDataSheetNum {
+  width: 180px;
+  height: 100px;
+}
+
+.cardRoomNum h2,
+.cardDataSheetNum h2 {
   font-size: 2.25rem;
   font-weight: 700;
   color: var(--primario);
