@@ -94,7 +94,7 @@
         echo '<script src="./view/js/fichas.js"></script>';
         break;
     case 'Equipos de Ambiente':
-        echo '<script src="./view/js/equiposAmbientes.js"></script>';
+        echo '<script src="./view/js/equiposAmbientes.js" type="module"></script>';
 } ?>
 
 </body>

@@ -4,8 +4,8 @@ if ($userIdRole !== 1 && $userIdRole !== 2) {
     header("Location: ./");
     exit();
 }
-$titlePg = 'Equipos de Ambiente';
-$titlePgIcon = 'fa-solid fa-desktop icon';
+$titlePg = 'Lista de Equipos Ambiente ';
+$titlePgIcon = 'fa-clipboard-list icon';
 $titlePgRight = '
     <div class="containerFilterPg">
         <label for="numberInputFilter"><i class="fa-solid fa-magnifying-glass"></i></label>
@@ -19,10 +19,6 @@ include('./view/layout/header.php');
 
 if ($userIdRole === 1) {
     $titlePgRight .= '
-    <a onclick="" class="btnUi btnUiAlt">
-            <i class="fa-solid fa-square-plus"></i>
-            <p>Nuevo</p>
-        </a>
         <a onclick="" class="btnUi btnUiAlt">
             <i class="fa-solid fa-print"></i>
             <p>Imprimir</p>
@@ -45,7 +41,7 @@ include_once('./view/layout/titlePg.php');
                 <option value="20">20</option>
                 <option value="50">50</option>
             </select>
-            <p>Equipos</p>
+            <p>Registros</p>
         </div>
         <div class="pagination">
             <button class="paginationBtn" id="pgPrev"><i class="fa-solid fa-angles-left"></i></button>
@@ -56,11 +52,13 @@ include_once('./view/layout/titlePg.php');
     <table>
         <thead>
             <tr>
-                <th>Referencia</th>
-                <th>Marca</th>
-                <th>Estado</th>
+                <th>Instructor</th>
                 <th>Ambiente</th>
-                <th class="tdBool">Acciones</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th class="tdBool">Llaves</th>
+                <th class="tdBool">TV</th>
+                <th class="tdBool">Aire</th>
             </tr>
         </thead>
         <tbody id="tableBody"></tbody>
