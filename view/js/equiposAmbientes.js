@@ -1,142 +1,146 @@
-import { getDataHistory } from "../js/fetch.js";
-
 const numberInputFilter = document.getElementById("numberInputFilter");
-const dateInputFilter = document.getElementById("dateInputFilter");
-const selectPgLimit = document.getElementById("selectPgLimit");
-const pgNextBtn = document.getElementById("pgNext");
-const pgPrevBtn = document.getElementById("pgPrev");
-const tableBody = document.getElementById("tableBody");
+const centerSelectFilter = document.getElementById("centerSelectFilter");
+const statusSelectFilter = document.getElementById("statusSelectFilter");
 
-loadSelectFilters(centrosAPI, "centerSelectFilter", ["detalle"]);
+let roomsList;
+const selectListRooms = document.getElementById("idRoom");
+const getDataAmbs = async () => {
+  const dataAmbientes = await getData(ambientesAPI);
+  roomsList = dataAmbientes;
+  let contentSelectTag = roomsList.map((room) => {
+    return `<option value="${room.idAmbiente}">${room.numero}</option>`;
+  }).join("");
 
-let dataHistory = await getDataHistory(equiposAmbientesAPI);
-console.log(dataHistory);
-let pgFrom = 0;
-let pgLimit = parseInt(selectPgLimit.value);
-let pages = Math.ceil(dataHistory.length / pgLimit);
-let pgActive = 1;
+  selectListRooms.innerHTML += contentSelectTag;
+}
 
-let history = dataHistory.slice(pgFrom, pgLimit);
+const filterRoomForSelect = (rooms, idRoom) => {
+  const roomFounded = rooms.find((room) => room.idAmbiente === idRoom);
+  return roomFounded.idAmbiente;
+}
 
-const getHistory = async (history) => {
-  tableBody.innerHTML = "";
-  history.forEach((row) => {
-    tableBody.innerHTML += `
-    <tr>
-      <td data-title="Referncia"><span>${row.ref}</span></td>
-      <td data-title="Referncia"><span>${row.marca}</span></td>
-      <td data-title="Referncia"><span>${row.estado}</span></td>
-      <td data-title="Referncia"><span>${row.ambiente}</span></td>
-    </tr>
-    `;
+loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
+// loadSelectFilters(ambientesAPI, "statusSelectFilter", ["estado"]);
+
+let devices = [];
+const loadRenderDevices = async () => {
+  const data = await getData(equiposAmbientesAPI);
+  devices = data;
+  console.log(devices)
+  renderDevices(devices);
+  getDataAmbs();
+}
+
+window.addEventListener("DOMContentLoaded", loadRenderDevices);
+
+const updateRenderDevices = async () => {
+  await loadRenderDevices();
+};
+
+const createDeviceCard = (devices) => {
+  const fragment = document.createDocumentFragment();
+  devices.forEach((device) => {
+    const cardDevice = document.createElement("div");
+    cardDevice.classList.add("card");
+    const cardBody = document.createElement("div");
+    cardBody.classList.add("cardBody", "cardBodyRoom");
+    if (userRolView == 1) {
+      const cardDeviceMenu = document.createElement("a");
+      cardDeviceMenu.classList.add("cardRoomMenu");
+      cardDeviceMenu.innerHTML = '<i class="fa-solid fa-ellipsis"></i>';
+      const cardDeviceMenuItems = document.createElement("div");
+      cardDeviceMenuItems.classList.add("cardRoomMenuItems");
+      const btnEdit = document.createElement("a");
+      btnEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>Editar';
+      const btnDelete = document.createElement("a");
+      btnDelete.innerHTML = '<i class="fa-solid fa-trash"></i>Eliminar';
+      // cardDeviceMenuItems.appendChild(btnAssoc);
+      cardDeviceMenuItems.appendChild(btnEdit);
+      cardDeviceMenuItems.appendChild(btnDelete);
+      cardBody.appendChild(cardDeviceMenuItems);
+      cardBody.appendChild(cardDeviceMenu);
+      dropDown(cardDeviceMenu, cardDeviceMenuItems);
+      // btnAssoc.addEventListener("click", () => {
+      //   deviceAssoc(device);
+      // });
+      btnEdit.addEventListener("click", () => {
+        // ? traer rooms
+        const selectEditRoom = document.getElementById("deviceAmbEdit");
+        let contentSelectTag = roomsList.map((room) => {
+          return `<option value="${room.idAmbiente}">${room.numero}</option>`;
+        }).join("");
+        selectEditRoom.innerHTML += contentSelectTag;
+        
+        loadDataForm({
+          inputs: ["deviceIdEdit", "deviceRefEdit", "deviceBranchEdit", "deviceStateEdit", "deviceAmbEdit"],
+          inputsValue: [device.idComputador, device.ref, device.marca, device.estado, device.ambiente],
+          modal: "editDevice",
+        });
+      });
+      btnDelete.addEventListener("click", () => {
+        loadDataForm({
+          inputs: ["deviceIdDelete"],
+          inputsValue: [device.idComputador],
+          modal: "deleteDevice",
+        });
+      });
+    }
+    const cardDeviceNum = document.createElement("div");
+    cardDeviceNum.classList.add("cardDeviceNum");
+    cardDeviceNum.innerHTML = `<h2>${device.ref}</h2>`;
+    const cardBodyTxt = document.createElement("div");
+    cardBodyTxt.classList.add("cardBodyTxt");
+    cardBodyTxt.innerHTML = `<p>${device.estado}</p>
+                            <h3>${device.marca}</h3>`;
+    if (device.estado == "Ocupada") {
+      cardDeviceNum.classList.add("cardDeviceNumAlt");
+      cardBodyTxt.classList.add("cardBodyTxtAlt");
+    }
+    cardBody.appendChild(cardDeviceNum);
+    cardBody.appendChild(cardBodyTxt);
+    cardDevice.appendChild(cardBody);
+    fragment.appendChild(cardDevice);
   });
-  loadItemsPg(pages);
+  return fragment;
 };
 
-const renderHistory = (history) => {
-  if (history.length > 0) {
-    tableBody.innerHTML = "";
-    getHistory(history);
+const row = document.querySelector(".row");
+const renderDevices = async (data) => {
+  if (data.length > 0) {
+    const cards = createDeviceCard(data);
+    row.innerHTML = "";
+    row.appendChild(cards);
   } else {
-    tableBody.innerHTML = "No hay resultados para mostrar";
+    row.innerHTML = "No hay resultados para mostrar.";
   }
 };
 
-const updateDataHistory = () => {
-  history = dataHistory.slice(pgFrom, pgLimit * pgActive);
-  renderHistory(history);
-}
+sendForm(
+  "createDeviceForm",
+  equiposAmbientesAPI,
+  "POST",
+  "messageCreate",
+  updateRenderDevices,
+  "createDevice",
+  1500
+);
 
-const loadItemsPg = (pages) => {
-  const paginationItems = document.getElementById("paginationItems");
-  paginationItems.innerHTML = "";
-  for (let i = 0; i < pages; i++) {
-    const paginationItem = document.createElement("button");
-    paginationItem.classList.add("paginationItem");
-    paginationItem.addEventListener("click", () => {
-      pgShow(i);
-    });
-    paginationItem.innerHTML = `${i + 1}`;
-    paginationItem.innerHTML == pgActive
-      ? paginationItem.classList.add("paginationItemActive")
-      : null;
-    pgActive == 1 ? pgPrevBtn.disabled = true : pgPrevBtn.disabled = false;
-    pgActive == pages ? pgNextBtn.disabled = true : pgNextBtn.disabled = false;
-    paginationItems.appendChild(paginationItem);
-  }
-};
+sendForm(
+  "deviceEditForm",
+  equiposAmbientesAPI,
+  "PUT",
+  "messageEdit",
+  updateRenderDevices,
+  "editDevice",
+  1500
+);
 
-const pgShow = (page) => {
-  pgActive = page + 1;
-  pgFrom = pgLimit * page;
-  if (pgFrom <= dataHistory.length) {
-    updateDataHistory();
-  }
-};
-
-const pgNext = () => {
-  if (pgActive < pages) {
-    pgFrom += pgLimit;
-    pgActive++;
-    updateDataHistory();
-    pgPrevBtn.disabled = false;
-  } else {
-    pgNextBtn.disabled = true;
-  }
-};
-
-const pgPrev = () => {
-  if (pgFrom > 0) {
-    pgActive--;
-    pgFrom -= pgLimit;
-    updateDataHistory();
-    pgNextBtn.disabled = false;
-  } else {
-    pgPrevBtn.disabled = true;
-  }
-};
-
-pgNextBtn.addEventListener("click", pgNext);
-pgPrevBtn.addEventListener("click", pgPrev);
-
-const pagination = (data) => {
-  pgLimit = parseInt(selectPgLimit.value);
-  pages = Math.ceil(data.length / pgLimit);
-  pgActive = 1;
-
-  history = data.slice(pgFrom, pgLimit);
-  loadItemsPg(pages);
-  pgShow(0);
-  renderHistory(history);
-}
-
-pagination(dataHistory);
-
-//Filtrar Registros
-const filterHistory = async () => {
-  const center = centerSelectFilter.value;
-  const number = numberInputFilter.value;
-  const date = dateInputFilter.value;
-  if (center !== "all") {
-    dataHistory = dataHistory.filter((row) => row.centro == center);
-  } else {
-    dataHistory = await getDataHistory(regAmbientesAPI);
-  }
-  if (number !== "") {
-    dataHistory = dataHistory.filter((row) =>
-      `${row.numero.toLowerCase()}`.includes(`${number.toLowerCase()}`)
-    );
-  }
-  if (date !== "") {
-    dataHistory = dataHistory.filter((row) => row.inicio.includes(date));
-  }
-  pagination(dataHistory);
-};
-centerSelectFilter.addEventListener("change", filterHistory);
-numberInputFilter.addEventListener("keyup", filterHistory);
-dateInputFilter.addEventListener("change", filterHistory);
-
-selectPgLimit.addEventListener("change", () => {
-  pgLimit = parseInt(selectPgLimit.value);
-  pagination(dataHistory);
-});
+sendForm(
+  "deviceDeleteForm",
+  equiposAmbientesAPI,
+  "DELETE",
+  "messageDelete",
+  updateRenderDevices,
+  "deleteDevice",
+  1500
+);
