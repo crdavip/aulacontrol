@@ -145,6 +145,8 @@ if (!isset($userId)) {
             <i class="bi bi-three-dots-vertical toggleMobile"></i>
             </div>
             <div class="logo">
+                <img src="./view/img/logoSena.png" alt="logoSena">
+                <div class="separator"></div>
                 <a href="./"><img src="./view/img/logo.svg" alt=""></a>
             </div>
             <div class="userInfo">
