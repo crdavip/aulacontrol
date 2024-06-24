@@ -17,9 +17,14 @@
                 <label class="inputGroupLabel" for="brandDevice"><i class="bi bi-tag"></i> Marca</label>
             </div>
             <div class="inputGroup">
+                <label class="inputGroupLabel" for="centerDevice"><i class="fa-solid fa-school-flag"></i></label>
+                <select class="inputGroupSelect" name="centerDevice" id="centerDevice" required>
+                    <!-- <option value="">Seleccione un Centro</option> -->
+                </select>
+            </div>
+            <div class="inputGroup">
                 <label class="inputGroupLabel" for="idRoom"><i class="bi bi-door-open"></i></label>
-                <select class="inputGroupSelect roomSelectTag" name="idRoom" id="idRoom" required>
-                    <option value="">Seleccione un Ambiente</option>
+                <select class="inputGroupSelect" name="idRoom" id="idRoom" required>
                 </select>
             </div>
             <div class="buttonGroup">
@@ -60,8 +65,14 @@
                 </select>
             </div>
             <div class="inputGroup">
+                <label class="inputGroupLabel" for="centerDevice"><i class="fa-solid fa-school-flag"></i></label>
+                <select class="inputGroupSelect" name="centerDeviceEdit" id="centerDeviceEdit" required>
+                    <!-- <option value="">Seleccione un Centro</option> -->
+                </select>
+            </div>
+            <div class="inputGroup">
                 <label class="inputGroupLabel" for="deviceAmbEdit"><i class="bi bi-door-open"></i></label>
-                <select class="inputGroupSelect roomSelectTag" name="deviceAmbEdit" id="deviceAmbEdit" required>
+                <select class="inputGroupSelect" name="deviceAmbEdit" id="deviceAmbEdit" required>
                     <!-- <option value="">Seleccione un Ambiente</option> -->
                 </select>
             </div>

@@ -15,7 +15,6 @@ switch ($method) {
       $columns = json_decode($_GET['columns']);
       echo json_encode(getColumns($pdo, 'computador', $columns), JSON_UNESCAPED_UNICODE);
     } else {
-      // $id = json_decode($_GET['numeroAmbiente']);
       getDevices($pdo);
     }
     break;
@@ -58,7 +57,7 @@ switch ($method) {
         $icon = getIcon('Err');
         echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
         exit();
-      } elseif ((checkExistence($pdo, 'computador', ['ref', 'marca'], [$deviceRefEdit, $deviceBrandEdit])) && $deviceEdit) {
+      } elseif ((checkExistence($pdo, 'computador', ['ref', 'marca', 'idAmbiente'], [$deviceRefEdit, $deviceBrandEdit, $deviceAmbEdit])) && $deviceEdit) {
         $icon = getIcon('Err');
         echo json_encode(['success' => false, 'message' => "$icon ¡Oops! Parece que este equipo ya existe."]);
         exit();

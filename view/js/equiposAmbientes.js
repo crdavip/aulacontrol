@@ -3,20 +3,29 @@ const centerSelectFilter = document.getElementById("centerSelectFilter");
 const statusSelectFilter = document.getElementById("statusSelectFilter");
 
 let roomsList;
+let centersList;
 const selectListRooms = document.getElementById("idRoom");
+const selectCenterDevice = document.getElementById("centerDevice");
 const getDataAmbs = async () => {
+  const dataCentros = await getData(centrosAPI);
   const dataAmbientes = await getData(ambientesAPI);
+  centersList = dataCentros;
   roomsList = dataAmbientes;
-  let contentSelectTag = roomsList.map((room) => {
-    return `<option value="${room.idAmbiente}">${room.numero}</option>`;
-  }).join("");
 
-  selectListRooms.innerHTML += contentSelectTag;
+  let contentSelectTagCenters = centersList.map((center) => {
+    return `<option value="${center.idCentro}">${center.detalle}</option>`;
+  }).join("");
+  selectCenterDevice.innerHTML = `<option value="">Seleccione un Centro</option>` + contentSelectTagCenters;
+  updateRoomsDropdown();
 }
 
-const filterRoomForSelect = (rooms, idRoom) => {
-  const roomFounded = rooms.find((room) => room.idAmbiente === idRoom);
-  return roomFounded.idAmbiente;
+const updateRoomsDropdown = () => {
+  const selectedCenter = selectCenterDevice.value;
+  const filteredRooms = roomsList.filter(room => room.idCentro == selectedCenter);
+  let contentSelectTagRooms = filteredRooms.map((room) => {
+    return `<option value="${room.idAmbiente}">${room.numero}</option>`;
+  }).join("");
+  selectListRooms.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
 }
 
 loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
@@ -26,12 +35,12 @@ let devices = [];
 const loadRenderDevices = async () => {
   const data = await getData(equiposAmbientesAPI);
   devices = data;
-  console.log(devices)
   renderDevices(devices);
   getDataAmbs();
 }
 
 window.addEventListener("DOMContentLoaded", loadRenderDevices);
+selectCenterDevice.addEventListener("change", updateRoomsDropdown);
 
 const updateRenderDevices = async () => {
   await loadRenderDevices();
@@ -63,20 +72,52 @@ const createDeviceCard = (devices) => {
       // btnAssoc.addEventListener("click", () => {
       //   deviceAssoc(device);
       // });
+
       btnEdit.addEventListener("click", () => {
-        // ? traer rooms
+        const selectEditCenter = document.getElementById("centerDeviceEdit");
         const selectEditRoom = document.getElementById("deviceAmbEdit");
-        let contentSelectTag = roomsList.map((room) => {
+
+        let roomFiltered = roomsList.find((room) => room.numero == device.ambiente);
+        let centerFiltered = centersList.find((center) => center.idCentro === roomFiltered.idCentro);
+
+        let contentSelectTagCenterFiltered = centersList.filter((center) => center.idCentro !== centerFiltered.idCentro);
+        let contentSelectTagCenter = contentSelectTagCenterFiltered.map((center) => {
+          return `<option value="${center.idCentro}">${center.detalle}</option>`;
+        }).join("");
+
+        selectEditCenter.innerHTML = `<option value="${centerFiltered.idCentro}">${centerFiltered.detalle}</option>` + contentSelectTagCenter;
+
+        const selectedCenter = selectEditCenter.value;
+        const filteredRooms = roomsList.filter(room => room.idCentro == selectedCenter && room.numero !== device.ambiente);
+        let contentSelectTagRooms = filteredRooms.map((room) => {
           return `<option value="${room.idAmbiente}">${room.numero}</option>`;
         }).join("");
-        selectEditRoom.innerHTML += contentSelectTag;
-        
+
+        selectEditRoom.innerHTML = `<option value="${roomFiltered.idAmbiente}">${roomFiltered.numero}</option>` + contentSelectTagRooms;
+
         loadDataForm({
           inputs: ["deviceIdEdit", "deviceRefEdit", "deviceBranchEdit", "deviceStateEdit", "deviceAmbEdit"],
-          inputsValue: [device.idComputador, device.ref, device.marca, device.estado, device.ambiente],
+          inputsValue: [device.idComputador, device.ref, device.marca, device.estado, roomFiltered.numero],
           modal: "editDevice",
         });
       });
+
+      const updateRoomsDropdownEdit = () => {
+        const selectEditCenter = document.getElementById("centerDeviceEdit");
+        const selectEditRoom = document.getElementById("deviceAmbEdit");
+
+        const selectedCenter = selectEditCenter.value;
+        const filteredRooms = roomsList.filter(room => room.idCentro == selectedCenter);
+
+        let contentSelectTagRooms = filteredRooms.map((room) => {
+          return `<option value="${room.idAmbiente}">${room.numero}</option>`;
+        }).join("");
+
+        selectEditRoom.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
+      }
+
+      document.getElementById("centerDeviceEdit").addEventListener("change", updateRoomsDropdownEdit);
+
       btnDelete.addEventListener("click", () => {
         loadDataForm({
           inputs: ["deviceIdDelete"],
@@ -103,6 +144,8 @@ const createDeviceCard = (devices) => {
   });
   return fragment;
 };
+
+
 
 const row = document.querySelector(".row");
 const renderDevices = async (data) => {
