@@ -455,13 +455,31 @@ a {
   width: calc(100% - 100px);
 }
 
+.header .logo {
+  display: flex;
+  align-items: center;
+}
+
+.header .logo img {
+  display: block;
+  width: auto;
+  height: 3.5rem;
+}
+
+.separator {
+  width: 2px;
+  height: 3rem;
+  background: var(--primario);
+  margin: 0 1rem;
+}
+
 .header .logo a {
   display: block;
 
   & img {
     display: block;
     width: auto;
-    height: 48px;
+    height: 3rem;
   }
 }
 
