@@ -1920,6 +1920,38 @@ td img {
   gap: 0.5rem;
 }
 
+/** ######################################################### */
+/* ** DANIEL STYLES ** */
+/** ######################################################### */
+
+.temptFlexContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.temptFlexContainer > .tdFalse, .temptFlexContainer > .tdTrue {
+  cursor: pointer;
+}
+
+.temptFlexContainer > .tdFalse:hover {
+  color: var(--blanco);
+  background-color: var(--color-error);
+}
+
+.temptFlexContainer > .tdTrue:hover {
+  color: var(--blanco);
+  background-color: var(--primario);
+}
+
+
+/** ######################################################### */
+/* ** END DANIEL STYLES ** */
+/** ######################################################### */
+
+
+
 @media all and (max-width: 600px) {
   :root {
     font-size: 15px;
