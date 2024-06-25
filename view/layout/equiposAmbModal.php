@@ -52,9 +52,9 @@
                 <label class="inputGroupLabel" for="deviceRefEdit"><i class="fa-solid fa-list-ol"></i> Referencia</label>
             </div>
             <div class="inputGroup">
-                <input class="inputGroupInput" type="text" name="deviceBranchEdit" id="deviceBranchEdit" autocomplete="off"
+                <input class="inputGroupInput" type="text" name="deviceBrandEdit" id="deviceBrandEdit" autocomplete="off"
                     required>
-                <label class="inputGroupLabel" for="deviceBranchEdit"><i class="fa-solid fa-list-ol"></i> Marca</label>
+                <label class="inputGroupLabel" for="deviceBrandEdit"><i class="fa-solid fa-list-ol"></i> Marca</label>
             </div>
             <div class="inputGroup">
                 <label class="inputGroupLabel" for="deviceStateEdit"><i class="bi bi-laptop"></i></label>

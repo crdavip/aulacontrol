@@ -276,7 +276,7 @@ const regAmbientesAPI = `./controller/registroAmbientes`;
 const centrosAPI = `./controller/centros`;
 const usuariosAPI = `./controller/usuarios`;
 const fichasAPI = `./controller/fichas`;
-const equiposAmbientesAPI = `./controller/equiposAmbientes`;
+const equiposAPI = `./controller/equipos`;
 //Fin APIList
 
 //Inicio LoadDataFilters

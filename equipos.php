@@ -4,7 +4,7 @@ if ($userIdRole !== 1 && $userIdRole !== 2) {
     header("Location: ./");
     exit();
 }
-$titlePg = 'Equipos de Ambiente';
+$titlePg = 'Equipos';
 $titlePgIcon = 'fa-solid fa-desktop icon';
 $titlePgRight = '
     <div class="containerFilterPg">
@@ -23,7 +23,7 @@ if ($userIdRole === 1) {
     $titlePgRight .= '
     <a onclick="openModal(`createDevice`)" id="createDeviceBtn" class="btnUi btnUiAlt">
             <i class="fa-solid fa-square-plus"></i>
-            <p>Nuevo</p>
+            <p>Nuevo Equipo</p>
         </a>';
 }
 
