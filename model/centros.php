@@ -1,11 +1,13 @@
 <?php
-require_once ('./db.php');
+require_once ('../model/db.php');
 
 class Centro extends ConnPDO
 {
 
-  // private $connPDO = new ConnPDO;
-  // private $pdo = $this->connPDO->getConn();
+  public function __construct()
+  {
+    parent::__construct();
+  }
 
   function getCenters()
   {

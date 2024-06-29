@@ -1,11 +1,17 @@
 <?php
 require_once ('../controller/funciones.php');
-require_once ('./db.php');
+require_once ('../model/db.php');
 
 class Equipos extends ConnPDO
 {
 
-  private $functions = new Funciones();
+  private $functions;
+
+  public function __construct()
+  {
+    parent::__construct(); // Llamar al constructor de la clase padre
+    $this->functions = new Funciones();
+  }
 
   function getDevices()
   {

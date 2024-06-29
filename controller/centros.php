@@ -1,9 +1,10 @@
 <?php
 require_once ('../model/sessions.php');
+require_once ('../model/centros.php');
 require_once ('./funciones.php');
 
 $functions = new Funciones();
-$center = new Centro;
+$center = new Centro();
 
 $method = $_SERVER['REQUEST_METHOD'];
 $data = json_decode(file_get_contents("php://input"), true);

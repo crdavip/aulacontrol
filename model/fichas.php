@@ -1,9 +1,14 @@
 <?php
 
-require_once ('./db.php');
+require_once ('../model/db.php');
 
 class Fichas extends ConnPDO
 {
+
+  public function __construct()
+  {
+    parent::__construct();
+  }
 
   function getDataSheets()
   {

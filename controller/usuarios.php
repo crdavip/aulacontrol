@@ -1,6 +1,6 @@
 <?php
 require_once('../model/sessions.php');
-require('../model/usuarios.php');
+require_once('../model/usuarios.php');
 
 $users = new Usuarios();
 

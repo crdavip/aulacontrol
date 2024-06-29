@@ -4,8 +4,10 @@ require_once ('../model/db.php');
 class Funciones extends ConnPDO
 {
 
-    // private $connPDO = new ConnPDO;
-    // private $pdo = $this->getConn();
+    public function __construct()
+    {
+      parent::__construct();
+    }
 
     // Si retorna true, significa que hay campos vacios.
     function checkNotEmpty(array $inputs)

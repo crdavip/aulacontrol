@@ -1,9 +1,14 @@
 <?php
-require('../controller/funciones.php');
+require_once('../controller/funciones.php');
 
 class Usuarios extends ConnPDO {
    
-  private $functions = new Funciones();
+    private $functions;
+    public function __construct()
+  {
+    parent::__construct(); // Llamar al constructor de la clase padre
+    $this->functions = new Funciones();
+  }
 
   function getDocUserAssoc($doc)
 {
