@@ -33,7 +33,7 @@ loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
 
 let devices = [];
 const loadRenderDevices = async () => {
-  const data = await getData(equiposAmbientesAPI);
+  const data = await getData(equiposAPI);
   devices = data;
   renderDevices(devices);
   getDataAmbs();
@@ -89,15 +89,17 @@ const createDeviceCard = (devices) => {
 
         const selectedCenter = selectEditCenter.value;
         const filteredRooms = roomsList.filter(room => room.idCentro == selectedCenter && room.numero !== device.ambiente);
+        // const filteredRooms = roomsList.filter(room => room.idCentro == selectedCenter);
         let contentSelectTagRooms = filteredRooms.map((room) => {
           return `<option value="${room.idAmbiente}">${room.numero}</option>`;
         }).join("");
-
-        selectEditRoom.innerHTML = `<option value="${roomFiltered.idAmbiente}">${roomFiltered.numero}</option>` + contentSelectTagRooms;
+        console.log(roomFiltered);
+        console.log(contentSelectTagRooms);
+        selectEditRoom.innerHTML = `<option value="${roomFiltered.idAmbiente}">${roomFiltered.numero}</option>${contentSelectTagRooms}`;
 
         loadDataForm({
-          inputs: ["deviceIdEdit", "deviceRefEdit", "deviceBranchEdit", "deviceStateEdit", "deviceAmbEdit"],
-          inputsValue: [device.idComputador, device.ref, device.marca, device.estado, roomFiltered.numero],
+          inputs: ["deviceIdEdit", "deviceRefEdit", "deviceBrandEdit", "deviceStateEdit"],
+          inputsValue: [device.idComputador, device.ref, device.marca, device.estado],
           modal: "editDevice",
         });
       });
@@ -132,6 +134,7 @@ const createDeviceCard = (devices) => {
     const cardBodyTxt = document.createElement("div");
     cardBodyTxt.classList.add("cardBodyTxt");
     cardBodyTxt.innerHTML = `<p>${device.estado}</p>
+                            <p>${device.ambiente}</p>
                             <h3>${device.marca}</h3>`;
     if (device.estado == "Ocupada") {
       cardDeviceNum.classList.add("cardDeviceNumAlt");
@@ -160,7 +163,7 @@ const renderDevices = async (data) => {
 
 sendForm(
   "createDeviceForm",
-  equiposAmbientesAPI,
+  equiposAPI,
   "POST",
   "messageCreate",
   updateRenderDevices,
@@ -170,7 +173,7 @@ sendForm(
 
 sendForm(
   "deviceEditForm",
-  equiposAmbientesAPI,
+  equiposAPI,
   "PUT",
   "messageEdit",
   updateRenderDevices,
@@ -180,7 +183,7 @@ sendForm(
 
 sendForm(
   "deviceDeleteForm",
-  equiposAmbientesAPI,
+  equiposAPI,
   "DELETE",
   "messageDelete",
   updateRenderDevices,
