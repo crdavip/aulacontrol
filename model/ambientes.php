@@ -1,6 +1,6 @@
 <?php
-require_once('../model/db.php');
-require_once('../controller/funciones.php');
+require_once ('../model/db.php');
+require_once ('../controller/funciones.php');
 
 class Ambientes extends ConnPDO
 {
@@ -23,6 +23,18 @@ class Ambientes extends ConnPDO
     $stmt->execute();
     $classRoom = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($classRoom);
+  }
+
+  function getRoom($roomId)
+  {
+    $sql = "SELECT a.idAmbiente, a.numero, a.estado, a.afluencia, c.idCentro, c.siglas AS centro
+            FROM ambiente AS a
+            INNER JOIN centro as c ON c.idCentro = a.idCentro WHERE a.idAmbiente = ?
+            ORDER BY a.numero ASC";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$roomId]);
+    $classRoom = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $classRoom;
   }
 
   function createRoom($num, $center)
