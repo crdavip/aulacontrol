@@ -1,35 +1,20 @@
 <!-- Modal Create -->
-<section class="modal" id="createDevice">
+<section class="modal" id="createObject">
     <div class="containerModal">
         <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
         <div class="titlePg">
             <i class="fa-solid fa-kaaba"></i>
-            <h1>Nuevo Equipo</h1>
+            <h1>Nuevo Objeto</h1>
         </div>
-        <form id="createDeviceForm" action="" class="form">
+        <form id="createObjectForm" action="" class="form">
             <div class="inputGroup">
-                <input class="inputGroupInput" type="text" name="refDevice" id="refDevice" autocomplete="off" required>
-                <label class="inputGroupLabel" for="refDevice"><i class="bi bi-tag"></i> Referencia</label>
+                <textarea cols="4" rows="4" class="inputGroupInput" type="text" name="descriptionObject" id="descriptionObject" autocomplete="off" required></textarea>
+                <label class="inputGroupLabel" for="descriptionObject"><i class="bi bi-tag"></i> Descripción</label>
             </div>
             <div class="inputGroup">
-                <input class="inputGroupInput" type="text" name="brandDevice" id="brandDevice" autocomplete="off"
+                <input class="inputGroupInput" type="text" name="colorObject" id="colorObject" autocomplete="off"
                     required>
-                <label class="inputGroupLabel" for="brandDevice"><i class="bi bi-tag"></i> Marca</label>
-            </div>
-            <div class="inputGroup">
-                <label class="inputGroupLabel" for="centerDevice"><i class="fa-solid fa-school-flag"></i></label>
-                <select class="inputGroupSelect" name="centerDevice" id="centerDevice" required>
-                    <!-- <option value="">Seleccione un Centro</option> -->
-                </select>
-            </div>
-            <div class="inputGroup">
-                <label class="inputGroupLabel" for="idRoom"><i class="bi bi-door-open"></i></label>
-                <select class="inputGroupSelect" name="idRoom" id="idRoom" required>
-                </select>
-            </div>
-            <div class="buttonGroup">
-                <button class="btn" type="submit"><i class="fa-solid fa-square-plus"></i> Crear</button>
-                <button class="btn btnAlt" type="reset"><i class="fa-solid fa-eraser"></i> Limpiar</button>
+                <label class="inputGroupLabel" for="colorObject"><i class="bi bi-tag"></i> Color</label>
             </div>
         </form>
         <p id="messageCreate" class="message"></p>

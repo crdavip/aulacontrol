@@ -6,10 +6,12 @@ loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
 loadSelectFilters(ambientesAPI, "statusSelectFilter", ["estado"]);
 
 let rooms = [];
+let onlyRooms = [];
 const loadRenderRooms = async () => {
   const data = await getData(ambientesAPI);
   rooms = data;
-  renderRooms(rooms);
+  onlyRooms = rooms.filter((room) => room.numero !== "Mesa Ayuda");
+  renderRooms(onlyRooms);
 };
 
 window.addEventListener("DOMContentLoaded", loadRenderRooms);

@@ -1,10 +1,8 @@
 <?php
-require_once('../model/db.php');
 require_once('../model/sessions.php');
-require_once('./funciones.php');
+require_once('../model/usuarios.php');
 
-$connPDO = new ConnPDO;
-$pdo = $connPDO->getConn();
+$users = new Usuarios();
 
 $method = $_SERVER['REQUEST_METHOD'];
 $data = json_decode(file_get_contents("php://input"), true);
@@ -13,10 +11,7 @@ switch ($method) {
     case 'GET':
         if (isset($_GET['docUserAssoc'])) {
             $docUserAssoc = $_GET['docUserAssoc'];
-            getDocUserAssoc($pdo, $docUserAssoc);
-            exit();
-        } else {
-            getUsers($pdo);
+            $users->getDocUserAssoc($docUserAssoc);
             exit();
         }
         break;
@@ -28,39 +23,3 @@ switch ($method) {
         break;
 }
 
-function getDocUserAssoc($pdo, $doc)
-{
-    $sqlDoc = 'SELECT * FROM usuario WHERE documento = ? AND idCargo = 2';
-    $stmtDoc = $pdo->prepare($sqlDoc);
-    $stmtDoc->execute([$doc]);
-    $count = $stmtDoc->rowCount();
-    $row = $stmtDoc->fetch(PDO::FETCH_ASSOC);
-    if ($count > 0) {
-        $sql = 'SELECT u.idUsuario, u.documento, ud.nombre, ud.imagen, c.detalle AS cargo
-                    FROM usuario AS u
-                    INNER JOIN usuario_detalle AS ud ON u.idUsuario = ud.idUsuario
-                    INNER JOIN cargo AS c ON c.idCargo = u.idCargo
-                    WHERE documento = ?';
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$doc]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        echo json_encode(['success' => true, 'user' => $row]);
-    } else {
-        $icon = getIcon('Err');
-        echo json_encode(['success' => false, 'message' => "$icon ¡El usuario no es valido!"]);
-    }
-}
-
-function getUsers($pdo){
-    $sql = "SELECT u.idUsuario, u.documento, u.estado, ud.nombre, ud.imagen, c.siglas, rol.detalle AS cargo
-            FROM usuario AS u
-            INNER JOIN usuario_detalle AS ud ON u.idUsuario = ud.idUsuario
-            INNER JOIN centro AS c ON ud.idCentro = c.idCentro
-            INNER JOIN cargo AS rol ON u.idCargo = rol.idCargo";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([]);
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode($users);
-}
-
-$connPDO->closeConn();

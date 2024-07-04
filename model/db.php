@@ -26,5 +26,10 @@ class ConnPDO
     {
         $this->pdo = null;
     }
+
+    function __destruct()
+    {
+      $this->closeConn();
+    }
 }
 ?>

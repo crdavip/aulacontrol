@@ -84,7 +84,7 @@ if (!isset($userId)) {
                     <?php } ?>
                     <?php if ($userIdRole == 1 || $userIdRole == 4) { ?>
                         <li class="navLink">
-                            <a href="./equipos-ambientes">
+                            <a href="./equipos">
                                 <i class="fa-solid fa-desktop icon"></i>
                                 <span class="text navText">Equipos</span>
                             </a>
