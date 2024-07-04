@@ -277,6 +277,7 @@ const centrosAPI = `./controller/centros`;
 const usuariosAPI = `./controller/usuarios`;
 const fichasAPI = `./controller/fichas`;
 const equiposAPI = `./controller/equipos`;
+const objetosAPI = `./controller/objetos`;
 //Fin APIList
 
 //Inicio LoadDataFilters
