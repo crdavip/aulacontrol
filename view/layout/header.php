@@ -76,17 +76,9 @@ if (!isset($userId)) {
                     <?php } ?>
                     <?php if ($userIdRole == 1) { ?>
                         <li class="navLink">
-                            <a href="./instructores">
-                                <i class="fa-solid fa-user-tie icon"></i>
-                                <span class="text navText">Instructores</span>
-                            </a>
-                        </li>
-                    <?php } ?>
-                    <?php if ($userIdRole == 1) { ?>
-                        <li class="navLink">
-                            <a href="./aprendices">
-                                <i class="fa-solid fa-user-graduate icon"></i>
-                                <span class="text navText">Aprendices</span>
+                            <a href="./usuarios">
+                            <i class="fa-solid fa-user icon"></i>
+                                <span class="text navText">Usuarios</span>
                             </a>
                         </li>
                     <?php } ?>

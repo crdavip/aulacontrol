@@ -93,6 +93,9 @@
     case 'Fichas':
         echo '<script src="./view/js/fichas.js"></script>';
         break;
+    case 'Usuarios':
+        echo '<script src="./view/js/usuarios.js"></script>';
+        break;
     case 'Equipos':
         echo '<script src="./view/js/equipos.js" type="module"></script>';
 } ?>
