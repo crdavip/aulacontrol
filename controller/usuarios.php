@@ -13,6 +13,9 @@ switch ($method) {
             $docUserAssoc = $_GET['docUserAssoc'];
             $users->getDocUserAssoc($docUserAssoc);
             exit();
+        } else {
+            $users->getUsers();
+            exit;
         }
         break;
     case 'POST':
