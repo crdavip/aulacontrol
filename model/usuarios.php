@@ -34,7 +34,7 @@ class Usuarios extends ConnPDO {
 }
 
 function getUsers(){
-  $sql = "SELECT u.idUsuario, u.documento, u.estado, ud.nombre, ud.imagen, c.siglas, rol.detalle AS cargo
+  $sql = "SELECT u.idUsuario, u.documento, u.estado, ud.nombre, ud.imagen, ud.idCentro, c.siglas, rol.idCargo, rol.detalle AS cargo
           FROM usuario AS u
           INNER JOIN usuario_detalle AS ud ON u.idUsuario = ud.idUsuario
           INNER JOIN centro AS c ON ud.idCentro = c.idCentro
@@ -44,4 +44,18 @@ function getUsers(){
   $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
   echo json_encode($users);
 }
+
+function createUsers($doc, $pass, $idRole)
+{
+  $sql = "INSERT INTO usuario (documento, contrasena, idCargo) VALUES (?, ?, ?)";
+  $stmt = $this->getConn()->prepare($sql);
+  if ($stmt->execute([$doc, $pass, $idRole])) {
+    $ultimaId = $this->getConn()->lastInsertId();
+    return $ultimaId;
+  } else {
+    $icon = $this->functions->getIcon('Err');
+    echo json_encode(['success' => false, 'message' => "$icon Error al crear el usuario"]);
+  }
+}
+
 }

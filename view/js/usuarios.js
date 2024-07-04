@@ -1,9 +1,9 @@
 const docInputFilter = document.getElementById("docInputFilter");
 const centerSelectFilter = document.getElementById("centerSelectFilter");
-const statusSelectFilter = document.getElementById("roleSelectFilter");
+const roleSelectFilter = document.getElementById("roleSelectFilter");
 
 loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
-loadSelectFilters(ambientesAPI, "statusSelectFilter", ["estado"]);
+loadSelectFilters(cargosAPI, "roleSelectFilter", ["detalle"]);
 
 let users = [];
 const loadRenderUsers = async () => {
@@ -21,7 +21,6 @@ const updateRenderUsers = async () => {
 const createUserCard = (users) => {
   const fragment = document.createDocumentFragment();
   users.forEach((user) => {
-    console.log(user);
     const cardUser = document.createElement("div");
     cardUser.className = "card";
     const cardUserTop = document.createElement("div");
@@ -43,8 +42,8 @@ const createUserCard = (users) => {
       dropDown(cardRoomMenu, cardRoomMenuItems);
       btnEdit.addEventListener("click", () => {
         loadDataForm({
-          inputs: ["userIdEdit", "docUserEdit", "rolUserEdit", "centerUserEdit"],
-          inputsValue: [user.idUsuario, user.documento, user.cargo, user.idCentro],
+          inputs: ["userIdEdit", "nameUserEdit", "docUserEdit", "rolUserEdit", "centerUserEdit"],
+          inputsValue: [user.idUsuario, user.nombre, user.documento, user.idCargo, user.idCentro],
           modal: "userEdit",
         });
       });
@@ -96,7 +95,60 @@ const renderUsers = async (data) => {
   }
 };
 
+const filterUsers = () => {
+  const center = centerSelectFilter.value;
+  const role = roleSelectFilter.value;
+  const doc = docInputFilter.value;
+  let newUsers = users;
+  console.log(newUsers);
+  if (center !== "all") {
+    newUsers = newUsers.filter((user) => user.centro == center);
+  }
+  if (role !== "all") {
+    newUsers = newUsers.filter((user) => user.cargo == role);
+  }
+  if (doc !== "") {
+    newUsers = newUsers.filter((user) =>
+      `${user.documento}`.includes(`${doc}`)
+    );
+  }
+  renderUsers(newUsers);
+};
+centerSelectFilter.addEventListener("change", filterUsers);
+roleSelectFilter.addEventListener("change", filterUsers);
+docInputFilter.addEventListener("keyup", filterUsers);
+
 loadSelectFilters(centrosAPI, "centerUser", ["idCentro", "detalle"]);
 loadSelectFilters(centrosAPI, "centerUserEdit", ["idCentro", "detalle"]);
-// loadSelectFilters(cargosAPI, "rolUser", ["idCargo", "detalle"]);
-// loadSelectFilters(cargosAPI, "rolUserEdit", ["idCargo", "detalle"]);
+loadSelectFilters(cargosAPI, "rolUser", ["idCargo", "detalle"]);
+loadSelectFilters(cargosAPI, "rolUserEdit", ["idCargo", "detalle"]);
+
+sendForm(
+  "userCreateForm",
+  usuariosAPI,
+  "POST",
+  "messageCreate",
+  updateRenderUsers,
+  "userCreate",
+  1500
+);
+
+sendForm(
+  "userEditForm",
+  usuariosAPI,
+  "PUT",
+  "messageEdit",
+  updateRenderUsers,
+  "userEdit",
+  1500
+);
+
+sendForm(
+  "userDeleteForm",
+  usuariosAPI,
+  "DELETE",
+  "messageDelete",
+  updateRenderUsers,
+  "userDelete",
+  1500
+);

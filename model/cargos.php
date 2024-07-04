@@ -1,7 +1,7 @@
 <?php
 require_once ('../model/db.php');
 
-class Centro extends ConnPDO
+class Cargos extends ConnPDO
 {
 
   public function __construct()
@@ -9,13 +9,12 @@ class Centro extends ConnPDO
     parent::__construct();
   }
 
-  function getCenters()
+  function getRoles()
   {
-    $sql = "SELECT * FROM centro";
+    $sql = "SELECT * FROM cargo";
     $stmt = $this->getConn()->prepare($sql);
     $stmt->execute();
     $centers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($centers);
   }
-
 }
