@@ -1233,7 +1233,7 @@ a {
 }
 
 .btnDelete {
-  background: var(--segundario);
+  background: var(--color-error);
 }
 
 .cardBody {
@@ -1310,6 +1310,10 @@ a {
 
 .cardBodyTxtAlt p {
   color: var(--segundario);
+}
+
+.cardBodyTxt .cardUserH3 {
+  font-size: 1.5rem;
 }
 
 .btnUi {
