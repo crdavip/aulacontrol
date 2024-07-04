@@ -1949,6 +1949,10 @@ td img {
   background-color: var(--primario);
 }
 
+.cardObjectIcon > i {
+  font-size: 34px;
+}
+
 
 /** ######################################################### */
 /* ** END DANIEL STYLES ** */

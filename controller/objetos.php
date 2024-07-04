@@ -48,7 +48,7 @@ switch ($method) {
         echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
         exit();
       } else {
-        $objects->updateObject($descriptionObject, $colorObject, $objectIdEdit);
+        $objects->updateObject($objectDescriptionEdit, $objectColorEdit, $objectIdEdit);
         exit();
       }
     }

@@ -136,7 +136,7 @@ const createDeviceCard = (devices) => {
     cardBodyTxt.innerHTML = `<p>${device.estado}</p>
                             <p>${device.ambiente}</p>
                             <h3>${device.marca}</h3>`;
-    if (device.estado == "Ocupada") {
+    if (device.estado == "Ocupado") {
       cardDeviceNum.classList.add("cardDeviceNumAlt");
       cardBodyTxt.classList.add("cardBodyTxtAlt");
     }
