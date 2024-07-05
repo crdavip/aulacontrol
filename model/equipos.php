@@ -7,13 +7,11 @@ class Equipos extends ConnPDO
 {
 
   private $functions;
-  private $rooms;
 
   public function __construct()
   {
     parent::__construct(); // Llamar al constructor de la clase padre
     $this->functions = new Funciones();
-    $this->rooms = new Ambientes();
   }
 
   function getDevices()
@@ -25,26 +23,11 @@ class Equipos extends ConnPDO
     echo json_encode($devices);
   }
 
-  function validateRoom($roomId) {
-    $roomFounded = $this->rooms->getRoom($roomId);
-    if($roomFounded && isset($roomFounded['numero']) && $roomFounded['numero'] === 'Externo'){
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  function createDevice($reference, $brand, $stateDevice, $room)
+  function createDevice($reference, $brand, $stateDevice, $imageQr, $room)
   {
-    // Validar si el equipo es externo
-    $resultValidation = $this->validateRoom($room);
-    if($resultValidation) {
-      $stateDevice = "Ocupado";
-    }
-
-    $sql = "INSERT INTO computador (ref, marca, estado, idAmbiente) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO computador (ref, marca, estado, imagenQr, idAmbiente) VALUES (?, ?, ?, ?, ?)";
     $stmt = $this->getConn()->prepare($sql);
-    if ($stmt->execute([$reference, $brand, $stateDevice, $room])) {
+    if ($stmt->execute([$reference, $brand, $stateDevice, $imageQr, $room])) {
       $icon = $this->functions->getIcon('OK');
       echo json_encode(['success' => true, 'message' => "$icon ¡Equipo Creado Exitosamente!"]);
     } else {

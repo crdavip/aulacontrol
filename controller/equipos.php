@@ -2,7 +2,7 @@
 require_once ('../model/sessions.php');
 require_once ('../model/equipos.php');
 require_once ('./funciones.php');
-
+require_once('../controller/qrcode.php');
 
 $functions = new Funciones();
 $devices = new Equipos();
@@ -33,10 +33,14 @@ switch ($method) {
         exit();
       } elseif ($functions->checkExistence('computador', ['ref', 'marca', 'estado', 'idAmbiente'], [$refDevice, $brandDevice, $stateDevice, $idRoom])) {
         $icon = $functions->getIcon('Err');
-        echo json_encode(['success' => false, 'message' => "$icon ¡Oops! Parece que este ambiente ya existe."]);
+        echo json_encode(['success' => false, 'message' => "$icon ¡Oops! Parece que este equipo ya existe."]);
         exit();
       } else {
-        $devices->createDevice($refDevice, $brandDevice, $stateDevice, $idRoom);
+        // ! NOT WORKING - error con la imagen
+        $qr = new QRgenerator($refDevice, "device");
+        $qr->createQR();
+        $deviceQr = "./view/img/devices/qr-$refDevice.png";
+        $devices->createDevice($refDevice, $brandDevice, $stateDevice, $deviceQr, $idRoom);
         exit();
       }
     }
@@ -45,7 +49,7 @@ switch ($method) {
     if (isset($data['deviceIdEdit'])) {
       $deviceIdEdit = $data['deviceIdEdit'];
       $deviceRefEdit = $data['deviceRefEdit'];
-      $deviceBrandEdit = $data['deviceBranchEdit'];
+      $deviceBrandEdit = $data['deviceBrandEdit'];
       $deviceBrandEdit = strtoupper($deviceBrandEdit);
       $deviceStateEdit = $data['deviceStateEdit'];
       $deviceAmbEdit = $data['deviceAmbEdit'];
