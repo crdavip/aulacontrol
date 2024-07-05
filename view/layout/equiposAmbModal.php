@@ -106,14 +106,14 @@
 </section>
 
 <!-- Modal Assoc -->
-<section class="modal" id="roomAssoc">
+<section class="modal" id="deviceAssoc">
     <div class="containerModal">
         <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
         <div class="titlePg">
             <i class="fa-solid fa-qrcode"></i>
-            <h1 id="titleRoomAssoc"></h1>
+            <h1 id="titleDeviceAssoc"></h1>
         </div>
-        <div class="roomAssocInfo"></div>
+        <div class="deviceAssocInfo"></div>
         <div class="containerQr"></div>
         <p id="messageRoomAssoc" class="message"></p>
     </div>
