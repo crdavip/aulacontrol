@@ -117,6 +117,9 @@
     case 'Objetos':
         echo '<script src="./view/js/objetos.js" type="module"></script>';
         break;
+    case 'Registro de Objetos':
+        echo '<script src="./view/js/registroObjetos.js" type="module"></script>';
+        break;
 } ?>
 
 </body>

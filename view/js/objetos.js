@@ -58,7 +58,9 @@ const createObjectCard = (objects) => {
     const cardBodyTxt = document.createElement("div");
     cardBodyTxt.classList.add("cardBodyTxt");
     cardBodyTxt.innerHTML = `<p>${object.descripcion}</p>
-                            <h4>${object.color}</h4>`;
+                            <h4>${object.color}</h4>
+                            <h4>${object.estado}</h4>
+                            <h4>Usuario: ${object.documento}</h4>`;
     cardBody.appendChild(cardObjectNum);
     cardBody.appendChild(cardBodyTxt);
     cardObject.appendChild(cardBody);
