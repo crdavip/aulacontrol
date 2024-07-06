@@ -21,15 +21,18 @@ switch ($method) {
   case 'POST':
     if (isset($data['descriptionObject']) && isset($data['colorObject'])) {
       $descriptionObject = $data['descriptionObject'];
+      $idUser = $data['idUser'];
       $colorObject = $data['colorObject'];
       $colorObject = strtolower($colorObject);
 
-      if ($functions->checkNotEmpty([$descriptionObject, $colorObject])) {
+      if ($functions->checkNotEmpty([$descriptionObject, $colorObject, $idUser])) {
         $icon = $functions->getIcon('Err');
         echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
         exit();
+      } elseif ($functions->getValue('usuario', 'documento', 'idUsuario', $idUser)) {
+
       } else {
-        $objects->createObject($descriptionObject, $colorObject);
+        $objects->createObject($descriptionObject, $colorObject, $idUser);
         exit();
       }
     }
@@ -37,6 +40,8 @@ switch ($method) {
   case 'PUT':
     if (isset($data['objectIdEdit'])) {
       $objectIdEdit = $data['objectIdEdit'];
+      $objectStateEdit = $data['objectStateEdit'];
+      $objectIdUserEdit = $data['objectIdUser'];
       $objectDescriptionEdit = $data['objectDescriptionEdit'];
       $objectDescriptionEdit = strtolower($objectDescriptionEdit);
       $objectColorEdit = $data['objectColorEdit'];
@@ -48,7 +53,7 @@ switch ($method) {
         echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
         exit();
       } else {
-        $objects->updateObject($objectDescriptionEdit, $objectColorEdit, $objectIdEdit);
+        $objects->updateObject($objectDescriptionEdit, $objectColorEdit, $objectStateEdit, $objectIdUserEdit, $objectIdEdit);
         exit();
       }
     }

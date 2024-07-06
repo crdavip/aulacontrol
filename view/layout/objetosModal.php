@@ -17,6 +17,11 @@
                     required>
                 <label class="inputGroupLabel" for="colorObject"><i class="fa-solid fa-droplet"></i> Color</label>
             </div>
+            <div class="inputGroup">
+                <input class="inputGroupInput" type="text" name="userObject" id="userObject" autocomplete="off"
+                    required>
+                <label class="inputGroupLabel" for="userObject"><i class="fa-solid fa-user"></i> Documento Usuario</label>
+            </div>
             <div class="buttonGroup">
                 <button class="btn" type="submit"><i class="fa-solid fa-square-plus"></i> Crear</button>
                 <button class="btn btnAlt" type="reset"><i class="fa-solid fa-eraser"></i> Limpiar</button>

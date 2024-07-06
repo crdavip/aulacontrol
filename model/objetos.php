@@ -15,19 +15,19 @@ class Objetos extends ConnPDO
 
   function getObjects()
   {
-    $sql = "SELECT * FROM objetos";
+    $sql = "SELECT o.*, u.documento FROM objetos AS o INNER JOIN usuario AS u on u.idUsuario = o.idUsuario";
     $stmt = $this->getConn()->prepare($sql);
     $stmt->execute();
     $objects = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($objects);
   }
 
-  function createObject($descripcion, $color)
+  function createObject($descripcion, $color, $idUser)
   {
 
-    $sql = "INSERT INTO objetos (descripcion, color) VALUES (?, ?)";
+    $sql = "INSERT INTO objetos (descripcion, color, estado, idUsuario) VALUES (?, ?, 'Activo', ?)";
     $stmt = $this->getConn()->prepare($sql);
-    if ($stmt->execute([$descripcion, $color])) {
+    if ($stmt->execute([$descripcion, $color, $idUser])) {
       $icon = $this->functions->getIcon('OK');
       echo json_encode(['success' => true, 'message' => "$icon ¡Objeto Creado Exitosamente!"]);
     } else {
@@ -36,11 +36,11 @@ class Objetos extends ConnPDO
     }
   }
 
-  function updateObject($descripcion, $color, $id)
+  function updateObject($descripcion, $color, $state, $idUser, $id)
   {
-    $sql = "UPDATE objetos SET descripcion = ?, color = ? WHERE idObjeto = ?";
+    $sql = "UPDATE objetos SET descripcion = ?, color = ?, estado = ?, idUsuario = ? WHERE idObjeto = ?";
     $stmt = $this->getConn()->prepare($sql);
-    if ($stmt->execute([$descripcion, $color, $id])) {
+    if ($stmt->execute([$descripcion, $color, $state, $idUser, $id])) {
       $icon = $this->functions->getIcon('OK');
       echo json_encode(['success' => true, 'message' => "$icon ¡Objeto Actualizado Exitosamente!"]);
     } else {
