@@ -14,7 +14,7 @@ class RegistroObjetos extends ConnPDO
 
   function getAllObjectsHistory()
   {
-    $sql = "SELECT ro.idRegistro, ud.nombre AS usuario, ud.imagen, u.documento, o.idObjeto, o.descripcion, o.color, cent.siglas AS centro, ro.inicio, ro.fin FROM registro_objeto AS ro INNER JOIN objetos AS o ON o.idObjeto = ro.idObjeto INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN centro AS cent ON cent.idCentro = ro.idCentro ORDER BY idRegistro DESC";
+    $sql = "SELECT ro.idRegistro, ud.nombre AS usuario, ud.imagen, u.documento, o.idObjeto, o.descripcion, o.color, cent.siglas AS centro, ro.inicio, ro.fin, ro.idCentro FROM registro_objeto AS ro INNER JOIN objetos AS o ON o.idObjeto = ro.idObjeto INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN centro AS cent ON cent.idCentro = ro.idCentro ORDER BY idRegistro DESC";
 
     $stmt = $this->getConn()->prepare($sql);
     $stmt->execute();
@@ -31,31 +31,31 @@ class RegistroObjetos extends ConnPDO
     echo json_encode($row);
   }
 
-  function addDeviceHistory($idUser, $idDevice)
+  function addObjectHistory($idObject, $idCenter)
   {
-    $sqlCheck = "SELECT * FROM registro_computador
-                WHERE fin IS NULL AND idUsuario = ?
+    $sqlCheck = "SELECT * FROM registro_objeto
+                WHERE fin IS NULL AND idObjeto = ?
                 ORDER BY fin DESC LIMIT 1";
     $stmtCheck = $this->getConn()->prepare($sqlCheck);
-    $stmtCheck->execute([$idUser]);
+    $stmtCheck->execute([$idObject]);
     $count = $stmtCheck->rowCount();
     if ($count == 0) {
-      $sql = "INSERT INTO registro_computador (inicio, idUsuario, idComputador) VALUES (current_timestamp(), ?, ?)";
+      $sql = "INSERT INTO registro_objeto (inicio, idObjeto, idCentro) VALUES (current_timestamp(), ?, ?)";
       $stmt = $this->getConn()->prepare($sql);
-      if ($stmt->execute([$idUser, $idDevice])) {
-        $sqlUpdate = "UPDATE computador SET estado = 'Ocupado' WHERE idComputador = ?";
+      if ($stmt->execute([$idObject, $idCenter])) {
+        $sqlUpdate = "UPDATE objeto SET estado = 'Activo' WHERE id = ?";
         $stmtUpdate = $this->getConn()->prepare($sqlUpdate);
-        $stmtUpdate->execute([$idDevice]);
+        $stmtUpdate->execute([$idObject]);
 
         $icon = $this->functions->getIcon('OK');
-        echo json_encode(['success' => true, 'message' => "$icon ¡Vinculación exitosa!"]);
+        echo json_encode(['success' => true, 'message' => "$icon ¡Registro exitoso!"]);
       } else {
         $icon = $this->functions->getIcon('Err');
         echo json_encode(['success' => false, 'message' => "$icon ¡Oops! Parece que algo salió mal."]);
       }
     } else {
       $icon = $this->functions->getIcon('Err');
-      echo json_encode(['success' => false, 'message' => "$icon El usuario ya tiene una vinculación activa."]);
+      echo json_encode(['success' => false, 'message' => "$icon Parece que hay un registro activo."]);
     }
   }
 

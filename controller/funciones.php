@@ -6,7 +6,7 @@ class Funciones extends ConnPDO
 
     public function __construct()
     {
-      parent::__construct();
+        parent::__construct();
     }
 
     // Si retorna true, significa que hay campos vacios.
@@ -69,6 +69,15 @@ class Funciones extends ConnPDO
         $stmt->execute([$value]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row["$column"];
+    }
+
+    function getValueValidation($table, $condition, $value)
+    {
+        $sql = "SELECT * FROM $table WHERE $condition = ?";
+        $stmt = $this->getConn()->prepare($sql);
+        $stmt->execute([$value]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row;
     }
 
     function getIcon($type)

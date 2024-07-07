@@ -38,8 +38,8 @@ const createObjectCard = (objects) => {
       btnEdit.addEventListener("click", () => {
 
         loadDataForm({
-          inputs: ["objectIdEdit", "objectDescriptionEdit", "objectColorEdit"],
-          inputsValue: [object.idObjeto, object.descripcion, object.color],
+          inputs: ["objectIdEdit", "objectDescriptionEdit", "objectColorEdit", "userObjectEdit"],
+          inputsValue: [object.idObjeto, object.descripcion, object.color, object.documento],
           modal: "editObject",
         });
       });
@@ -86,7 +86,7 @@ sendForm(
   "POST",
   "messageCreate",
   updateRenderObjects,
-  "createDevice",
+  "createObject",
   1500
 );
 

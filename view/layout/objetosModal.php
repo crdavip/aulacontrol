@@ -52,6 +52,11 @@
                     autocomplete="off" required>
                 <label class="inputGroupLabel" for="objectColorEdit"><i class="fa-solid fa-list-ol"></i> Color</label>
             </div>
+            <div class="inputGroup">
+                <input class="inputGroupInput" type="text" name="userObjectEdit" id="userObjectEdit" autocomplete="off"
+                    required>
+                <label class="inputGroupLabel" for="userObjectEdit"><i class="fa-solid fa-user"></i> Documento Usuario</label>
+            </div>
             <div class="buttonGroup">
                 <button class="btn" type="submit"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
                 <button class="btn btnAlt" type="reset"><i class="fa-solid fa-eraser"></i> Limpiar</button>

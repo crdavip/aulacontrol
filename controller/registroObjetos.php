@@ -20,20 +20,19 @@ switch ($method) {
     }
     break;
   case 'POST':
-    if (isset($data['idUserAssoc'])) {
-      $idUserAssoc = $data['idUserAssoc'];
-      $idDevice = $data['idDevice'];
-      // ? MAS CAMPOS ? ##########################
+    if (isset($data['idObject']) && isset($data["idCenter"])) {
+      $idObject = $data['idObject'];
+      $idCenter = $data['idCenter'];
 
-      if ($functions->checkNotEmpty([$idUserAssoc, $idDevice])) {
+      if ($functions->checkNotEmpty([$idObject, $idCenter])) {
         $icon = $functions->getIcon('Err');
         echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
       } else {
-        $registerObjects->addDeviceHistory($idUserAssoc, $idDevice);
+        $registerObjects->addObjectHistory($idObject, $idCenter);
       }
     } else {
       $icon = $functions->getIcon('Err');
-      echo json_encode(['success' => false, 'message' => "$icon No es posible vincular."]);
+      echo json_encode(['success' => false, 'message' => "$icon No es posible crear el registro."]);
     }
     break;
   case 'PUT':

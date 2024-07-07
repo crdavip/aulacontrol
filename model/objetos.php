@@ -36,11 +36,23 @@ class Objetos extends ConnPDO
     }
   }
 
-  function updateObject($descripcion, $color, $state, $idUser, $id)
+  function updateObject($descripcion, $color, $idUser, $id)
   {
-    $sql = "UPDATE objetos SET descripcion = ?, color = ?, estado = ?, idUsuario = ? WHERE idObjeto = ?";
+    $sql = "UPDATE objetos SET descripcion = ?, color = ?, idUsuario = ? WHERE idObjeto = ?";
     $stmt = $this->getConn()->prepare($sql);
-    if ($stmt->execute([$descripcion, $color, $state, $idUser, $id])) {
+    if ($stmt->execute([$descripcion, $color, $idUser, $id])) {
+      $icon = $this->functions->getIcon('OK');
+      echo json_encode(['success' => true, 'message' => "$icon ¡Objeto Actualizado Exitosamente!"]);
+    } else {
+      $icon = $this->functions->getIcon('Err');
+      echo json_encode(['success' => false, 'message' => "$icon Error al actualizar el objeto"]);
+    }
+  }
+
+  function updateStateObject($state, $id) {
+    $sql = "UPDATE objetos SET estado = ? WHERE idObjeto = ?";
+    $stmt = $this->getConn()->prepare($sql);
+    if ($stmt->execute([$state, $id])) {
       $icon = $this->functions->getIcon('OK');
       echo json_encode(['success' => true, 'message' => "$icon ¡Objeto Actualizado Exitosamente!"]);
     } else {
