@@ -10,7 +10,6 @@ const tableBody = document.getElementById("tableBody");
 // loadSelectFilters(centrosAPI, "centerSelectFilter", ["detalle"]);
 
 let dataHistory = await getDataHistory(regObjetosAPI);
-console.log(dataHistory)
 let pgFrom = 0;
 let pgLimit = parseInt(selectPgLimit.value);
 let pages = Math.ceil(dataHistory.length / pgLimit);
@@ -151,7 +150,7 @@ const filterHistory = async () => {
   }
   pagination(dataHistory);
 };
-centerSelectFilter.addEventListener("change", filterHistory);
+// centerSelectFilter.addEventListener("change", filterHistory);
 numberInputFilter.addEventListener("keyup", filterHistory);
 dateInputFilter.addEventListener("change", filterHistory);
 

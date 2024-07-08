@@ -137,7 +137,7 @@ sendForm(
 sendForm(
   "objectExitMark",
   regObjetosAPI,
-  "EXITMARK",
+  "PUT",
   "messageExitMark",
   updateRenderObjects,
   "exitObjectMark",

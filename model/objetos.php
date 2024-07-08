@@ -33,8 +33,8 @@ class Objetos extends ConnPDO
     if ($stmt->execute([$descripcion, $color, $idUser])) {
       $idObjectCreated = $this->getConn()->lastInsertId();
       $this->regObjects->addObjectHistory($idObjectCreated, $idCenter);
-      $icon = $this->functions->getIcon('OK');
-      echo json_encode(['success' => true, 'message' => "$icon ¡Objeto Creado Exitosamente!"]);
+      // $icon = $this->functions->getIcon('OK');
+      // echo json_encode(['success' => true, 'message' => "$icon ¡Objeto Creado Exitosamente!"]);
     } else {
       $icon = $this->functions->getIcon('Err');
       echo json_encode(['success' => false, 'message' => "$icon Error al crear el objeto"]);

@@ -23,7 +23,7 @@ switch ($method) {
       $userObject = $data['userObject'];
       $descriptionObject = $data['descriptionObject'];
       $colorObject = $data['colorObject'];
-      $idCenterObject = $data['idObjectCenter'];
+      $idCenterObject = $data['centerObject'];
       $colorObject = strtolower($colorObject);
 
       if ($functions->checkNotEmpty([$descriptionObject, $colorObject, $userObject, $idCenterObject])) {
