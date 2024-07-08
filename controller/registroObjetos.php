@@ -45,9 +45,24 @@ switch ($method) {
       } else {
         $registerObjects->updateDeviceHistory($idUserAssoc, $idDevice);
       }
+    } elseif (isset($data['objectIdExitMark']) && isset($data['objectIdUser'])) {
+      $objectIdExitMark = $data['objectIdExitMark'];
+      $objectIdUser = $data['objectIdUser'];
+      if ($functions->checkNotEmpty([$objectIdExitMarkm, $objectIdUser])) {
+        $icon = $functions->getIcon('Err');
+        echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+      } else {
+        // Existe?
+        if (($functions->getValue('objetos', 'idObjeto', 'idObjeto', $objectIdExitMark) == $objectIdExitMark) && ($functions->getValue('usuarios', 'idUsuario', 'idUsuario', $objectIdUser) == $objectIdUser)) {
+          $registerObjects->updateDeviceHistory($objectIdUser, $objectIdExitMark);
+        }
+        // Tiene el campo inicio lleno?
+        // Tiene el campo fin = null?
+      }
+
     } else {
       $icon = $functions->getIcon('Err');
-      echo json_encode(['success' => false, 'message' => "$icon No es posible vincular."]);
+      echo json_encode(['success' => false, 'message' => "$icon No se pudo actualizar la información."]);
     }
     break;
   case 'DELETE':

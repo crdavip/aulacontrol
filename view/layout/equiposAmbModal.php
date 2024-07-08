@@ -3,7 +3,7 @@
     <div class="containerModal">
         <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
         <div class="titlePg">
-            <i class="fa-solid fa-kaaba"></i>
+            <i class="fa-solid fa-desktop"></i>
             <h1>Nuevo Equipo</h1>
         </div>
         <form id="createDeviceForm" action="" class="form">
@@ -41,7 +41,7 @@
     <div class="containerModal">
         <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
         <div class="titlePg">
-            <i class="fa-solid fa-kaaba"></i>
+            <i class="fa-solid fa-desktop"></i>
             <h1>Editar Ambiente</h1>
         </div>
         <form id="deviceEditForm" action="" class="form">
@@ -67,13 +67,11 @@
             <div class="inputGroup">
                 <label class="inputGroupLabel" for="centerDevice"><i class="fa-solid fa-school-flag"></i></label>
                 <select class="inputGroupSelect" name="centerDeviceEdit" id="centerDeviceEdit" required>
-                    <!-- <option value="">Seleccione un Centro</option> -->
                 </select>
             </div>
             <div class="inputGroup">
                 <label class="inputGroupLabel" for="deviceAmbEdit"><i class="bi bi-door-open"></i></label>
                 <select class="inputGroupSelect" name="deviceAmbEdit" id="deviceAmbEdit" required>
-                    <!-- <option value="">Seleccione un Ambiente</option> -->
                 </select>
             </div>
             <div class="buttonGroup">
@@ -90,7 +88,7 @@
     <div class="containerModal">
         <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
         <div class="titlePg">
-            <i class="fa-solid fa-kaaba"></i>
+            <i class="fa-solid fa-desktop"></i>
             <h1>Eliminar Equipo</h1>
         </div>
         <form id="deviceDeleteForm" action="" class="form">

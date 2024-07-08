@@ -23,9 +23,10 @@ switch ($method) {
       $userObject = $data['userObject'];
       $descriptionObject = $data['descriptionObject'];
       $colorObject = $data['colorObject'];
+      $idCenterObject = $data['idObjectCenter'];
       $colorObject = strtolower($colorObject);
 
-      if ($functions->checkNotEmpty([$descriptionObject, $colorObject, $userObject])) {
+      if ($functions->checkNotEmpty([$descriptionObject, $colorObject, $userObject, $idCenterObject])) {
         $icon = $functions->getIcon('Err');
         echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
         exit();
@@ -34,7 +35,7 @@ switch ($method) {
         $userExistence = $functions->getValueValidation('usuario', 'documento', $userObject);
         if ($userExistence) {
           $idUserFounded = $userExistence["idUsuario"];
-          $objects->createObject($descriptionObject, $colorObject, $idUserFounded);
+          $objects->createObject($descriptionObject, $colorObject, $idUserFounded, $idCenterObject);
           exit();
         } else {
           $icon = $functions->getIcon('Err');

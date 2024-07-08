@@ -1,9 +1,22 @@
+// Obtener los centros
+let centersList;
+const selectCenterObjcet = document.getElementById("centerObject");
+const getDataCenters = async () => {
+  const dataCentros = await getData(centrosAPI);
+  centersList = dataCentros.filter((center) => center.detalle !== 'Porteria');
+
+  let contentSelectTagCenters = centersList.map((center) => {
+    return `<option value="${center.idCentro}">${center.detalle}</option>`;
+  }).join("");
+  selectCenterObjcet.innerHTML = `<option value="">Seleccione un Centro</option>` + contentSelectTagCenters;
+}
 
 let objects = [];
 const loadRenderObjects = async () => {
   const data = await getData(objetosAPI);
   objects = data;
   renderObjects(objects);
+  getDataCenters();
 }
 
 window.addEventListener("DOMContentLoaded", loadRenderObjects);
@@ -55,6 +68,16 @@ const createObjectCard = (objects) => {
     const cardObjectNum = document.createElement("div");
     cardObjectNum.classList.add("cardObjectIcon");
     cardObjectNum.innerHTML = `<i class="fa-solid fa-cube"></i>`;
+    const btnExitMark = document.createElement("a");
+    btnExitMark.classList.add("btnExitMarkObject");
+    btnExitMark.innerHTML = `<i class="fa-solid fa-check"></i>Salida`;
+    btnExitMark.addEventListener("click", () => {
+      loadDataForm({
+        inputs: ["objectIdExitMark", "objectIdUser"],
+        inputsValue: [object.idObjeto, object.idUsuario],
+        modal: "exitObjectMark",
+      });
+    })
     const cardBodyTxt = document.createElement("div");
     cardBodyTxt.classList.add("cardBodyTxt");
     cardBodyTxt.innerHTML = `<p>${object.descripcion}</p>
@@ -63,6 +86,7 @@ const createObjectCard = (objects) => {
                             <h4>Usuario: ${object.documento}</h4>`;
     cardBody.appendChild(cardObjectNum);
     cardBody.appendChild(cardBodyTxt);
+    cardBody.appendChild(btnExitMark);
     cardObject.appendChild(cardBody);
     fragment.appendChild(cardObject);
   });
@@ -109,3 +133,13 @@ sendForm(
   "deleteObject",
   1500
 );
+
+sendForm(
+  "objectExitMark",
+  regObjetosAPI,
+  "EXITMARK",
+  "messageExitMark",
+  updateRenderObjects,
+  "exitObjectMark",
+  1500
+)

@@ -1953,6 +1953,26 @@ td img {
   font-size: 34px;
 }
 
+.btnExitMarkObject {
+  color: var(--primario);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  padding: 4px 8px;
+  position: absolute;
+  top: 72px;
+  left: 272px;
+  transition: all ease-in 0.3s;
+}
+
+.btnExitMarkObject:hover {
+  border: 2px solid var(--primario);
+}
+
 
 /** ######################################################### */
 /* ** END DANIEL STYLES ** */

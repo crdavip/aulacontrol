@@ -1,16 +1,19 @@
 <?php
 require_once ('../controller/funciones.php');
 require_once ('../model/db.php');
+require_once ('../model/registroObjetos.php');
 
 class Objetos extends ConnPDO
 {
 
   private $functions;
+  private $regObjects;
 
   public function __construct()
   {
     parent::__construct();
     $this->functions = new Funciones();
+    $this->regObjects = new RegistroObjetos();
   }
 
   function getObjects()
@@ -22,12 +25,14 @@ class Objetos extends ConnPDO
     echo json_encode($objects);
   }
 
-  function createObject($descripcion, $color, $idUser)
+  function createObject($descripcion, $color, $idUser, $idCenter)
   {
 
     $sql = "INSERT INTO objetos (descripcion, color, estado, idUsuario) VALUES (?, ?, 'Activo', ?)";
     $stmt = $this->getConn()->prepare($sql);
     if ($stmt->execute([$descripcion, $color, $idUser])) {
+      $idObjectCreated = $this->getConn()->lastInsertId();
+      $this->regObjects->addObjectHistory($idObjectCreated, $idCenter);
       $icon = $this->functions->getIcon('OK');
       echo json_encode(['success' => true, 'message' => "$icon ¡Objeto Creado Exitosamente!"]);
     } else {
@@ -49,17 +54,17 @@ class Objetos extends ConnPDO
     }
   }
 
-  function updateStateObject($state, $id) {
-    $sql = "UPDATE objetos SET estado = ? WHERE idObjeto = ?";
-    $stmt = $this->getConn()->prepare($sql);
-    if ($stmt->execute([$state, $id])) {
-      $icon = $this->functions->getIcon('OK');
-      echo json_encode(['success' => true, 'message' => "$icon ¡Objeto Actualizado Exitosamente!"]);
-    } else {
-      $icon = $this->functions->getIcon('Err');
-      echo json_encode(['success' => false, 'message' => "$icon Error al actualizar el objeto"]);
-    }
-  }
+  // function updateStateObject($state, $id) {
+  //   $sql = "UPDATE objetos SET estado = ? WHERE idObjeto = ?";
+  //   $stmt = $this->getConn()->prepare($sql);
+  //   if ($stmt->execute([$state, $id])) {
+  //     $icon = $this->functions->getIcon('OK');
+  //     echo json_encode(['success' => true, 'message' => "$icon ¡Objeto Actualizado Exitosamente!"]);
+  //   } else {
+  //     $icon = $this->functions->getIcon('Err');
+  //     echo json_encode(['success' => false, 'message' => "$icon Error al actualizar el objeto"]);
+  //   }
+  // }
 
   function deleteObject($id)
   {
