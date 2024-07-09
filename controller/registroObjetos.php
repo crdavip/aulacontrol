@@ -30,6 +30,15 @@ switch ($method) {
       } else {
         $registerObjects->addObjectHistory($idObject, $idCenter);
       }
+    } elseif (isset($data['objectIdEntranceMark']) && isset($data['objectIdEntranceCenter'])) {
+      $idObject = $data['objectIdEntranceMark'];
+      $idCenter = $data['objectIdEntranceCenter'];
+      if ($functions->checkNotEmpty([$idObject, $idCenter])) {
+        $icon = $functions->getIcon('Err');
+        echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+      } else {
+        $registerObjects->addObjectHistory($idObject, $idCenter);
+      }
     } else {
       $icon = $functions->getIcon('Err');
       echo json_encode(['success' => false, 'message' => "$icon No es posible crear el registro."]);

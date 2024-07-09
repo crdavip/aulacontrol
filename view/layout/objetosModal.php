@@ -81,7 +81,7 @@
         </div>
         <form id="objectDeleteForm" action="" class="form">
             <input type="hidden" name="objectIdDelete" id="objectIdDelete">
-            <p class="modalTxt">Esta acción no se puede revertir. <strong>¿Desea continuar?</strong></p>
+            <p class="modalTxt">Se eliminará el objeto y todos los registros asociados. <strong>¿Desea continuar?</strong></p>
             <div class="buttonGroup">
                 <button id="confirmDeleteButton" class="btn btnAlt" type="submit"><i class="bi bi-trash3"></i>
                     Eliminar</button>
@@ -109,5 +109,26 @@
             </div>
         </form>
         <p id="messageExitMark" class="message"></p>
+    </div>
+</section>
+
+<!-- Modal EntranceMark -->
+<section class="modal" id="entranceObjectMark">
+    <div class="containerModal">
+        <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
+        <div class="titlePg">
+            <i class="fa-solid fa-cube"></i>
+            <h1>Entrada de Objeto</h1>
+        </div>
+        <form id="objectEntranceMark" action="" class="form">
+            <input type="hidden" name="objectIdEntranceMark" id="objectIdEntranceMark">
+            <input type="hidden" name="objectIdEntranceCenter" id="objectIdEntranceCenter"/>
+            <p class="modalTxt">Vas a crear un nuevo registro de entrada de este objeto. <br><strong>¿Desea Continuar?</strong></p>
+            <div class="buttonGroup">
+                <button id="confirmEntranceMarkButton" class="btn btnAlt" type="submit"><i class="fa-regular fa-circle-check"></i>
+                    Aceptar</button>
+            </div>
+        </form>
+        <p id="messageEntranceMark" class="message"></p>
     </div>
 </section>

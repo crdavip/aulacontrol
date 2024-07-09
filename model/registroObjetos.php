@@ -14,7 +14,7 @@ class RegistroObjetos extends ConnPDO
 
   function getAllObjectsHistory()
   {
-    $sql = "SELECT ro.idRegistro, ud.nombre AS usuario, ud.imagen, u.documento, o.idObjeto, o.descripcion, o.color, cent.siglas AS centro, ro.inicio, ro.fin, ro.idCentro FROM registro_objeto AS ro INNER JOIN objetos AS o ON o.idObjeto = ro.idObjeto INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN centro AS cent ON cent.idCentro = ro.idCentro ORDER BY idRegistro DESC";
+    $sql = "SELECT ro.idRegistro, ud.nombre AS usuario, ud.imagen, u.documento, o.idObjeto, o.descripcion, o.color, cent.siglas AS centro, ro.inicio, ro.fin, ro.idCentro FROM registro_objeto AS ro INNER JOIN objetos AS o ON o.idObjeto = ro.idObjeto INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN centro AS cent ON cent.idCentro = ro.idCentro ORDER BY ro.fin IS NULL DESC, ro.idRegistro DESC";
 
     $stmt = $this->getConn()->prepare($sql);
     $stmt->execute();
@@ -43,9 +43,9 @@ class RegistroObjetos extends ConnPDO
       $sql = "INSERT INTO registro_objeto (inicio, idObjeto, idCentro) VALUES (current_timestamp(), ?, ?)";
       $stmt = $this->getConn()->prepare($sql);
       if ($stmt->execute([$idObject, $idCenter])) {
-        // $sqlUpdate = "UPDATE objeto SET estado = 'Activo' WHERE id = ?";
-        // $stmtUpdate = $this->getConn()->prepare($sqlUpdate);
-        // $stmtUpdate->execute([$idObject]);
+        $sqlUpdate = "UPDATE objetos SET estado = 'Activo' WHERE idObjeto = ?";
+        $stmtUpdate = $this->getConn()->prepare($sqlUpdate);
+        $stmtUpdate->execute([$idObject]);
         $icon = $this->functions->getIcon('OK');
         echo json_encode(['success' => true, 'message' => "$icon ¡Registro de objeto exitoso!"]);
       } else {

@@ -1,6 +1,5 @@
-// Obtener los centros
-let centersList;
 const selectCenterObjcet = document.getElementById("centerObject");
+let centersList;
 const getDataCenters = async () => {
   const dataCentros = await getData(centrosAPI);
   centersList = dataCentros.filter((center) => center.detalle !== 'Porteria');
@@ -14,7 +13,13 @@ const getDataCenters = async () => {
 let objects = [];
 const loadRenderObjects = async () => {
   const data = await getData(objetosAPI);
-  objects = data;
+  const activeObjects = data.filter((object) => object.estado === 'Activo');
+  const inactiveObjects = data.filter((object) => object.estado === 'Inactivo');
+  objects = activeObjects.concat(inactiveObjects);
+  objects = objects.filter((object, index, self) =>
+    index === self.findIndex((o) => o.idObjeto === object.idObjeto)
+  );
+  console.log(objects);
   renderObjects(objects);
   getDataCenters();
 }
@@ -25,11 +30,29 @@ const updateRenderObjects = async () => {
   await loadRenderObjects();
 };
 
+function activeCover(card) {
+  card.classList.add('activeCover');
+}
+
+function inactiveCover(card) {
+  card.classList.remove('activeCover');
+}
+
 const createObjectCard = (objects) => {
   const fragment = document.createDocumentFragment();
   objects.forEach((object) => {
     const cardObject = document.createElement("div");
-    cardObject.classList.add("card");
+    cardObject.classList.add("card", "relative");
+
+    const bkDarkCoverNotClick = document.createElement("div");
+    bkDarkCoverNotClick.classList.add("bkDarkCoverNotClick");
+    cardObject.appendChild(bkDarkCoverNotClick);
+
+    if (object.estado === 'Inactivo') {
+      activeCover(cardObject);
+    } else {
+      inactiveCover(cardObject);
+    }
     const cardBody = document.createElement("div");
     cardBody.classList.add("cardBody", "cardBodyRoom");
     if (userRolView == 1) {
@@ -70,12 +93,18 @@ const createObjectCard = (objects) => {
     cardObjectNum.innerHTML = `<i class="fa-solid fa-cube"></i>`;
     const btnExitMark = document.createElement("a");
     btnExitMark.classList.add("btnExitMarkObject");
-    btnExitMark.innerHTML = `<i class="fa-solid fa-check"></i>Salida`;
+    if (object.estado === 'Inactivo') {
+      btnExitMark.classList.add("btnEntranceMarkPosition");
+      btnExitMark.innerHTML = `<i class="fa-solid fa-check"></i>Entrada`;
+    } else {
+      btnExitMark.classList.add("btnExitMarkPosition");
+      btnExitMark.innerHTML = `<i class="fa-solid fa-check"></i>Salida`;
+    }
     btnExitMark.addEventListener("click", () => {
       loadDataForm({
-        inputs: ["objectIdExitMark", "objectIdUser"],
-        inputsValue: [object.idObjeto, object.idUsuario],
-        modal: "exitObjectMark",
+        inputs: object.estado === 'Inactivo' ? ["objectIdEntranceMark", "objectIdEntranceCenter"] : ["objectIdExitMark", "objectIdUser"],
+        inputsValue: object.estado === 'Inactivo' ? [object.idObjeto, object.idUsuario] : [object.idObjeto, object.idCentro],
+        modal: object.estado === 'Inactivo' ? "entranceObjectMark" : "exitObjectMark",
       });
     })
     const cardBodyTxt = document.createElement("div");
@@ -141,5 +170,15 @@ sendForm(
   "messageExitMark",
   updateRenderObjects,
   "exitObjectMark",
+  1500
+);
+
+sendForm(
+  "objectEntranceMark",
+  regObjetosAPI,
+  "POST",
+  "messageEntranceMark",
+  updateRenderObjects,
+  "entranceObjectMark",
   1500
 )

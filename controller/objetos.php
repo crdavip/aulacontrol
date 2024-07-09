@@ -21,10 +21,9 @@ switch ($method) {
   case 'POST':
     if (isset($data['descriptionObject']) && isset($data['colorObject']) && isset($data['userObject'])) {
       $userObject = $data['userObject'];
-      $descriptionObject = $data['descriptionObject'];
+      $descriptionObject = strtoupper($data['descriptionObject']);
       $colorObject = $data['colorObject'];
-      $idCenterObject = $data['centerObject'];
-      $colorObject = strtolower($colorObject);
+      $idCenterObject = strtolower($data['centerObject']);
 
       if ($functions->checkNotEmpty([$descriptionObject, $colorObject, $userObject, $idCenterObject])) {
         $icon = $functions->getIcon('Err');
@@ -49,9 +48,8 @@ switch ($method) {
     if (isset($data['objectIdEdit'])) {
       $objectIdEdit = $data['objectIdEdit'];
       $userObjectEdit = $data['userObjectEdit'];
-      $objectDescriptionEdit = $data['objectDescriptionEdit'];
-      $objectDescriptionEdit = strtolower($objectDescriptionEdit);
-      $objectColorEdit = $data['objectColorEdit'];
+      $objectDescriptionEdit = strtoupper($data['objectDescriptionEdit']);
+      $objectColorEdit = strtolower($data['objectColorEdit']);
       $objectDescriptionBD = $functions->getValue('objetos', 'descripcion', 'idObjeto', $objectIdEdit);
       $userObjectBD = $functions->getValueValidation('usuario', 'documento', $userObjectEdit);
       if ($userObjectBD) {

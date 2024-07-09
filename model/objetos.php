@@ -18,7 +18,7 @@ class Objetos extends ConnPDO
 
   function getObjects()
   {
-    $sql = "SELECT o.*, u.documento FROM objetos AS o INNER JOIN usuario AS u on u.idUsuario = o.idUsuario";
+    $sql = "SELECT o.*, u.documento, ro.idCentro FROM objetos AS o INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario RIGHT JOIN registro_objeto AS ro ON ro.idObjeto = o.idObjeto";
     $stmt = $this->getConn()->prepare($sql);
     $stmt->execute();
     $objects = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -27,17 +27,24 @@ class Objetos extends ConnPDO
 
   function createObject($descripcion, $color, $idUser, $idCenter)
   {
+    $sqlCheck = "SELECT * FROM objetos WHERE descripcion = ? AND color = ? AND idUsuario = ?";
+    $stmtCheck = $this->getConn()->prepare($sqlCheck);
+    $stmtCheck->execute([$descripcion, $color, $idUser]);
+    $existingObject = $stmtCheck->fetch(PDO::FETCH_ASSOC);
 
-    $sql = "INSERT INTO objetos (descripcion, color, estado, idUsuario) VALUES (?, ?, 'Activo', ?)";
-    $stmt = $this->getConn()->prepare($sql);
-    if ($stmt->execute([$descripcion, $color, $idUser])) {
-      $idObjectCreated = $this->getConn()->lastInsertId();
-      $this->regObjects->addObjectHistory($idObjectCreated, $idCenter);
-      // $icon = $this->functions->getIcon('OK');
-      // echo json_encode(['success' => true, 'message' => "$icon ¡Objeto Creado Exitosamente!"]);
-    } else {
+    if ($existingObject) {
       $icon = $this->functions->getIcon('Err');
-      echo json_encode(['success' => false, 'message' => "$icon Error al crear el objeto"]);
+      echo json_encode(['success' => false, 'message' => "$icon Parece que este objeto ya esta registrado"]);
+    } else {
+      $sql = "INSERT INTO objetos (descripcion, color, estado, idUsuario) VALUES (?, ?, 'Activo', ?)";
+      $stmt = $this->getConn()->prepare($sql);
+      if ($stmt->execute([$descripcion, $color, $idUser])) {
+        $idObjectCreated = $this->getConn()->lastInsertId();
+        $this->regObjects->addObjectHistory($idObjectCreated, $idCenter);
+      } else {
+        $icon = $this->functions->getIcon('Err');
+        echo json_encode(['success' => false, 'message' => "$icon Error al crear el objeto"]);
+      }
     }
   }
 
