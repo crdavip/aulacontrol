@@ -3,7 +3,7 @@
     <div class="containerModal">
         <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
         <div class="titlePg">
-            <i class="fa-solid fa-kaaba"></i>
+            <i class="fa-solid fa-cube"></i>
             <h1>Nuevo Objeto</h1>
         </div>
         <form id="createObjectForm" action="" class="form">
@@ -22,6 +22,11 @@
                     required>
                 <label class="inputGroupLabel" for="userObject"><i class="fa-solid fa-user"></i> Documento Usuario</label>
             </div>
+            <div class="inputGroup">
+                <label class="inputGroupLabel" for="centerObject"><i class="fa-solid fa-school-flag"></i></label>
+                <select class="inputGroupSelect" name="centerObject" id="centerObject" required>
+                </select>
+            </div>
             <div class="buttonGroup">
                 <button class="btn" type="submit"><i class="fa-solid fa-square-plus"></i> Crear</button>
                 <button class="btn btnAlt" type="reset"><i class="fa-solid fa-eraser"></i> Limpiar</button>
@@ -36,7 +41,7 @@
     <div class="containerModal">
         <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
         <div class="titlePg">
-            <i class="fa-solid fa-kaaba"></i>
+            <i class="fa-solid fa-cube"></i>
             <h1>Editar Objeto</h1>
         </div>
         <form id="objectEditForm" action="" class="form">
@@ -52,6 +57,11 @@
                     autocomplete="off" required>
                 <label class="inputGroupLabel" for="objectColorEdit"><i class="fa-solid fa-list-ol"></i> Color</label>
             </div>
+            <div class="inputGroup">
+                <input class="inputGroupInput" type="text" name="userObjectEdit" id="userObjectEdit" autocomplete="off"
+                    required>
+                <label class="inputGroupLabel" for="userObjectEdit"><i class="fa-solid fa-user"></i> Documento Usuario</label>
+            </div>
             <div class="buttonGroup">
                 <button class="btn" type="submit"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
                 <button class="btn btnAlt" type="reset"><i class="fa-solid fa-eraser"></i> Limpiar</button>
@@ -66,17 +76,59 @@
     <div class="containerModal">
         <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
         <div class="titlePg">
-            <i class="fa-solid fa-kaaba"></i>
-            <h1>Eliminar Equipo</h1>
+            <i class="fa-solid fa-cube"></i>
+            <h1>Eliminar Objeto</h1>
         </div>
         <form id="objectDeleteForm" action="" class="form">
             <input type="hidden" name="objectIdDelete" id="objectIdDelete">
-            <p class="modalTxt">Esta acción no se puede revertir. <strong>¿Desea continuar?</strong></p>
+            <p class="modalTxt">Se eliminará el objeto y todos los registros asociados. <strong>¿Desea continuar?</strong></p>
             <div class="buttonGroup">
                 <button id="confirmDeleteButton" class="btn btnAlt" type="submit"><i class="bi bi-trash3"></i>
                     Eliminar</button>
             </div>
         </form>
         <p id="messageDelete" class="message"></p>
+    </div>
+</section>
+
+<!-- Modal ExitMark -->
+<section class="modal" id="exitObjectMark">
+    <div class="containerModal">
+        <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
+        <div class="titlePg">
+            <i class="fa-solid fa-cube"></i>
+            <h1>Salida de Objeto</h1>
+        </div>
+        <form id="objectExitMark" action="" class="form">
+            <input type="hidden" name="objectIdExitMark" id="objectIdExitMark">
+            <input type="hidden" name="objectIdUser" id="objectIdUser"/>
+            <p class="modalTxt">Esta acción no se puede revertir. <br><strong>¿Desea marcar la salida del objeto?</strong></p>
+            <div class="buttonGroup">
+                <button id="confirmExitMarkButton" class="btn btnAlt" type="submit"><i class="fa-regular fa-circle-check"></i>
+                    Aceptar</button>
+            </div>
+        </form>
+        <p id="messageExitMark" class="message"></p>
+    </div>
+</section>
+
+<!-- Modal EntranceMark -->
+<section class="modal" id="entranceObjectMark">
+    <div class="containerModal">
+        <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
+        <div class="titlePg">
+            <i class="fa-solid fa-cube"></i>
+            <h1>Entrada de Objeto</h1>
+        </div>
+        <form id="objectEntranceMark" action="" class="form">
+            <input type="hidden" name="objectIdEntranceMark" id="objectIdEntranceMark">
+            <input type="hidden" name="objectIdEntranceCenter" id="objectIdEntranceCenter"/>
+            <p class="modalTxt">Vas a crear un nuevo registro de entrada de este objeto. <br><strong>¿Desea Continuar?</strong></p>
+            <div class="buttonGroup">
+                <button id="confirmEntranceMarkButton" class="btn btnAlt" type="submit"><i class="fa-regular fa-circle-check"></i>
+                    Aceptar</button>
+            </div>
+        </form>
+        <p id="messageEntranceMark" class="message"></p>
     </div>
 </section>

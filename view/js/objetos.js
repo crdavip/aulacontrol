@@ -1,9 +1,27 @@
+const selectCenterObjcet = document.getElementById("centerObject");
+let centersList;
+const getDataCenters = async () => {
+  const dataCentros = await getData(centrosAPI);
+  centersList = dataCentros.filter((center) => center.detalle !== 'Porteria');
+
+  let contentSelectTagCenters = centersList.map((center) => {
+    return `<option value="${center.idCentro}">${center.detalle}</option>`;
+  }).join("");
+  selectCenterObjcet.innerHTML = `<option value="">Seleccione un Centro</option>` + contentSelectTagCenters;
+}
 
 let objects = [];
 const loadRenderObjects = async () => {
   const data = await getData(objetosAPI);
-  objects = data;
+  const activeObjects = data.filter((object) => object.estado === 'Activo');
+  const inactiveObjects = data.filter((object) => object.estado === 'Inactivo');
+  objects = activeObjects.concat(inactiveObjects);
+  objects = objects.filter((object, index, self) =>
+    index === self.findIndex((o) => o.idObjeto === object.idObjeto)
+  );
+  console.log(objects);
   renderObjects(objects);
+  getDataCenters();
 }
 
 window.addEventListener("DOMContentLoaded", loadRenderObjects);
@@ -12,11 +30,29 @@ const updateRenderObjects = async () => {
   await loadRenderObjects();
 };
 
+function activeCover(card) {
+  card.classList.add('activeCover');
+}
+
+function inactiveCover(card) {
+  card.classList.remove('activeCover');
+}
+
 const createObjectCard = (objects) => {
   const fragment = document.createDocumentFragment();
   objects.forEach((object) => {
     const cardObject = document.createElement("div");
-    cardObject.classList.add("card");
+    cardObject.classList.add("card", "relative");
+
+    const bkDarkCoverNotClick = document.createElement("div");
+    bkDarkCoverNotClick.classList.add("bkDarkCoverNotClick");
+    cardObject.appendChild(bkDarkCoverNotClick);
+
+    if (object.estado === 'Inactivo') {
+      activeCover(cardObject);
+    } else {
+      inactiveCover(cardObject);
+    }
     const cardBody = document.createElement("div");
     cardBody.classList.add("cardBody", "cardBodyRoom");
     if (userRolView == 1) {
@@ -38,8 +74,8 @@ const createObjectCard = (objects) => {
       btnEdit.addEventListener("click", () => {
 
         loadDataForm({
-          inputs: ["objectIdEdit", "objectDescriptionEdit", "objectColorEdit"],
-          inputsValue: [object.idObjeto, object.descripcion, object.color],
+          inputs: ["objectIdEdit", "objectDescriptionEdit", "objectColorEdit", "userObjectEdit"],
+          inputsValue: [object.idObjeto, object.descripcion, object.color, object.documento],
           modal: "editObject",
         });
       });
@@ -55,6 +91,22 @@ const createObjectCard = (objects) => {
     const cardObjectNum = document.createElement("div");
     cardObjectNum.classList.add("cardObjectIcon");
     cardObjectNum.innerHTML = `<i class="fa-solid fa-cube"></i>`;
+    const btnExitMark = document.createElement("a");
+    btnExitMark.classList.add("btnExitMarkObject");
+    if (object.estado === 'Inactivo') {
+      btnExitMark.classList.add("btnEntranceMarkPosition");
+      btnExitMark.innerHTML = `<i class="fa-solid fa-check"></i>Entrada`;
+    } else {
+      btnExitMark.classList.add("btnExitMarkPosition");
+      btnExitMark.innerHTML = `<i class="fa-solid fa-check"></i>Salida`;
+    }
+    btnExitMark.addEventListener("click", () => {
+      loadDataForm({
+        inputs: object.estado === 'Inactivo' ? ["objectIdEntranceMark", "objectIdEntranceCenter"] : ["objectIdExitMark", "objectIdUser"],
+        inputsValue: object.estado === 'Inactivo' ? [object.idObjeto, object.idUsuario] : [object.idObjeto, object.idCentro],
+        modal: object.estado === 'Inactivo' ? "entranceObjectMark" : "exitObjectMark",
+      });
+    })
     const cardBodyTxt = document.createElement("div");
     cardBodyTxt.classList.add("cardBodyTxt");
     cardBodyTxt.innerHTML = `<p>${object.descripcion}</p>
@@ -63,6 +115,7 @@ const createObjectCard = (objects) => {
                             <h4>Usuario: ${object.documento}</h4>`;
     cardBody.appendChild(cardObjectNum);
     cardBody.appendChild(cardBodyTxt);
+    cardBody.appendChild(btnExitMark);
     cardObject.appendChild(cardBody);
     fragment.appendChild(cardObject);
   });
@@ -86,7 +139,7 @@ sendForm(
   "POST",
   "messageCreate",
   updateRenderObjects,
-  "createDevice",
+  "createObject",
   1500
 );
 
@@ -109,3 +162,23 @@ sendForm(
   "deleteObject",
   1500
 );
+
+sendForm(
+  "objectExitMark",
+  regObjetosAPI,
+  "PUT",
+  "messageExitMark",
+  updateRenderObjects,
+  "exitObjectMark",
+  1500
+);
+
+sendForm(
+  "objectEntranceMark",
+  regObjetosAPI,
+  "POST",
+  "messageEntranceMark",
+  updateRenderObjects,
+  "entranceObjectMark",
+  1500
+)

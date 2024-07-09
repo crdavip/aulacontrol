@@ -14,7 +14,7 @@ class RegistroObjetos extends ConnPDO
 
   function getAllObjectsHistory()
   {
-    $sql = "SELECT ro.idRegistro, ud.nombre AS usuario, ud.imagen, u.documento, o.idObjeto, o.descripcion, o.color, cent.siglas AS centro, ro.inicio, ro.fin FROM registro_objeto AS ro INNER JOIN objetos AS o ON o.idObjeto = ro.idObjeto INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN centro AS cent ON cent.idCentro = ro.idCentro ORDER BY idRegistro DESC";
+    $sql = "SELECT ro.idRegistro, ud.nombre AS usuario, ud.imagen, u.documento, o.idObjeto, o.descripcion, o.color, cent.siglas AS centro, ro.inicio, ro.fin, ro.idCentro FROM registro_objeto AS ro INNER JOIN objetos AS o ON o.idObjeto = ro.idObjeto INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN centro AS cent ON cent.idCentro = ro.idCentro ORDER BY ro.fin IS NULL DESC, ro.idRegistro DESC";
 
     $stmt = $this->getConn()->prepare($sql);
     $stmt->execute();
@@ -31,61 +31,66 @@ class RegistroObjetos extends ConnPDO
     echo json_encode($row);
   }
 
-  function addDeviceHistory($idUser, $idDevice)
+  function addObjectHistory($idObject, $idCenter)
   {
-    $sqlCheck = "SELECT * FROM registro_computador
-                WHERE fin IS NULL AND idUsuario = ?
+    $sqlCheck = "SELECT * FROM registro_objeto
+                WHERE fin IS NULL AND idObjeto = ?
                 ORDER BY fin DESC LIMIT 1";
     $stmtCheck = $this->getConn()->prepare($sqlCheck);
-    $stmtCheck->execute([$idUser]);
+    $stmtCheck->execute([$idObject]);
     $count = $stmtCheck->rowCount();
     if ($count == 0) {
-      $sql = "INSERT INTO registro_computador (inicio, idUsuario, idComputador) VALUES (current_timestamp(), ?, ?)";
+      $sql = "INSERT INTO registro_objeto (inicio, idObjeto, idCentro) VALUES (current_timestamp(), ?, ?)";
       $stmt = $this->getConn()->prepare($sql);
-      if ($stmt->execute([$idUser, $idDevice])) {
-        $sqlUpdate = "UPDATE computador SET estado = 'Ocupado' WHERE idComputador = ?";
+      if ($stmt->execute([$idObject, $idCenter])) {
+        $sqlUpdate = "UPDATE objetos SET estado = 'Activo' WHERE idObjeto = ?";
         $stmtUpdate = $this->getConn()->prepare($sqlUpdate);
-        $stmtUpdate->execute([$idDevice]);
-
+        $stmtUpdate->execute([$idObject]);
         $icon = $this->functions->getIcon('OK');
-        echo json_encode(['success' => true, 'message' => "$icon ¡Vinculación exitosa!"]);
+        echo json_encode(['success' => true, 'message' => "$icon ¡Registro de objeto exitoso!"]);
       } else {
         $icon = $this->functions->getIcon('Err');
         echo json_encode(['success' => false, 'message' => "$icon ¡Oops! Parece que algo salió mal."]);
       }
     } else {
       $icon = $this->functions->getIcon('Err');
-      echo json_encode(['success' => false, 'message' => "$icon El usuario ya tiene una vinculación activa."]);
+      echo json_encode(['success' => false, 'message' => "$icon Parece que hay un registro activo."]);
     }
   }
 
-  function updateDeviceHistory($idUser, $idDevice)
+  function updateObjectHistory($idUser, $idObject)
   {
-    $sqlGet = "SELECT * FROM registro_computador
-                WHERE fin IS NULL AND idUsuario = ? AND idComputador = ?
-                ORDER BY fin DESC LIMIT 1";
-    $stmtGet = $this->getConn()->prepare($sqlGet);
-    $stmtGet->execute([$idUser, $idDevice]);
-    $row = $stmtGet->fetch(PDO::FETCH_ASSOC);
-    $count = $stmtGet->rowCount();
-    if ($count > 0) {
-      $idHistory = $row['idRegistro'];
-      $sql = "UPDATE registro_computador SET fin = current_timestamp() WHERE idRegistro = ?";
-      $stmt = $this->getConn()->prepare($sql);
-      if ($stmt->execute([$idHistory])) {
-        $sqlUpdate = "UPDATE computador SET estado = 'Disponible' WHERE idComputador = ?";
-        $stmtUpdate = $this->getConn()->prepare($sqlUpdate);
-        $stmtUpdate->execute([$idDevice]);
+    try {
+      $sqlGet = "SELECT * FROM registro_objeto
+                   WHERE fin IS NULL AND idObjeto = ?
+                   ORDER BY fin DESC LIMIT 1";
+      $stmtGet = $this->getConn()->prepare($sqlGet);
+      $stmtGet->execute([$idObject]);
+      $row = $stmtGet->fetch(PDO::FETCH_ASSOC);
 
-        $icon = $this->functions->getIcon('OK');
-        echo json_encode(['success' => true, 'message' => "$icon ¡Desvinculación exitosa!"]);
+      if ($row) {
+        $idHistory = $row['idRegistro'];
+        $sql = "UPDATE registro_objeto SET fin = current_timestamp() WHERE idRegistro = ?";
+        $stmt = $this->getConn()->prepare($sql);
+        if ($stmt->execute([$idHistory])) {
+          $sqlUpdate = "UPDATE objetos SET estado = 'Inactivo' WHERE idObjeto = ?";
+          $stmtUpdate = $this->getConn()->prepare($sqlUpdate);
+          $stmtUpdate->execute([$idObject]);
+
+          $icon = $this->functions->getIcon('OK');
+          echo json_encode(['success' => true, 'message' => "$icon ¡Registro de salida finalizado!"]);
+        } else {
+          $errorInfo = $stmt->errorInfo();
+          $icon = $this->functions->getIcon('Err');
+          echo json_encode(['success' => false, 'message' => "$icon ¡Oops! Parece que algo salió mal. Error: {$errorInfo[2]}"]);
+        }
       } else {
         $icon = $this->functions->getIcon('Err');
-        echo json_encode(['success' => false, 'message' => "$icon ¡Oops! Parece que algo salía mal."]);
+        echo json_encode(['success' => false, 'message' => "$icon El objeto no tiene registros activos."]);
       }
-    } else {
+    } catch (PDOException $e) {
       $icon = $this->functions->getIcon('Err');
-      echo json_encode(['success' => false, 'message' => "$icon El usuario no esta vinculado a este equipo."]);
+      echo json_encode(['success' => false, 'message' => "$icon Error de base de datos: " . $e->getMessage()]);
     }
   }
 }

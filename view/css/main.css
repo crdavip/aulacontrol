@@ -1953,6 +1953,57 @@ td img {
   font-size: 34px;
 }
 
+.btnExitMarkObject {
+  color: var(--primario);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  padding: 4px 6px;
+  transition: all ease-in 0.3s;
+  z-index: 20;
+}
+
+.btnExitMarkPosition {
+  position: absolute;
+  top: 72px;
+  left: 272px;
+}
+
+
+.btnEntranceMarkPosition {
+  position: absolute;
+  top: 72px;
+  left: 258px;
+}
+
+.btnExitMarkObject:hover {
+  border: 2px solid var(--primario);
+}
+
+.relative {
+  position: relative;
+}
+
+.bkDarkCoverNotClick {
+  position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: 10;
+    display: none;
+}
+
+.relative.activeCover .bkDarkCoverNotClick {
+  display: block;
+  pointer-events: auto;
+}
 
 /** ######################################################### */
 /* ** END DANIEL STYLES ** */
