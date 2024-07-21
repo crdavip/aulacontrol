@@ -21,7 +21,6 @@ switch ($method) {
             $users->getUsers();
             exit;
         }
-        break;
     case 'POST':
         if (isset($data['nameUser']) && isset($data['docUser']) && isset($data['passUser']) && isset($data['rolUser']) && isset($data['centerUser'])) {
             $nameUser = $data['nameUser'];

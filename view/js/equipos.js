@@ -29,7 +29,6 @@ const updateRoomsDropdown = () => {
 }
 
 loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
-// loadSelectFilters(ambientesAPI, "statusSelectFilter", ["estado"]);
 
 let devices = [];
 const loadRenderDevices = async () => {
@@ -59,19 +58,24 @@ const createDeviceCard = (devices) => {
       cardDeviceMenu.innerHTML = '<i class="fa-solid fa-ellipsis"></i>';
       const cardDeviceMenuItems = document.createElement("div");
       cardDeviceMenuItems.classList.add("cardRoomMenuItems");
+      const btnAssoc = document.createElement("a");
+      device.estado == "Disponible"
+        ? (btnAssoc.innerHTML = '<i class="fa-solid fa-qrcode"></i>Vincular')
+        : (btnAssoc.innerHTML =
+          '<i class="fa-solid fa-qrcode"></i>Desvincular');
       const btnEdit = document.createElement("a");
       btnEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>Editar';
       const btnDelete = document.createElement("a");
       btnDelete.innerHTML = '<i class="fa-solid fa-trash"></i>Eliminar';
-      // cardDeviceMenuItems.appendChild(btnAssoc);
+      cardDeviceMenuItems.appendChild(btnAssoc);
       cardDeviceMenuItems.appendChild(btnEdit);
       cardDeviceMenuItems.appendChild(btnDelete);
       cardBody.appendChild(cardDeviceMenuItems);
       cardBody.appendChild(cardDeviceMenu);
       dropDown(cardDeviceMenu, cardDeviceMenuItems);
-      // btnAssoc.addEventListener("click", () => {
-      //   deviceAssoc(device);
-      // });
+      btnAssoc.addEventListener("click", () => {
+        deviceAssoc(device);
+      });
 
       btnEdit.addEventListener("click", () => {
         const selectEditCenter = document.getElementById("centerDeviceEdit");
@@ -136,7 +140,7 @@ const createDeviceCard = (devices) => {
     cardBodyTxt.innerHTML = `<p>${device.estado}</p>
                             <p>${device.ambiente}</p>
                             <h3>${device.marca}</h3>`;
-    if (device.estado == "Ocupada") {
+    if (device.estado == "Ocupado") {
       cardDeviceNum.classList.add("cardDeviceNumAlt");
       cardBodyTxt.classList.add("cardBodyTxtAlt");
     }
@@ -190,3 +194,47 @@ sendForm(
   "deleteDevice",
   1500
 );
+
+const deviceAssoc = (device) => {
+  openModal("deviceAssoc");
+  const titleDeviceAssoc = document.getElementById("titleDeviceAssoc");
+  device.estado == "Disponible"
+    ? (titleDeviceAssoc.innerHTML = `Vincular Equipo`)
+    : (titleDeviceAssoc.innerHTML = `Desvincular Equipo`);
+  deviceAssocInfo(device);
+  renderScanQR();
+  configScanQR(filterDoc);
+};
+
+const deviceAssocInfo = async (device) => {
+  const deviceAssocInfo = document.querySelector(".deviceAssocInfo");
+  deviceAssocInfo.innerHTML = "";
+  deviceAssocInfo.innerHTML += `<input type="hidden" name="deviceIdAssoc" id="deviceIdAssoc" value="${device.idComputador}">`;
+  deviceAssocInfo.innerHTML += `<input type="hidden" name="deviceStatusAssoc" id="deviceStatusAssoc" value="${device.estado}">`;
+  const deviceAssocTitle = document.createElement("h3");
+  deviceAssocTitle.innerHTML = `Equipo ${device.ref} - ${device.idAmbiente}`;
+  deviceAssocInfo.appendChild(deviceAssocTitle);
+  if (device.estado == "Disponible") {
+    const inputGroupQr = document.createElement("div");
+    inputGroupQr.classList.add("inputGroup", "inputGroupQr");
+    inputGroupQr.innerHTML = `
+    <label for="deviceCharge">Cargador</label>
+    <input class="inputCheck" type="checkbox" name="deviceCharge" id="deviceCharge" value="charge" checked>
+    <label for="mouseDevice">Mouse</label>
+    <input class="inputCheck" type="checkbox" name="mouseDevice" id="mouseDevice" value="mouse">
+    <label for="allInOneDevice">Todo en Uno</label>
+    <input class="inputCheck" type="checkbox" name="allInOneDevice" id="allInOneDevice" value="allInOne">
+    `;
+    deviceAssocInfo.appendChild(inputGroupQr);
+  } else {
+    const res = await fetch(`${regAmbientesAPI}?idAmbiente=${room.idAmbiente}`);
+    const data = await res.json();
+    const roomAssocUser = document.createElement("p");
+    roomAssocUser.innerHTML = `Vinculada con <strong>${data.instructor}</strong>`;
+    roomAssocInfo.appendChild(roomAssocUser);
+    const roomAssocStart = document.createElement("p");
+    roomAssocStart.classList.add("roomAssocStart");
+    roomAssocStart.innerHTML = `<strong>Inicio:</strong> ${data.inicio}`;
+    roomAssocInfo.appendChild(roomAssocStart);
+  }
+};

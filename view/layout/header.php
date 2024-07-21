@@ -82,11 +82,19 @@ if (!isset($userId)) {
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if ($userIdRole == 1 || $userIdRole == 4) { ?>
+                    <?php if ($userIdRole == 1) { ?>
                         <li class="navLink">
                             <a href="./equipos">
                                 <i class="fa-solid fa-desktop icon"></i>
                                 <span class="text navText">Equipos</span>
+                            </a>
+                        </li>
+                    <?php } ?>
+                    <?php if ($userIdRole == 1) { ?>
+                        <li class="navLink">
+                            <a href="./objetos">
+                                <i class="fa-solid fa-cubes icon"></i>
+                                <span class="text navText">Objetos</span>
                             </a>
                         </li>
                     <?php } ?>

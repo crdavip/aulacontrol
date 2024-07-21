@@ -278,7 +278,9 @@ const cargosAPI = `./controller/cargos`;
 const usuariosAPI = `./controller/usuarios`;
 const fichasAPI = `./controller/fichas`;
 const equiposAPI = `./controller/equipos`;
+const regEquiposAPI = `./controller/registroEquipos`;
 const objetosAPI = `./controller/objetos`;
+const regObjetosAPI = `./controller/registroObjetos`;
 //Fin APIList
 
 //Inicio LoadDataFilters

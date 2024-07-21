@@ -23,19 +23,24 @@
             </div>
             <input type="hidden" name="userIdProfile" id="userIdProfile" value="<?php echo $userId; ?>">
             <div class="inputGroup">
-                <input class="inputGroupInput" type="text" name="userNameProfile" id="userNameProfile" value="<?php echo $userName; ?>" autocomplete="off" required>
+                <input class="inputGroupInput" type="text" name="userNameProfile" id="userNameProfile"
+                    value="<?php echo $userName; ?>" autocomplete="off" required>
                 <label class="inputGroupLabel" for="userNameProfile"><i class="fa-solid fa-user"></i> Nombre</label>
             </div>
             <div class="inputGroup">
-                <input class="inputGroupInput" type="number" name="userDocProfile" id="userDocProfile" value="<?php echo $userDoc; ?>" autocomplete="off" required>
-                <label class="inputGroupLabel" for="userDocProfile"><i class="fa-solid fa-id-card"></i> Documento</label>
+                <input class="inputGroupInput" type="number" name="userDocProfile" id="userDocProfile"
+                    value="<?php echo $userDoc; ?>" autocomplete="off" required>
+                <label class="inputGroupLabel" for="userDocProfile"><i class="fa-solid fa-id-card"></i>
+                    Documento</label>
             </div>
             <div class="inputGroup">
-                <input class="inputGroupInput" type="email" name="userMailProfile" id="userMailProfile" value="<?php echo $userEmail; ?>" autocomplete="off" required>
+                <input class="inputGroupInput" type="email" name="userMailProfile" id="userMailProfile"
+                    value="<?php echo $userEmail; ?>" autocomplete="off" required>
                 <label class="inputGroupLabel" for="userMailProfile"><i class="fa-solid fa-envelope"></i> Correo</label>
             </div>
             <div class="buttonGroup">
-                <button class="btn btnAlt" onclick="openModal('userPassEdit'); closeModal('userProfile');" type="button"><i class="fa-solid fa-arrows-rotate"></i> Cambiar Contraseña</button>
+                <button class="btn btnAlt" onclick="openModal('userPassEdit'); closeModal('userProfile');"
+                    type="button"><i class="fa-solid fa-arrows-rotate"></i> Cambiar Contraseña</button>
             </div>
             <div class="buttonGroup">
                 <button class="btn" type="submit"><i class="fa-solid fa-save"></i> Guardar</button>
@@ -57,19 +62,26 @@
         <form id="userPassEditForm" action="" class="form">
             <input type="hidden" name="userIdPassEdit" id="userIdPassEdit" value="<?php echo $userId; ?>">
             <div class="inputGroup">
-                <input class="inputGroupInput" type="password" name="userOldPass" id="userOldPass" autocomplete="off" required>
-                <label class="inputGroupLabel" for="userOldPass"><i class="fa-solid fa-lock"></i> Contraseña Actual</label>
+                <input class="inputGroupInput" type="password" name="userOldPass" id="userOldPass" autocomplete="off"
+                    required>
+                <label class="inputGroupLabel" for="userOldPass"><i class="fa-solid fa-lock"></i> Contraseña
+                    Actual</label>
                 <a class="showPass" onclick="showPass('userOldPass', this)"><i class="fa-solid fa-eye"></i></i></a>
             </div>
             <div class="inputGroup">
-                <input class="inputGroupInput" type="password" name="userPassProfile" id="userPassProfile" autocomplete="off" required>
-                <label class="inputGroupLabel" for="userPassProfile"><i class="fa-solid fa-lock"></i> Nueva Contraseña</label>
+                <input class="inputGroupInput" type="password" name="userPassProfile" id="userPassProfile"
+                    autocomplete="off" required>
+                <label class="inputGroupLabel" for="userPassProfile"><i class="fa-solid fa-lock"></i> Nueva
+                    Contraseña</label>
                 <a class="showPass" onclick="showPass('userPassProfile', this)"><i class="fa-solid fa-eye"></i></i></a>
             </div>
             <div class="inputGroup">
-                <input class="inputGroupInput" type="password" name="userPassProfileTwo" id="userPassProfileTwo" autocomplete="off" required>
-                <label class="inputGroupLabel" for="userPassProfileTwo"><i class="fa-solid fa-lock"></i> Repetir Contraseña</label>
-                <a class="showPass" onclick="showPass('userPassProfileTwo', this)"><i class="fa-solid fa-eye"></i></i></a>
+                <input class="inputGroupInput" type="password" name="userPassProfileTwo" id="userPassProfileTwo"
+                    autocomplete="off" required>
+                <label class="inputGroupLabel" for="userPassProfileTwo"><i class="fa-solid fa-lock"></i> Repetir
+                    Contraseña</label>
+                <a class="showPass" onclick="showPass('userPassProfileTwo', this)"><i
+                        class="fa-solid fa-eye"></i></i></a>
             </div>
             <div class="buttonGroup">
                 <button class="btn" type="submit"><i class="fa-solid fa-save"></i> Guardar</button>
@@ -98,6 +110,16 @@
         break;
     case 'Equipos':
         echo '<script src="./view/js/equipos.js" type="module"></script>';
+        break;
+    case 'Registro de Equipos':
+        echo '<script src="./view/js/registroEquipos.js" type="module"></script>';
+        break;
+    case 'Objetos':
+        echo '<script src="./view/js/objetos.js" type="module"></script>';
+        break;
+    case 'Registro de Objetos':
+        echo '<script src="./view/js/registroObjetos.js" type="module"></script>';
+        break;
 } ?>
 
 </body>

@@ -1,55 +1,58 @@
-// const numberInputFilter = document.getElementById("numberInputFilter");
-// const centerSelectFilter = document.getElementById("centerSelectFilter");
-// const statusSelectFilter = document.getElementById("statusSelectFilter");
-
-let objectList;
-let roomList;
+const selectCenterObjcet = document.getElementById("centerObject");
 let centersList;
-// const selectListRooms = document.getElementById("idRoom");
-// const selectCenterDevice = document.getElementById("centerDevice");
-// const getDataAmbs = async () => {
-//   const centersList = await getData(centrosAPI);
-//   const roomsList = await getData(ambientesAPI);
+const getDataCenters = async () => {
+  const dataCentros = await getData(centrosAPI);
+  centersList = dataCentros.filter((center) => center.detalle !== 'Porteria');
 
-//   let contentSelectTagCenters = centersList.map((center) => {
-//     return `<option value="${center.idCentro}">${center.detalle}</option>`;
-//   }).join("");
-//   selectCenterDevice.innerHTML = `<option value="">Seleccione un Centro</option>` + contentSelectTagCenters;
-//   updateRoomsDropdown();
-// }
-
-// const updateRoomsDropdown = () => {
-//   const selectedCenter = selectCenterDevice.value;
-//   const filteredRooms = roomsList.filter(room => room.idCentro == selectedCenter);
-//   let contentSelectTagRooms = filteredRooms.map((room) => {
-//     return `<option value="${room.idAmbiente}">${room.numero}</option>`;
-//   }).join("");
-//   selectListRooms.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
-// }
-
-// loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
-// loadSelectFilters(ambientesAPI, "statusSelectFilter", ["estado"]);
+  let contentSelectTagCenters = centersList.map((center) => {
+    return `<option value="${center.idCentro}">${center.detalle}</option>`;
+  }).join("");
+  selectCenterObjcet.innerHTML = `<option value="">Seleccione un Centro</option>` + contentSelectTagCenters;
+}
 
 let objects = [];
 const loadRenderObjects = async () => {
   const data = await getData(objetosAPI);
-  objects = data;
-  renderDevices(objects);
-  // getDataAmbs();
+  const activeObjects = data.filter((object) => object.estado === 'Activo');
+  const inactiveObjects = data.filter((object) => object.estado === 'Inactivo');
+  objects = activeObjects.concat(inactiveObjects);
+  objects = objects.filter((object, index, self) =>
+    index === self.findIndex((o) => o.idObjeto === object.idObjeto)
+  );
+  console.log(objects);
+  renderObjects(objects);
+  getDataCenters();
 }
 
 window.addEventListener("DOMContentLoaded", loadRenderObjects);
-// selectCenterDevice.addEventListener("change", updateRoomsDropdown);
 
-// const updateRenderObjects = async () => {
-//   await loadRenderObjects();
-// };
+const updateRenderObjects = async () => {
+  await loadRenderObjects();
+};
+
+function activeCover(card) {
+  card.classList.add('activeCover');
+}
+
+function inactiveCover(card) {
+  card.classList.remove('activeCover');
+}
 
 const createObjectCard = (objects) => {
   const fragment = document.createDocumentFragment();
   objects.forEach((object) => {
     const cardObject = document.createElement("div");
-    cardObject.classList.add("card");
+    cardObject.classList.add("card", "relative");
+
+    const bkDarkCoverNotClick = document.createElement("div");
+    bkDarkCoverNotClick.classList.add("bkDarkCoverNotClick");
+    cardObject.appendChild(bkDarkCoverNotClick);
+
+    if (object.estado === 'Inactivo') {
+      activeCover(cardObject);
+    } else {
+      inactiveCover(cardObject);
+    }
     const cardBody = document.createElement("div");
     cardBody.classList.add("cardBody", "cardBodyRoom");
     if (userRolView == 1) {
@@ -67,91 +70,62 @@ const createObjectCard = (objects) => {
       cardBody.appendChild(cardObjectMenuItems);
       cardBody.appendChild(cardObjectMenu);
       dropDown(cardObjectMenu, cardObjectMenuItems);
-      // btnAssoc.addEventListener("click", () => {
-      //   deviceAssoc(device);
-      // });
 
       btnEdit.addEventListener("click", () => {
-        // const selectEditCenter = document.getElementById("centerObjectEdit");
-        // const selectEditRoom = document.getElementById("deviceAmbEdit");
-
-        let roomFiltered = roomsList.find((room) => room.numero == device.ambiente);
-        let centerFiltered = centersList.find((center) => center.idCentro === roomFiltered.idCentro);
-
-        let contentSelectTagCenterFiltered = centersList.filter((center) => center.idCentro !== centerFiltered.idCentro);
-        let contentSelectTagCenter = contentSelectTagCenterFiltered.map((center) => {
-          return `<option value="${center.idCentro}">${center.detalle}</option>`;
-        }).join("");
-
-        selectEditCenter.innerHTML = `<option value="${centerFiltered.idCentro}">${centerFiltered.detalle}</option>` + contentSelectTagCenter;
-
-        const selectedCenter = selectEditCenter.value;
-        const filteredRooms = roomsList.filter(room => room.idCentro == selectedCenter && room.numero !== device.ambiente);
-        // const filteredRooms = roomsList.filter(room => room.idCentro == selectedCenter);
-        let contentSelectTagRooms = filteredRooms.map((room) => {
-          return `<option value="${room.idAmbiente}">${room.numero}</option>`;
-        }).join("");
-        console.log(roomFiltered);
-        console.log(contentSelectTagRooms);
-        selectEditRoom.innerHTML = `<option value="${roomFiltered.idAmbiente}">${roomFiltered.numero}</option>${contentSelectTagRooms}`;
 
         loadDataForm({
-          inputs: ["deviceIdEdit", "deviceRefEdit", "deviceBrandEdit", "deviceStateEdit"],
-          inputsValue: [device.idComputador, device.ref, device.marca, device.estado],
-          modal: "editDevice",
+          inputs: ["objectIdEdit", "objectDescriptionEdit", "objectColorEdit", "userObjectEdit"],
+          inputsValue: [object.idObjeto, object.descripcion, object.color, object.documento],
+          modal: "editObject",
         });
       });
-
-      const updateRoomsDropdownEdit = () => {
-        const selectEditCenter = document.getElementById("centerDeviceEdit");
-        const selectEditRoom = document.getElementById("deviceAmbEdit");
-
-        const selectedCenter = selectEditCenter.value;
-        const filteredRooms = roomsList.filter(room => room.idCentro == selectedCenter);
-
-        let contentSelectTagRooms = filteredRooms.map((room) => {
-          return `<option value="${room.idAmbiente}">${room.numero}</option>`;
-        }).join("");
-
-        selectEditRoom.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
-      }
-
-      document.getElementById("centerDeviceEdit").addEventListener("change", updateRoomsDropdownEdit);
 
       btnDelete.addEventListener("click", () => {
         loadDataForm({
-          inputs: ["deviceIdDelete"],
-          inputsValue: [device.idComputador],
-          modal: "deleteDevice",
+          inputs: ["objectIdDelete"],
+          inputsValue: [object.idObjeto],
+          modal: "deleteObject",
         });
       });
     }
-    const cardDeviceNum = document.createElement("div");
-    cardDeviceNum.classList.add("cardDeviceNum");
-    cardDeviceNum.innerHTML = `<h2>${device.ref}</h2>`;
+    const cardObjectNum = document.createElement("div");
+    cardObjectNum.classList.add("cardObjectIcon");
+    cardObjectNum.innerHTML = `<i class="fa-solid fa-cube"></i>`;
+    const btnExitMark = document.createElement("a");
+    btnExitMark.classList.add("btnExitMarkObject");
+    if (object.estado === 'Inactivo') {
+      btnExitMark.classList.add("btnEntranceMarkPosition");
+      btnExitMark.innerHTML = `<i class="fa-solid fa-check"></i>Entrada`;
+    } else {
+      btnExitMark.classList.add("btnExitMarkPosition");
+      btnExitMark.innerHTML = `<i class="fa-solid fa-check"></i>Salida`;
+    }
+    btnExitMark.addEventListener("click", () => {
+      loadDataForm({
+        inputs: object.estado === 'Inactivo' ? ["objectIdEntranceMark", "objectIdEntranceCenter"] : ["objectIdExitMark", "objectIdUser"],
+        inputsValue: object.estado === 'Inactivo' ? [object.idObjeto, object.idUsuario] : [object.idObjeto, object.idCentro],
+        modal: object.estado === 'Inactivo' ? "entranceObjectMark" : "exitObjectMark",
+      });
+    })
     const cardBodyTxt = document.createElement("div");
     cardBodyTxt.classList.add("cardBodyTxt");
-    cardBodyTxt.innerHTML = `<p>${device.estado}</p>
-                            <p>${device.ambiente}</p>
-                            <h3>${device.marca}</h3>`;
-    if (device.estado == "Ocupada") {
-      cardDeviceNum.classList.add("cardDeviceNumAlt");
-      cardBodyTxt.classList.add("cardBodyTxtAlt");
-    }
-    cardBody.appendChild(cardDeviceNum);
+    cardBodyTxt.innerHTML = `<p>${object.descripcion}</p>
+                            <h4>${object.color}</h4>
+                            <h4>${object.estado}</h4>
+                            <h4>Usuario: ${object.documento}</h4>`;
+    cardBody.appendChild(cardObjectNum);
     cardBody.appendChild(cardBodyTxt);
-    cardDevice.appendChild(cardBody);
-    fragment.appendChild(cardDevice);
+    cardBody.appendChild(btnExitMark);
+    cardObject.appendChild(cardBody);
+    fragment.appendChild(cardObject);
   });
   return fragment;
 };
 
-
-
 const row = document.querySelector(".row");
-const renderDevices = async (data) => {
+const renderObjects = async (data) => {
   if (data.length > 0) {
-    const cards = createDeviceCard(data);
+    const cards = createObjectCard(data);
     row.innerHTML = "";
     row.appendChild(cards);
   } else {
@@ -160,31 +134,51 @@ const renderDevices = async (data) => {
 };
 
 sendForm(
-  "createDeviceForm",
-  equiposAPI,
+  "createObjectForm",
+  objetosAPI,
   "POST",
   "messageCreate",
-  updateRenderDevices,
-  "createDevice",
+  updateRenderObjects,
+  "createObject",
   1500
 );
 
 sendForm(
-  "deviceEditForm",
-  equiposAPI,
+  "objectEditForm",
+  objetosAPI,
   "PUT",
   "messageEdit",
-  updateRenderDevices,
-  "editDevice",
+  updateRenderObjects,
+  "editObject",
   1500
 );
 
 sendForm(
-  "deviceDeleteForm",
-  equiposAPI,
+  "objectDeleteForm",
+  objetosAPI,
   "DELETE",
   "messageDelete",
-  updateRenderDevices,
-  "deleteDevice",
+  updateRenderObjects,
+  "deleteObject",
   1500
 );
+
+sendForm(
+  "objectExitMark",
+  regObjetosAPI,
+  "PUT",
+  "messageExitMark",
+  updateRenderObjects,
+  "exitObjectMark",
+  1500
+);
+
+sendForm(
+  "objectEntranceMark",
+  regObjetosAPI,
+  "POST",
+  "messageEntranceMark",
+  updateRenderObjects,
+  "entranceObjectMark",
+  1500
+)
