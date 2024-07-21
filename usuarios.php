@@ -20,6 +20,10 @@ $titlePgRight = '
 include('./view/layout/header.php');
 if ($userIdRole === 1) {
     $titlePgRight .= '
+        <a onclick="" class="btnUi btnUiAlt">
+            <i class="fa-solid fa-file-csv"></i>
+            <p>Importar CSV</p>
+        </a>
         <a onclick="openModal(`userCreate`)" class="btnUi">
             <i class="fa-solid fa-user-plus"></i>
             <p>Nuevo Usuario</p>

@@ -51,8 +51,41 @@ switch ($method) {
         }
         break;
     case 'PUT':
+        if (isset($data['userIdEdit']) && isset($data['nameUserEdit']) && isset($data['docUserEdit'])) {
+            $idUser = $data['userIdEdit'];
+            $nameUser = $data['nameUserEdit'];
+            $docUser = $data['docUserEdit'];
+            $rolUser = $data['rolUserEdit'];
+            $centerUser = $data['centerUserEdit'];
+            if ($functions->checkNotEmpty([$nameUser, $docUser, $rolUser, $centerUser])) {
+                $icon = $functions->getIcon('Err');
+                echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+                exit();
+            } else {
+                $users->editUsers($idUser, $docUser, $rolUser);
+                $userDetails->editUsersDetails($nameUser, $centerUser, $idUser);
+                exit();
+            }
+        }
         break;
     case 'DELETE':
+        if (isset($data['userIdDelete'])) {
+            $idUser = $data['userIdDelete'];
+            if ($functions->checkNotEmpty([$idUser])) {
+                $icon = $functions->getIcon('Err');
+                echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+                exit();
+            } else {
+                $userImg = $functions->getValue("usuario_detalle", "imagen", "idUsuario", $idUser);
+                $userImgQr = $functions->getValue("usuario_detalle", "imagenQr", "idUsuario", $idUser);
+                $users->deleteUsers($idUser);
+                $userDetails->deleteUsersDetails($idUser);
+                if ($userImg !== "./view/img/users/default.jpg") {
+                    unlink("." . $userImg);
+                }
+                unlink("." . $userImgQr);
+                exit();
+            }
+        }
         break;
 }
-
