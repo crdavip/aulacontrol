@@ -102,7 +102,7 @@ const filterUsers = () => {
   let newUsers = users;
   console.log(newUsers);
   if (center !== "all") {
-    newUsers = newUsers.filter((user) => user.centro == center);
+    newUsers = newUsers.filter((user) => user.siglas == center);
   }
   if (role !== "all") {
     newUsers = newUsers.filter((user) => user.cargo == role);
