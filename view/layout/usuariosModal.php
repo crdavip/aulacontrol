@@ -16,6 +16,10 @@
                 <label class="inputGroupLabel" for="docUser"><i class="fa-solid fa-id-card"></i> Documento</label>
             </div>
             <div class="inputGroup">
+                <input class="inputGroupInput" type="mail" name="mailUser" id="mailUser" autocomplete="off" required>
+                <label class="inputGroupLabel" for="mailUser"><i class="fa-solid fa-envelope"></i> Correo</label>
+            </div>
+            <div class="inputGroup">
                 <input class="inputGroupInput" type="password" name="passUser" id="passUser" autocomplete="off" required>
                 <label class="inputGroupLabel" for="passUser" id="labelPass"><i class="fa-solid fa-lock"></i> Contraseña</label>
                 <a class="showPass" onclick="showPass('passUser', this)"><i class="fa-solid fa-eye"></i></a>
@@ -65,6 +69,10 @@
                 <label class="inputGroupLabel" for="docUserEdit"><i class="fa-solid fa-id-card"></i> Documento</label>
             </div>
             <div class="inputGroup">
+                <input class="inputGroupInput" type="mail" name="mailUserEdit" id="mailUserEdit" autocomplete="off" required>
+                <label class="inputGroupLabel" for="mailUserEdit"><i class="fa-solid fa-envelope"></i> Correo</label>
+            </div>
+            <div class="inputGroup">
                 <label class="inputGroupLabel" for="rolUserEdit"><i class="fa-solid fa-briefcase"></i></label>
                 <select class="inputGroupSelect" name="rolUserEdit" id="rolUserEdit" required>
                     <option value="">Seleccione un Cargo</option>
@@ -101,5 +109,25 @@
             </div>
         </form>
         <p id="messageDelete" class="message"></p>
+    </div>
+</section>
+
+<!-- Modal Import -->
+<section class="modal" id="userImport">
+    <div class="containerModal">
+        <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
+        <div class="titlePg">
+            <i class="fa-solid fa-file-csv"></i>
+            <h1>Importar Usuarios</h1>
+        </div>
+        <form id="userImportForm" action="" class="form" enctype="multipart/form-data">
+            <p class="modalTxt">Recuerde usar la plantilla recomendada para importar usuarios.</p>
+            <a href="./view/docs/plantillaUsuarios.csv" class="modalLink"><i class="fa-solid fa-download"></i> Descargar Plantilla</a>
+            <input  type="file" name="dataUsers" id="dataUsers" accept="text/csv"/>
+            <div class="buttonGroup">
+                <button id="uploadDataUsers" class="btn" type="submit"><i class="fa-solid fa-file-arrow-up"></i> Cargar</button>
+            </div>
+        </form>
+        <p id="messageImport" class="message"></p>
     </div>
 </section>

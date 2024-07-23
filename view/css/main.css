@@ -711,6 +711,15 @@ a {
   font-weight: 300;
 }
 
+.modalLink {
+  text-align: center;
+  color: var(--primario);
+
+  &:hover {
+    color: var(--terciario);
+  }
+}
+
 .closeModal {
   width: 35px;
   height: 35px;

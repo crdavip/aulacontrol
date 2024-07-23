@@ -42,8 +42,8 @@ const createUserCard = (users) => {
       dropDown(cardRoomMenu, cardRoomMenuItems);
       btnEdit.addEventListener("click", () => {
         loadDataForm({
-          inputs: ["userIdEdit", "nameUserEdit", "docUserEdit", "rolUserEdit", "centerUserEdit"],
-          inputsValue: [user.idUsuario, user.nombre, user.documento, user.idCargo, user.idCentro],
+          inputs: ["userIdEdit", "nameUserEdit", "docUserEdit", "mailUserEdit", "rolUserEdit", "centerUserEdit"],
+          inputsValue: [user.idUsuario, user.nombre, user.documento, user.correo, user.idCargo, user.idCentro],
           modal: "userEdit",
         });
       });
@@ -152,3 +152,21 @@ sendForm(
   "userDelete",
   1500
 );
+
+  const userImportForm = document.getElementById("userImportForm");
+  userImportForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(userImportForm);
+    const res = await fetch(importUsuariosAPI, {
+      method: "POST",
+      body: formData,
+    });
+    const data = await res.json();
+    if (data.success == true) {
+      updateRenderUsers();
+      userImportForm.reset();
+      showMessage("messageImport", "messageOK", data.message, "userImport", 1500);
+    } else {
+      showMessage("messageImport", "messageErr", data.message, "", 1500);
+    }
+  });
