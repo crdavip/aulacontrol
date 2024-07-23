@@ -276,6 +276,7 @@ const regAmbientesAPI = `./controller/registroAmbientes`;
 const centrosAPI = `./controller/centros`;
 const cargosAPI = `./controller/cargos`;
 const usuariosAPI = `./controller/usuarios`;
+const importUsuariosAPI = `./controller/importarUsuarios`;
 const fichasAPI = `./controller/fichas`;
 const equiposAPI = `./controller/equipos`;
 const regEquiposAPI = `./controller/registroEquipos`;

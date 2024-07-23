@@ -25,11 +25,12 @@ switch ($method) {
         if (isset($data['nameUser']) && isset($data['docUser']) && isset($data['passUser']) && isset($data['rolUser']) && isset($data['centerUser'])) {
             $nameUser = $data['nameUser'];
             $docUser = $data['docUser'];
+            $mailUser = $data['mailUser'];
             $passUser = $data['passUser'];
             $pass2User = $data['pass2User'];
             $rolUser = $data['rolUser'];
             $centerUser = $data['centerUser'];
-            if ($functions->checkNotEmpty([$nameUser, $docUser, $passUser, $pass2User, $rolUser, $centerUser])) {
+            if ($functions->checkNotEmpty([$nameUser, $docUser, $mailUser, $passUser, $pass2User, $rolUser, $centerUser])) {
                 $icon = $functions->getIcon('Err');
                 echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
                 exit();
@@ -45,7 +46,14 @@ switch ($method) {
                 $qr = new QRgenerator($docUser, "user");
                 $qr->createQR();
                 $userQr = "./view/img/users/qr-$docUser.png";
-                $userDetails->createUsersDetails($nameUser, $userQr, $centerUser, intval($ultimaId));
+                $userDetails->createUsersDetails($nameUser, $mailUser, $userQr, $centerUser, intval($ultimaId));
+                if ($_SESSION['success']) {
+                    $icon = $functions->getIcon('OK');
+                    echo json_encode(['success' => true, 'message' => "$icon ¡Usuario Creado Exitosamente!"]);
+                } else {
+                    $icon = $functions->getIcon('Err');
+                    echo json_encode(['success' => false, 'message' => "$icon Error al crear el usuario"]);
+                }
                 exit();
             }
         }
@@ -54,16 +62,24 @@ switch ($method) {
         if (isset($data['userIdEdit']) && isset($data['nameUserEdit']) && isset($data['docUserEdit'])) {
             $idUser = $data['userIdEdit'];
             $nameUser = $data['nameUserEdit'];
+            $mailUser = $data['mailUserEdit'];
             $docUser = $data['docUserEdit'];
             $rolUser = $data['rolUserEdit'];
             $centerUser = $data['centerUserEdit'];
-            if ($functions->checkNotEmpty([$nameUser, $docUser, $rolUser, $centerUser])) {
+            if ($functions->checkNotEmpty([$nameUser, $$mailUser, $docUser, $rolUser, $centerUser])) {
                 $icon = $functions->getIcon('Err');
                 echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
                 exit();
             } else {
                 $users->editUsers($idUser, $docUser, $rolUser);
-                $userDetails->editUsersDetails($nameUser, $centerUser, $idUser);
+                $userDetails->editUsersDetails($nameUser, $mailUser, $centerUser, $idUser);
+                if ($_SESSION['success']) {
+                    $icon = $functions->getIcon('OK');
+                    echo json_encode(['success' => true, 'message' => "$icon ¡Usuario Editado Exitosamente!"]);
+                } else {
+                    $icon = $functions->getIcon('Err');
+                    echo json_encode(['success' => false, 'message' => "$icon Error al editar el usuario"]);
+                }
                 exit();
             }
         }
