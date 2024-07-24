@@ -1,5 +1,5 @@
 <?php
-require '../model/ExportExcel.php';
+require_once '../model/ExportExcel.php';
 require_once '../model/ExportPDF.php';
 require_once '../model/registroAmbientes.php';
 

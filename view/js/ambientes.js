@@ -3,7 +3,7 @@ const centerSelectFilter = document.getElementById("centerSelectFilter");
 const statusSelectFilter = document.getElementById("statusSelectFilter");
 
 loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
-loadSelectFilters(ambientesAPI, "statusSelectFilter", ["estado"]);
+// loadSelectFilters(ambientesAPI, "statusSelectFilter", ["estado"]);
 
 let rooms = [];
 let onlyRooms = [];
