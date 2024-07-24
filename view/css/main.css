@@ -711,6 +711,11 @@ a {
   font-weight: 300;
 }
 
+.containerLinks {
+  display: flex;
+  justify-content: space-between;
+}
+
 .modalLink {
   text-align: center;
   color: var(--primario);
