@@ -87,3 +87,65 @@
         <p id="messageRoomAssoc" class="message"></p>
     </div>
 </section>
+
+<!-- Modal Export PDF -->
+<section class="modal" id="roomExportPdf">
+    <div class="containerModal">
+        <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
+        <div class="titlePg">
+            <i class="fa-solid fa-kaaba"></i>
+            <h1>Exportar Registros PDF</h1>
+        </div>
+        <form id="roomExportFormPdf" action="" class="form">
+            <div class="inputGroup">
+                <label><i class="fa-regular fa-calendar"></i> Desde</label>
+                <input class="inputGroupInput" type="date" name="startDate" id="startDatePdf" autocomplete="off" required>
+            </div>
+            <div class="inputGroup">
+                <label><i class="fa-regular fa-calendar"></i> Hasta</label>
+                <input class="inputGroupInput" type="date" name="endDate" id="endDatePdf" autocomplete="off" required>
+            </div>
+            <div class="inputGroup">
+                <label class="inputGroupLabel" for="selectedRoom"><i class="bi bi-door-open"></i></label>
+                <select class="inputGroupSelect" name="selectedRoom" id="selectedRoomPdf" required>
+                </select>
+            </div>
+            <div class="buttonGroup">
+                <button class="btn" type="submit"><i class="fa-solid fa-square-plus"></i> Crear</button>
+                <button class="btn btnAlt" type="reset"><i class="fa-solid fa-eraser"></i> Limpiar</button>
+            </div>
+        </form>
+        <p id="messageRoomExport" class="message"></p>
+    </div>
+</section>
+
+<!-- Modal Export Excel -->
+<section class="modal" id="roomExportExcel">
+    <div class="containerModal">
+        <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
+        <div class="titlePg">
+            <i class="fa-solid fa-kaaba"></i>
+            <h1>Exportar Registros Excel</h1>
+        </div>
+        <form id="roomExportFormExcel" action="" class="form">
+            <div class="inputGroup">
+                <label><i class="fa-regular fa-calendar"></i> Desde</label>
+                <input class="inputGroupInput" type="date" name="startDate" id="startDateExcel" autocomplete="off" required>
+            </div>
+            <div class="inputGroup">
+                <label><i class="fa-regular fa-calendar"></i> Hasta</label>
+                <input class="inputGroupInput" type="date" name="endDate" id="endDateExcel" autocomplete="off" required>
+            </div>
+            <div class="inputGroup">
+                <label class="inputGroupLabel" for="selectedRoom"><i class="bi bi-door-open"></i></label>
+                <select class="inputGroupSelect" name="selectedRoom" id="selectedRoomExcel" required>
+                </select>
+            </div>
+            <div class="buttonGroup">
+                <button class="btn" type="submit"><i class="fa-solid fa-square-plus"></i> Crear</button>
+                <button class="btn btnAlt" type="reset"><i class="fa-solid fa-eraser"></i> Limpiar</button>
+            </div>
+        </form>
+        <p id="messageRoomExport" class="message"></p>
+    </div>
+</section>
