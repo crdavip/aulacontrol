@@ -4,7 +4,7 @@ spl_autoload_register(function ($class) {
   $phpSpreadsheetBaseDir = __DIR__ . '/plugins/PhpSpreadsheet/src/PhpSpreadsheet/';
 
   // Base directory for Psr namespace prefix
-  $psrBaseDir = __DIR__ . '/plugins/SimpleCache/src/';
+  $psrBaseDir = __DIR__ . '/plugins/simple-cache/src/';
 
   // Base directory for ZipStream namespace prefix
   $zipStreamBaseDir = __DIR__ . '/plugins/ZipStream/src/';

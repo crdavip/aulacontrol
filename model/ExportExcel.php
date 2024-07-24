@@ -8,7 +8,6 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Font;
 use PhpOffice\PhpSpreadsheet\Style\Border;
-use PhpOffice\PhpSpreadsheet\Style\Borders;
 
 class ExcelExporter
 {
@@ -23,9 +22,9 @@ class ExcelExporter
 
     public function setHeaders($headers)
     {
-        $col = 'A';
+        $col = 'B';
         foreach ($headers as $header) {
-            $this->sheet->setCellValue($col . '1', $header);
+            $this->sheet->setCellValue($col . '3', $header);
             $col++;
         }
         $this->setHeaderStyles();
@@ -33,19 +32,20 @@ class ExcelExporter
 
     public function addData($data)
     {
-      $rowNum = 2;
-      foreach ($data as $row) {
-          $col = 'A';
-          foreach ($row as $cell) {
-              $cellCoordinate = $col . $rowNum;
-              $this->sheet->setCellValue($cellCoordinate, $cell);
-              $this->sheet->getStyle($cellCoordinate)->applyFromArray($this->getDataCellStyle());
-              $col++;
-          }
-          $rowNum++;
-      }
-      $this->setAutoColumnWidths();
-      $this->setTableBorders('A1', $this->sheet->getHighestColumn(), $rowNum - 1);
+        $rowNum = 4;
+        foreach ($data as $row) {
+            $col = 'B';
+            foreach ($row as $cell) {
+                $cellCoordinate = $col . $rowNum;
+                $this->sheet->setCellValue($cellCoordinate, $cell);
+                $this->sheet->getStyle($cellCoordinate)->applyFromArray($this->getDataCellStyle());
+                $col++;
+            }
+            $rowNum++;
+        }
+        $this->setAutoColumnWidths();
+        // Ajusta el rango para los bordes a partir de B3 hasta el final de los datos
+        $this->setTableBorders('B3', $this->sheet->getHighestColumn(), $rowNum - 1);
     }
 
     private function setHeaderStyles()
@@ -58,7 +58,7 @@ class ExcelExporter
             ],
             'fill' => [
                 'fillType' => Fill::FILL_SOLID,
-                'color' => ['argb' => 'FF4F81BD'],
+                'color' => ['argb' => '0FC500'], // Verde
             ],
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -68,7 +68,7 @@ class ExcelExporter
         ];
 
         $highestColumn = $this->sheet->getHighestColumn();
-        $this->sheet->getStyle('A1:' . $highestColumn . '1')->applyFromArray($headerStyle);
+        $this->sheet->getStyle('B3:' . $highestColumn . '3')->applyFromArray($headerStyle);
     }
 
     private function getDataCellStyle()
