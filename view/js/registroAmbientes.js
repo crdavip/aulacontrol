@@ -9,8 +9,6 @@ const tableBody = document.getElementById("tableBody");
 const roomPdf = document.getElementById("selectedRoomPdf");
 const roomExcel = document.getElementById("selectedRoomExcel");
 
-// let roomsList;
-
 const getDataAmbs = async () => {
   const dataAmbientes = await getData(ambientesAPI);
   let roomsList = await dataAmbientes;

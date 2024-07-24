@@ -115,6 +115,18 @@ class ExportPDF
                     'Responsable' => 40,
                 ];
                 break;
+                case "Reporte Registros de Equipos":
+                    $defaultWidths = [
+                        'Registro' => 20,
+                        'Inicio' => 26,
+                        'Fin' => 26,
+                        'Ambiente' => 19,
+                        'Referencia' => 22,
+                        'Marca' => 16,
+                        'Usuario' => 30,
+                        'Documento' => 27,
+                    ];
+                    break;
             case "Reporte Usuarios":
                 $defaultWidths = [
                     'Documento' => 32,

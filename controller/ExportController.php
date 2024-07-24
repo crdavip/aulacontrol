@@ -3,6 +3,7 @@ require_once '../model/ExportExcel.php';
 require_once '../model/ExportPDF.php';
 require_once '../model/registroAmbientes.php';
 require_once '../model/usuarios.php';
+require_once '../model/registroEquipos.php';
 
 class ExportController
 {
@@ -56,8 +57,7 @@ class ExportController
             case 'registroAmbientes':
                 return new RegistroAmbientes();
             case 'registroEquipos':
-                // return new RegistroEquipos();
-                break;
+                return new RegistroEquipos();
             default:
                 return null;
         }
@@ -84,6 +84,25 @@ class ExportController
                     ];
                 }
                 break;
+                case "registroEquipos":
+                    $roomNumber = $this->results[0]['numero'];
+                    $this->title = "Reporte Registros de Equipos";
+                    $this->subtitle = "Reporte Equipos del Ambiente $roomNumber";
+    
+                    $this->headers = ['Registro', 'Inicio', 'Fin', 'Ambiente', 'Referencia', 'Marca', 'Usuario', 'Documento'];
+                    foreach ($this->results as $row) {
+                        $this->data[] = [
+                            $row['idRegistro'],
+                            $row['inicio'],
+                            $row['fin'],
+                            $row['numero'],
+                            $row['ref'],
+                            $row['marca'],
+                            $row['usuario'],
+                            $row['documento']
+                        ];
+                    }
+                    break;
             case "usuarios":
                 $this->title = "Reporte Usuarios";
                 $this->subtitle = "Registro de Usuarios";

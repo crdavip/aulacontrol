@@ -6,6 +6,8 @@ const selectPgLimit = document.getElementById("selectPgLimit");
 const pgNextBtn = document.getElementById("pgNext");
 const pgPrevBtn = document.getElementById("pgPrev");
 const tableBody = document.getElementById("tableBody");
+const roomPdf = document.getElementById("selectedRoomPdf");
+const roomExcel = document.getElementById("selectedRoomExcel");
 
 // loadSelectFilters(centrosAPI, "centerSelectFilter", ["detalle"]);
 
@@ -17,6 +19,18 @@ let pages = Math.ceil(dataHistory.length / pgLimit);
 let pgActive = 1;
 
 let history = dataHistory.slice(pgFrom, pgLimit);
+
+const getDataAmbs = async () => {
+  const dataAmbientes = await getData(ambientesAPI);
+  let roomsList = await dataAmbientes;
+
+  let contentSelectTagRooms = roomsList.map((room) => {
+    return `<option value="${room.idAmbiente}">${room.numero}</option>`;
+  }).join("");
+
+  roomPdf.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
+  roomExcel.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
+}
 
 const formatDate = (data) => {
   const date = new Date(data);
@@ -56,6 +70,7 @@ const renderHistory = (history) => {
   if (history.length > 0) {
     tableBody.innerHTML = "";
     getHistory(history);
+    getDataAmbs();
   } else {
     tableBody.innerHTML = "No hay resultados para mostrar";
   }
@@ -151,7 +166,7 @@ const filterHistory = async () => {
   }
   pagination(dataHistory);
 };
-centerSelectFilter.addEventListener("change", filterHistory);
+// centerSelectFilter.addEventListener("change", filterHistory);
 numberInputFilter.addEventListener("keyup", filterHistory);
 dateInputFilter.addEventListener("change", filterHistory);
 
@@ -159,3 +174,13 @@ selectPgLimit.addEventListener("change", () => {
   pgLimit = parseInt(selectPgLimit.value);
   pagination(dataHistory);
 });
+
+ExportFormExcel(
+  "regDeviceExportFormExcel",
+  regEquiposAPI,
+);
+
+ExportFormPdf(
+  "regDeviceExportFormPdf",
+  regEquiposAPI,
+)
