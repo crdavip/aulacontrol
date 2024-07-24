@@ -99,15 +99,15 @@
         <form id="roomExportFormPdf" action="" class="form">
             <div class="inputGroup">
                 <label><i class="fa-regular fa-calendar"></i> Desde</label>
-                <input class="inputGroupInput" type="date" name="startDate" id="startDatePdf" autocomplete="off" required>
+                <input class="inputGroupInput" type="date" name="startDatePdf" id="startDatePdf" autocomplete="off" required>
             </div>
             <div class="inputGroup">
                 <label><i class="fa-regular fa-calendar"></i> Hasta</label>
-                <input class="inputGroupInput" type="date" name="endDate" id="endDatePdf" autocomplete="off" required>
+                <input class="inputGroupInput" type="date" name="endDatePdf" id="endDatePdf" autocomplete="off" required>
             </div>
             <div class="inputGroup">
-                <label class="inputGroupLabel" for="selectedRoom"><i class="bi bi-door-open"></i></label>
-                <select class="inputGroupSelect" name="selectedRoom" id="selectedRoomPdf" required>
+                <label class="inputGroupLabel" for="selectedRoomPdf"><i class="bi bi-door-open"></i></label>
+                <select class="inputGroupSelect" name="selectedRoomPdf" id="selectedRoomPdf" required>
                 </select>
             </div>
             <div class="buttonGroup">
@@ -130,15 +130,15 @@
         <form id="roomExportFormExcel" action="" class="form">
             <div class="inputGroup">
                 <label><i class="fa-regular fa-calendar"></i> Desde</label>
-                <input class="inputGroupInput" type="date" name="startDate" id="startDateExcel" autocomplete="off" required>
+                <input class="inputGroupInput" type="date" name="startDateExcel" id="startDateExcel" autocomplete="off" required>
             </div>
             <div class="inputGroup">
                 <label><i class="fa-regular fa-calendar"></i> Hasta</label>
-                <input class="inputGroupInput" type="date" name="endDate" id="endDateExcel" autocomplete="off" required>
+                <input class="inputGroupInput" type="date" name="endDateExcel" id="endDateExcel" autocomplete="off" required>
             </div>
             <div class="inputGroup">
-                <label class="inputGroupLabel" for="selectedRoom"><i class="bi bi-door-open"></i></label>
-                <select class="inputGroupSelect" name="selectedRoom" id="selectedRoomExcel" required>
+                <label class="inputGroupLabel" for="selectedRoomExcel"><i class="bi bi-door-open"></i></label>
+                <select class="inputGroupSelect" name="selectedRoomExcel" id="selectedRoomExcel" required>
                 </select>
             </div>
             <div class="buttonGroup">

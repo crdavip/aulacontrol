@@ -1,7 +1,7 @@
 <?php
-require_once('../model/sessions.php');
-require_once('./funciones.php');
-require_once('../model/ambientes.php');
+require_once ('../model/sessions.php');
+require_once ('./funciones.php');
+require_once ('../model/ambientes.php');
 
 $rooms = new Ambientes();
 $functions = new Funciones();
@@ -11,31 +11,11 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 switch ($method) {
     case 'GET':
-        if (isset($_GET['startDateExcel']) && isset($_GET['endDateExcel']) && isset($_GET['selectedRoom'])) {
-            $idRoom = $_GET['selectedRoom'];
-            $format = "excel";
-            $startDate = $_GET['startDateExcel'];
-            $endDate = $_GET['endDateExcel'];
-
-            if ($functions->checkNotEmpty([$idRoom, $startDate, $endDate])) {
-                $icon = $functions->getIcon('Err');
-                echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
-            } else {
-                $exportController->export($startDate, $endDate, $idRoom, $format, "registroAmbientes");
-            }
-
-        } elseif (isset($_GET['startDatePdf']) && isset($_GET['endDatePdf']) && isset($_GET['selectedRoom'])) {
-            $idRoom = $_GET['selectedRoom'];
-            $format = "pdf";
-            $startDate = $_GET['startDatePdf'];
-            $endDate = $_GET['endDatePdf'];
-
-            if ($functions->checkNotEmpty([$idRoom, $startDate, $endDate])) {
-                $icon = $functions->getIcon('Err');
-                echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
-            } else {
-                $exportController->export($startDate, $endDate, $idRoom, $format, "registroAmbientes");
-            }
+        if (isset($_GET['columns'])) {
+            $columns = json_decode($_GET['columns']);
+            echo json_encode($functions->getColumns('ambiente', $columns), JSON_UNESCAPED_UNICODE);
+        } else {
+            $rooms->getRooms();
         }
         break;
     case 'POST':
