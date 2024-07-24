@@ -121,8 +121,11 @@
             <h1>Importar Usuarios</h1>
         </div>
         <form id="userImportForm" action="" class="form" enctype="multipart/form-data">
-            <p class="modalTxt">Recuerde usar la plantilla recomendada para importar usuarios.</p>
-            <a href="./view/docs/plantillaUsuarios.csv" class="modalLink"><i class="fa-solid fa-download"></i> Descargar Plantilla</a>
+            <p class="modalTxt">Recuerde revisar la guía y usar la plantilla recomendada para importar usuarios.</p>
+            <div class="containerLinks">
+                <a href="./view/docs/guiaUsuarios.pdf" target="_blank" class="modalLink"><i class="fa-solid fa-book"></i> Ver Guía</a>
+                <a href="./view/docs/plantillaUsuarios.csv" class="modalLink"><i class="fa-solid fa-download"></i> Descargar Plantilla</a>
+            </div>
             <input  type="file" name="dataUsers" id="dataUsers" accept="text/csv"/>
             <div class="buttonGroup">
                 <button id="uploadDataUsers" class="btn" type="submit"><i class="fa-solid fa-file-arrow-up"></i> Cargar</button>
