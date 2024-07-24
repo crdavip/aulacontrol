@@ -1,6 +1,6 @@
 <?php
-require '../model/ExcelExporter.php';
-require_once '../model/PDFClass.php';
+require '../model/ExportExcel.php';
+require_once '../model/ExportPDF.php';
 require_once '../model/registroAmbientes.php';
 
 class ExportController
@@ -78,7 +78,7 @@ class ExportController
     private function validateFormat($format)
     {
         if ($format === "pdf") {
-            $pdfInstance = new PDFClass($this->title, "Desconocido", '../view/img/logoSena.png', 26);
+            $pdfInstance = new ExportPDF($this->title, "Desconocido", '../view/img/logoSena.png', 26);
             $pdfInstance->addPage();
             $pdfInstance->logo();
             $pdfInstance->setFont('helvetica', 'B', 12);

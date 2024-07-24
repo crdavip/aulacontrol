@@ -1,7 +1,7 @@
 <?php
 require_once '../plugins/tcpdf/tcpdf.php';
 
-class PDFClass
+class ExportPDF
 {
     private $pdf;
     private $reportFrom;

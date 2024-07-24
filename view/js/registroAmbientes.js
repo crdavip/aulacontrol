@@ -7,9 +7,7 @@ const pgNextBtn = document.getElementById("pgNext");
 const pgPrevBtn = document.getElementById("pgPrev");
 const tableBody = document.getElementById("tableBody");
 
-
-
-loadSelectFilters(centrosAPI, "centerSelectFilter", ["detalle"]);
+// loadSelectFilters(centrosAPI, "centerSelectFilter", ["detalle"]);
 
 let dataHistory = await getDataHistory(regAmbientesAPI);
 

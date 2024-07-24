@@ -1,5 +1,6 @@
 <?php
 require '../autoload.php';
+require '../plugins/PhpSpreadsheet/src/PhpSpreadsheet/Spreadsheet.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
