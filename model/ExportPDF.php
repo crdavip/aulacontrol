@@ -51,43 +51,43 @@ class ExportPDF
     }
 
     public function addTable($header, $data)
-{
-    // Colors, line width and bold font
-    $this->pdf->SetFillColor(22, 181, 54);
-    $this->pdf->SetTextColor(255);
-    $this->pdf->SetDrawColor(128, 0, 0);
-    $this->pdf->SetLineWidth(0.3);
-    $this->pdf->SetFont('helvetica', 'B', 10.5);
+    {
+        // Colors, line width and bold font
+        $this->pdf->SetFillColor(22, 181, 54);
+        $this->pdf->SetTextColor(255);
+        $this->pdf->SetDrawColor(128, 0, 0);
+        $this->pdf->SetLineWidth(0.3);
+        $this->pdf->SetFont('helvetica', 'B', 10.5);
 
-    // Get column widths based on report type
-    $columnWidths = $this->getColumnWidths($header);
+        // Get column widths based on report type
+        $columnWidths = $this->getColumnWidths($header);
 
-    // Header
-    foreach ($header as $col) {
-        $this->pdf->MultiCell($columnWidths[$col], 7, $col, 1, 'C', 1, 0, '', '', true);
-    }
-    $this->pdf->Ln();
-
-    // Color and font restoration
-    $this->pdf->SetFillColor(224, 235, 255);
-    $this->pdf->SetTextColor(0);
-    $this->pdf->SetFont('helvetica', '', 9);
-
-    // Data
-    $fill = 0;
-    foreach ($data as $row) {
+        // Header
         foreach ($header as $col) {
-            $this->pdf->MultiCell($columnWidths[$col], 6, $row[array_search($col, $header)], 'LR', 'C', $fill, 0, '', '', true);
+            $this->pdf->MultiCell($columnWidths[$col], 7, $col, 1, 'C', 1, 0, '', '', true);
         }
         $this->pdf->Ln();
-        $fill = !$fill;
-    }
 
-    // Closing line
-    foreach ($header as $col) {
-        $this->pdf->Cell($columnWidths[$col], 0, '', 'T');
+        // Color and font restoration
+        $this->pdf->SetFillColor(224, 235, 255);
+        $this->pdf->SetTextColor(0);
+        $this->pdf->SetFont('helvetica', '', 9);
+
+        // Data
+        $fill = 0;
+        foreach ($data as $row) {
+            foreach ($header as $col) {
+                $this->pdf->MultiCell($columnWidths[$col], 6, $row[array_search($col, $header)], 'LR', 'C', $fill, 0, '', '', true, 0, false, true, 6, 'M', true);
+            }
+            $this->pdf->Ln();
+            $fill = !$fill;
+        }
+
+        // Closing line
+        foreach ($header as $col) {
+            $this->pdf->Cell($columnWidths[$col], 0, '', 'T');
+        }
     }
-}
 
     private function getColumnWidths($header)
     {
@@ -113,6 +113,15 @@ class ExportPDF
                     'Fecha' => 25,
                     'Estado' => 20,
                     'Responsable' => 40,
+                ];
+                break;
+            case "Reporte Usuarios":
+                $defaultWidths = [
+                    'Documento' => 32,
+                    'Nombre' => 40,
+                    'Estado' => 22,
+                    'Correo' => 44,
+                    'Cargo' => 28,
                 ];
                 break;
             default:

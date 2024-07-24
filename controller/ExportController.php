@@ -2,6 +2,7 @@
 require_once '../model/ExportExcel.php';
 require_once '../model/ExportPDF.php';
 require_once '../model/registroAmbientes.php';
+require_once '../model/usuarios.php';
 
 class ExportController
 {
@@ -11,19 +12,18 @@ class ExportController
     private $title;
     private $subtitle;
 
-    // Función que recibe los parámetros necesarios para imprimir Excel o PDF de cualquier tipo de registro
     public function export($startDate, $endDate, $selectedItem, $format, $report)
     {
         $startDatetime = "$startDate 00:00:00";
         $endDatetime = "$endDate 23:59:59";
-        $classInstance = $this->classSelector($report);
 
-        if (!$classInstance) {
+        if (!$report) {
             header('Location: ../index.php');
             exit;
+        } else {
+            $classInstance = $this->classSelector($report);
+            $this->results = $classInstance->getGroupOfHistory($selectedItem, $startDatetime, $endDatetime);
         }
-
-        $this->results = $classInstance->getGroupOfHistory($selectedItem, $startDatetime, $endDatetime);
 
         if ($this->results == null) {
             header('Location: ../not-found.php');
@@ -32,6 +32,22 @@ class ExportController
             $this->prepareReportData($report);
             $this->validateFormat($format);
         }
+    }
+
+    public function simpleExport($reportType, $report)
+    {
+        switch ($report) {
+            case 'usuarios':
+                $classInstance = new Usuarios();
+                $this->results = $classInstance->getUsersExport();
+                break;
+            default:
+                $classInstance = null;
+                break;
+        }
+
+        $this->prepareReportData($report);
+        $this->validateFormat($reportType);
     }
 
     private function classSelector($reportType)
@@ -68,7 +84,21 @@ class ExportController
                     ];
                 }
                 break;
+            case "usuarios":
+                $this->title = "Reporte Usuarios";
+                $this->subtitle = "Registro de Usuarios";
 
+                $this->headers = ['Documento', 'Nombre', 'Estado', 'Correo', 'Cargo'];
+                foreach ($this->results as $row) {
+                    $this->data[] = [
+                        $row['documento'],
+                        $row['nombre'],
+                        $row['estado'],
+                        $row['correo'],
+                        $row['cargo']
+                    ];
+                }
+                break;
             default:
                 header('Location: ../index.php');
                 exit;

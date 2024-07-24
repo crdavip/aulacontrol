@@ -5,6 +5,7 @@ const roleSelectFilter = document.getElementById("roleSelectFilter");
 loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
 loadSelectFilters(cargosAPI, "roleSelectFilter", ["detalle"]);
 
+
 let users = [];
 const loadRenderUsers = async () => {
   const data = await getData(usuariosAPI);
@@ -170,3 +171,36 @@ sendForm(
       showMessage("messageImport", "messageErr", data.message, "", 1500);
     }
   });
+
+  // Logica de Exportación
+  // Función para exportar a PDF
+const exportToPdf = async (urlAPI) => {
+  const params = new URLSearchParams({ format: 'pdf' }).toString();
+  const url = `${urlAPI}?${params}`;
+  window.open(url, '_blank');
+};
+
+// Función para exportar a Excel
+const exportToExcel = async (urlAPI) => {
+  const params = new URLSearchParams({ format: 'excel' }).toString();
+  const url = `${urlAPI}?${params}`;
+
+  const response = await fetch(url);
+  const blob = await response.blob();
+
+  const link = document.createElement('a');
+  link.href = window.URL.createObjectURL(blob);
+  link.download = 'reporte.xlsx';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+// Asignar eventos a los botones
+document.getElementById('btnExportPdf').addEventListener('click', () => {
+  exportToPdf(usuariosAPI);
+});
+
+document.getElementById('btnExportExcel').addEventListener('click', () => {
+  exportToExcel(usuariosAPI);
+});
