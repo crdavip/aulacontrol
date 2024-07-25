@@ -25,6 +25,14 @@ class Objetos extends ConnPDO
     echo json_encode($objects);
   }
 
+  function getObjectsExport() {
+    $sql = "SELECT o.*, u.documento, ud.nombre AS usuario FROM objetos AS o INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario ORDER BY o.idObjeto DESC";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute();
+    $objects = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $objects;
+  }
+
   function createObject($descripcion, $color, $idUser, $idCenter)
   {
     $sqlCheck = "SELECT * FROM objetos WHERE descripcion = ? AND color = ? AND idUsuario = ?";

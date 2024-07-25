@@ -1,4 +1,5 @@
 const selectCenterObjcet = document.getElementById("centerObject");
+
 let centersList;
 const getDataCenters = async () => {
   const dataCentros = await getData(centrosAPI);
@@ -163,22 +164,31 @@ sendForm(
   1500
 );
 
-sendForm(
-  "objectExitMark",
-  regObjetosAPI,
-  "PUT",
-  "messageExitMark",
-  updateRenderObjects,
-  "exitObjectMark",
-  1500
-);
+// sendForm(
+//   "objectExitMark",
+//   regObjetosAPI,
+//   "PUT",
+//   "messageExitMark",
+//   updateRenderObjects,
+//   "exitObjectMark",
+//   1500
+// );
 
-sendForm(
-  "objectEntranceMark",
-  regObjetosAPI,
-  "POST",
-  "messageEntranceMark",
-  updateRenderObjects,
-  "entranceObjectMark",
-  1500
-)
+// sendForm(
+//   "objectEntranceMark",
+//   regObjetosAPI,
+//   "POST",
+//   "messageEntranceMark",
+//   updateRenderObjects,
+//   "entranceObjectMark",
+//   1500
+// );
+
+document.getElementById('btnExportPdfObjects').addEventListener('click', () => {
+  console.log("guncionaaa")
+  exportToPdf(objetosAPI);
+});
+
+document.getElementById('btnExportExcelObjects').addEventListener('click', () => {
+  exportToExcel(objetosAPI);
+});

@@ -5,6 +5,7 @@ require_once '../model/registroAmbientes.php';
 require_once '../model/usuarios.php';
 require_once '../model/registroEquipos.php';
 require_once '../model/equipos.php';
+require_once '../model/objetos.php';
 
 class ExportController
 {
@@ -43,8 +44,12 @@ class ExportController
                 $classInstance = new Usuarios();
                 $this->results = $classInstance->getUsersExport();
                 break;
+            case 'objetos':
+                $classInstance = new Objetos();
+                $this->results = $classInstance->getObjectsExport();
+                break;
             case 'equipos':
-                if($idItem == null){
+                if ($idItem == null) {
                     exit;
                 } else {
                     $classInstance = new Equipos();
@@ -132,6 +137,22 @@ class ExportController
                     ];
                 }
                 break;
+                case "objetos":
+                    $this->title = "Reporte Objetos";
+                    $this->subtitle = "Registro de Objetos";
+    
+                    $this->headers = ['Numero', 'Descripcion', 'Color', 'Estado', 'Propietario', 'Documento'];
+                    foreach ($this->results as $row) {
+                        $this->data[] = [
+                            $row['idObjeto'],
+                            $row['descripcion'],
+                            $row['color'],
+                            $row['estado'],
+                            $row['usuario'],
+                            $row['documento']
+                        ];
+                    }
+                    break;
             case "equipos":
                 $roomNumber = $this->results[0]['ambiente'];
                 $this->title = "Reporte Equipos";

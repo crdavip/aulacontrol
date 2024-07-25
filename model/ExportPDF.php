@@ -115,18 +115,18 @@ class ExportPDF
                     'Responsable' => 40,
                 ];
                 break;
-                case "Reporte Registros de Equipos":
-                    $defaultWidths = [
-                        'Registro' => 20,
-                        'Inicio' => 26,
-                        'Fin' => 26,
-                        'Ambiente' => 19,
-                        'Referencia' => 22,
-                        'Marca' => 16,
-                        'Usuario' => 30,
-                        'Documento' => 27,
-                    ];
-                    break;
+            case "Reporte Registros de Equipos":
+                $defaultWidths = [
+                    'Registro' => 20,
+                    'Inicio' => 26,
+                    'Fin' => 26,
+                    'Ambiente' => 19,
+                    'Referencia' => 22,
+                    'Marca' => 16,
+                    'Usuario' => 30,
+                    'Documento' => 27,
+                ];
+                break;
             case "Reporte Usuarios":
                 $defaultWidths = [
                     'Documento' => 32,
@@ -136,15 +136,25 @@ class ExportPDF
                     'Cargo' => 28,
                 ];
                 break;
-                case "Reporte Equipos":
-                    $defaultWidths = [
-                        'Computador' => 32,
-                        'Referencia' => 40,
-                        'Marca' => 36,
-                        'Estado' => 34,
-                        'Ambiente' => 40,
-                    ];
-                    break;
+            case "Reporte Equipos":
+                $defaultWidths = [
+                    'Computador' => 32,
+                    'Referencia' => 40,
+                    'Marca' => 36,
+                    'Estado' => 34,
+                    'Ambiente' => 40,
+                ];
+                break;
+            case "Reporte Objetos":
+                $defaultWidths = [
+                    'Numero' => 28,
+                    'Descripcion' => 44,
+                    'Color' => 28,
+                    'Estado' => 24,
+                    'Propietario' => 34,
+                    'Documento' => 28,
+                ];
+                break;
             default:
                 $defaultWidths = [];
                 break;
