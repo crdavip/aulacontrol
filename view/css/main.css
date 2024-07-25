@@ -840,7 +840,8 @@ a {
 }
 
 .inputGroupInput:focus-visible + .inputGroupLabel,
-.inputGroupInput:valid + .inputGroupLabel {
+.inputGroupInput:valid + .inputGroupLabel,
+.inputDate {
   transform: translate(1.25rem, 10%);
   font-size: 0.7rem;
   transition: all 0.5s;
@@ -1109,12 +1110,30 @@ a {
 }
 
 .welcomeTxt h2 {
+  text-align: center;
   color: var(--blanco);
   font-size: 1.5rem;
+  line-height: 1.5rem;
 
   & span {
     font-weight: 700;
   }
+}
+
+.firstTimeTxt {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  gap: 1rem;
+}
+
+.firstTimeTxt h2{
+  text-align: left;
+}
+
+.firstTimeTxt ul li {
+  color: var(--blanco);
+  line-height: 1.1rem;
 }
 
 .favWall {
