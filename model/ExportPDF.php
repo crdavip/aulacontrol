@@ -136,6 +136,15 @@ class ExportPDF
                     'Cargo' => 28,
                 ];
                 break;
+                case "Reporte Equipos":
+                    $defaultWidths = [
+                        'Computador' => 32,
+                        'Referencia' => 40,
+                        'Marca' => 36,
+                        'Estado' => 34,
+                        'Ambiente' => 40,
+                    ];
+                    break;
             default:
                 $defaultWidths = [];
                 break;

@@ -2,10 +2,26 @@ const numberInputFilter = document.getElementById("numberInputFilter");
 const centerSelectFilter = document.getElementById("centerSelectFilter");
 const statusSelectFilter = document.getElementById("statusSelectFilter");
 
+const roomPdf = document.getElementById("selectedRoomDevicesPdf");
+const roomExcel = document.getElementById("selectedRoomDevicesExcel");
+
 let roomsList;
 let centersList;
 const selectListRooms = document.getElementById("idRoom");
 const selectCenterDevice = document.getElementById("centerDevice");
+
+const getAmbsForExport = async () =>{ 
+  const dataAmbientesExport = await getData(ambientesAPI);
+  let roomsListExport = await dataAmbientesExport;
+
+  let contentSelectTagRoomsExport = roomsListExport.map((room) => {
+    return `<option value="${room.idAmbiente}">${room.numero}</option>`;
+  }).join("");
+
+  roomPdf.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRoomsExport;
+  roomExcel.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRoomsExport;
+}
+
 const getDataAmbs = async () => {
   const dataCentros = await getData(centrosAPI);
   const dataAmbientes = await getData(ambientesAPI);
@@ -25,6 +41,7 @@ const updateRoomsDropdown = () => {
   let contentSelectTagRooms = filteredRooms.map((room) => {
     return `<option value="${room.idAmbiente}">${room.numero}</option>`;
   }).join("");
+  renderRoomsInExport = contentSelectTagRooms;
   selectListRooms.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
 }
 
@@ -36,6 +53,7 @@ const loadRenderDevices = async () => {
   devices = data;
   renderDevices(devices);
   getDataAmbs();
+  getAmbsForExport();
 }
 
 window.addEventListener("DOMContentLoaded", loadRenderDevices);
@@ -152,8 +170,6 @@ const createDeviceCard = (devices) => {
   return fragment;
 };
 
-
-
 const row = document.querySelector(".row");
 const renderDevices = async (data) => {
   if (data.length > 0) {
@@ -238,3 +254,13 @@ const deviceAssocInfo = async (device) => {
     roomAssocInfo.appendChild(roomAssocStart);
   }
 };
+
+ExportFormExcel(
+  "deviceExportFormExcel",
+  equiposAPI,
+);
+
+ExportFormPdf(
+  "deviceExportFormPdf",
+  equiposAPI,
+);

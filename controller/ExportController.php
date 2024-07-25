@@ -4,6 +4,7 @@ require_once '../model/ExportPDF.php';
 require_once '../model/registroAmbientes.php';
 require_once '../model/usuarios.php';
 require_once '../model/registroEquipos.php';
+require_once '../model/equipos.php';
 
 class ExportController
 {
@@ -35,20 +36,33 @@ class ExportController
         }
     }
 
-    public function simpleExport($reportType, $report)
+    public function simpleExport($reportType, $report, $idItem = null)
     {
         switch ($report) {
             case 'usuarios':
                 $classInstance = new Usuarios();
                 $this->results = $classInstance->getUsersExport();
                 break;
+            case 'equipos':
+                if($idItem == null){
+                    exit;
+                } else {
+                    $classInstance = new Equipos();
+                    $this->results = $classInstance->getDevicesExport($idItem);
+                    break;
+                }
             default:
                 $classInstance = null;
                 break;
         }
 
-        $this->prepareReportData($report);
-        $this->validateFormat($reportType);
+        if ($this->results == null) {
+            header('Location: ../not-found.php');
+            exit;
+        } else {
+            $this->prepareReportData($report);
+            $this->validateFormat($reportType);
+        }
     }
 
     private function classSelector($reportType)
@@ -84,25 +98,25 @@ class ExportController
                     ];
                 }
                 break;
-                case "registroEquipos":
-                    $roomNumber = $this->results[0]['numero'];
-                    $this->title = "Reporte Registros de Equipos";
-                    $this->subtitle = "Reporte Equipos del Ambiente $roomNumber";
-    
-                    $this->headers = ['Registro', 'Inicio', 'Fin', 'Ambiente', 'Referencia', 'Marca', 'Usuario', 'Documento'];
-                    foreach ($this->results as $row) {
-                        $this->data[] = [
-                            $row['idRegistro'],
-                            $row['inicio'],
-                            $row['fin'],
-                            $row['numero'],
-                            $row['ref'],
-                            $row['marca'],
-                            $row['usuario'],
-                            $row['documento']
-                        ];
-                    }
-                    break;
+            case "registroEquipos":
+                $roomNumber = $this->results[0]['numero'];
+                $this->title = "Reporte Registros de Equipos";
+                $this->subtitle = "Reporte Equipos del Ambiente $roomNumber";
+
+                $this->headers = ['Registro', 'Inicio', 'Fin', 'Ambiente', 'Referencia', 'Marca', 'Usuario', 'Documento'];
+                foreach ($this->results as $row) {
+                    $this->data[] = [
+                        $row['idRegistro'],
+                        $row['inicio'],
+                        $row['fin'],
+                        $row['numero'],
+                        $row['ref'],
+                        $row['marca'],
+                        $row['usuario'],
+                        $row['documento']
+                    ];
+                }
+                break;
             case "usuarios":
                 $this->title = "Reporte Usuarios";
                 $this->subtitle = "Registro de Usuarios";
@@ -115,6 +129,22 @@ class ExportController
                         $row['estado'],
                         $row['correo'],
                         $row['cargo']
+                    ];
+                }
+                break;
+            case "equipos":
+                $roomNumber = $this->results[0]['ambiente'];
+                $this->title = "Reporte Equipos";
+                $this->subtitle = "Reporte Equipos del Ambiente $roomNumber";
+
+                $this->headers = ['Computador', 'Referencia', 'Marca', 'Estado', 'Ambiente'];
+                foreach ($this->results as $row) {
+                    $this->data[] = [
+                        $row['idComputador'],
+                        $row['ref'],
+                        $row['marca'],
+                        $row['estado'],
+                        $row['ambiente']
                     ];
                 }
                 break;
