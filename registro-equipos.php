@@ -16,11 +16,11 @@ include('./view/layout/header.php');
 
 if ($userIdRole === 1) {
     $titlePgRight .= '
-        <a onclick="" class="btnUi btnUiAlt">
+        <a onclick="openModal(`regDeviceExportExcel`)" class="btnUi btnUiAlt">
             <i class="fa-solid fa-print"></i>
-            <p>Imprimir</p>
+            <p>Exportar Excel</p>
         </a>
-        <a onclick="" class="btnUi">
+        <a onclick="openModal(`regDeviceExportPdf`)" class="btnUi">
             <i class="fa-solid fa-file-pdf"></i>
             <p>Exportar PDF</p>
         </a>';
@@ -60,6 +60,6 @@ include_once('./view/layout/titlePg.php');
 </div>
 
 <?php
-// include_once('./view/layout/ambienteModal.php');
+include_once('./view/layout/equiposAmbModal.php');
 include('./view/layout/footer.php');
 ?>

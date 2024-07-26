@@ -5,6 +5,7 @@ const roleSelectFilter = document.getElementById("roleSelectFilter");
 loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
 loadSelectFilters(cargosAPI, "roleSelectFilter", ["detalle"]);
 
+
 let users = [];
 const loadRenderUsers = async () => {
   const data = await getData(usuariosAPI);
@@ -170,3 +171,12 @@ sendForm(
       showMessage("messageImport", "messageErr", data.message, "", 1500);
     }
   });
+
+// Asignar eventos a los botones
+document.getElementById('btnExportPdf').addEventListener('click', () => {
+  exportToPdf(usuariosAPI);
+});
+
+document.getElementById('btnExportExcel').addEventListener('click', () => {
+  exportToExcel(usuariosAPI);
+});

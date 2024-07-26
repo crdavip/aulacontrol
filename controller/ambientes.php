@@ -1,7 +1,7 @@
 <?php
-require_once('../model/sessions.php');
-require_once('./funciones.php');
-require_once('../model/ambientes.php');
+require_once ('../model/sessions.php');
+require_once ('./funciones.php');
+require_once ('../model/ambientes.php');
 
 $rooms = new Ambientes();
 $functions = new Funciones();

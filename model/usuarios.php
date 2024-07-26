@@ -56,6 +56,19 @@ class Usuarios extends ConnPDO
     echo json_encode($users);
   }
 
+  function getUsersExport() {
+    $sql = "SELECT u.idUsuario, u.documento, u.estado, ud.nombre, ud.imagen, ud.idCentro, ud.correo, c.siglas, rol.idCargo, rol.detalle AS cargo
+          FROM usuario AS u
+          INNER JOIN usuario_detalle AS ud ON u.idUsuario = ud.idUsuario
+          INNER JOIN centro AS c ON ud.idCentro = c.idCentro
+          INNER JOIN cargo AS rol ON u.idCargo = rol.idCargo
+          ORDER BY u.idUsuario DESC";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([]);
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $users;
+  }
+
   function createUsers($doc, $pass, $idRole)
   {
     $sql = "INSERT INTO usuario (documento, contrasena, idCargo) VALUES (?, ?, ?)";

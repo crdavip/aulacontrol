@@ -6,8 +6,22 @@ const selectPgLimit = document.getElementById("selectPgLimit");
 const pgNextBtn = document.getElementById("pgNext");
 const pgPrevBtn = document.getElementById("pgPrev");
 const tableBody = document.getElementById("tableBody");
+const roomPdf = document.getElementById("selectedCenterPdf");
+const roomExcel = document.getElementById("selectedCenterExcel");
 
 // loadSelectFilters(centrosAPI, "centerSelectFilter", ["detalle"]);
+
+const getDataCenters = async () => {
+  const dataCentros = await getData(centrosAPI);
+  let centersList = dataCentros.filter((center) => center.detalle !== 'Porteria');
+
+  let contentSelectTagCenters = centersList.map((center) => {
+    return `<option value="${center.idCentro}">${center.detalle}</option>`;
+  }).join("");
+
+  roomPdf.innerHTML = `<option value="">Seleccione un Centro</option>` + contentSelectTagCenters;
+  roomExcel.innerHTML = `<option value="">Seleccione un Centro</option>` + contentSelectTagCenters;
+}
 
 let dataHistory = await getDataHistory(regObjetosAPI);
 let pgFrom = 0;
@@ -55,6 +69,7 @@ const renderHistory = (history) => {
   if (history.length > 0) {
     tableBody.innerHTML = "";
     getHistory(history);
+    getDataCenters();
   } else {
     tableBody.innerHTML = "No hay resultados para mostrar";
   }
@@ -158,3 +173,13 @@ selectPgLimit.addEventListener("change", () => {
   pgLimit = parseInt(selectPgLimit.value);
   pagination(dataHistory);
 });
+
+ExportFormExcel(
+  "regObjectExportFormExcel",
+  regObjetosAPI,
+);
+
+ExportFormPdf(
+  "regObjectExportFormPdf",
+  regObjetosAPI,
+)

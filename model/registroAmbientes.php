@@ -27,6 +27,15 @@ class RegistroAmbientes extends ConnPDO
     echo json_encode($rows, JSON_UNESCAPED_UNICODE);
   }
 
+  function getGroupOfHistory($idAmbiente, $startDateTime, $endDateTime)
+  {
+    $sql = "SELECT ra.*, a.numero, ud.nombre AS instructor FROM registro_ambiente AS ra INNER JOIN usuario_detalle AS ud ON ud.idUsuario = ra.idInstructor INNER JOIN ambiente AS a ON a.idAmbiente = ra.idAmbiente WHERE ra.idAmbiente = ? AND inicio >= ? AND fin <= ?";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$idAmbiente, $startDateTime, $endDateTime]);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $rows;
+  }
+
   function getRoomHistory($idAmbiente)
   {
     $sql = "SELECT ra.*, ud.nombre AS instructor

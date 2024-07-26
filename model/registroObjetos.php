@@ -31,6 +31,15 @@ class RegistroObjetos extends ConnPDO
     echo json_encode($row);
   }
 
+  function getGroupOfHistory($idCenter, $startDateTime, $endDateTime)
+  {
+    $sql = "SELECT ro.*, c.siglas AS centro, ud.nombre AS usuario, u.documento AS documento, o.descripcion, o.color FROM registro_objeto AS ro INNER JOIN objetos AS o ON ro.idObjeto = o.idObjeto INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN centro AS c ON c.idCentro = c.idCentro INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario WHERE c.idCentro = ? AND inicio >= ? AND fin <= ? ORDER BY ro.idRegistro DESC";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$idCenter, $startDateTime, $endDateTime]);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $rows;
+  }
+
   function addObjectHistory($idObject, $idCenter)
   {
     $sqlCheck = "SELECT * FROM registro_objeto

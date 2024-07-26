@@ -6,6 +6,21 @@ const selectPgLimit = document.getElementById("selectPgLimit");
 const pgNextBtn = document.getElementById("pgNext");
 const pgPrevBtn = document.getElementById("pgPrev");
 const tableBody = document.getElementById("tableBody");
+const roomPdf = document.getElementById("selectedRoomPdf");
+const roomExcel = document.getElementById("selectedRoomExcel");
+
+const getDataAmbs = async () => {
+  const dataAmbientes = await getData(ambientesAPI);
+  let roomsList = await dataAmbientes;
+
+  let contentSelectTagRooms = roomsList.map((room) => {
+    return `<option value="${room.idAmbiente}">${room.numero}</option>`;
+  }).join("");
+
+  roomPdf.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
+  roomExcel.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
+}
+
 
 loadSelectFilters(centrosAPI, "centerSelectFilter", ["detalle"]);
 
@@ -44,11 +59,11 @@ const getHistory = async (history) => {
       <td data-title="Ambiente"><div class="tdRow2"><strong class="historyRoomNum">Ambiente ${row.numero}</strong><span class="historyCenterName">${row.centro}</span></div></td>
       <td data-title="Inicio"><strong class="tdDate">${startDate.dateFormat}</strong><br><span class="tdTime">${startDate.timeFormat}</span></td>
       ${row.fin === null
-          ? `<td data-title="Fin"><span class="tdStatus">Pendiente</span></td>`
-          : `<td data-title="Fin"><strong class="tdDate">${endDate.dateFormat}</strong><br><span class="tdTime">${endDate.timeFormat}</span></td>`}
-      <td data-title="Llaves" class="tdBool">${row.llaves === 1 ? `<span class="tdTrue">Si</span>`: `<span class="tdFalse">No</span>`}</td>
-      <td data-title="Tv" class="tdBool">${row.controlTv === 1 ? `<span class="tdTrue">Si</span>`: `<span class="tdFalse">No</span>`}</td>
-      <td data-title="Aire" class="tdBool">${row.controlAire === 1 ? `<span class="tdTrue">Si</span>`: `<span class="tdFalse">No</span>`}</td>
+        ? `<td data-title="Fin"><span class="tdStatus">Pendiente</span></td>`
+        : `<td data-title="Fin"><strong class="tdDate">${endDate.dateFormat}</strong><br><span class="tdTime">${endDate.timeFormat}</span></td>`}
+      <td data-title="Llaves" class="tdBool">${row.llaves === 1 ? `<span class="tdTrue">Si</span>` : `<span class="tdFalse">No</span>`}</td>
+      <td data-title="Tv" class="tdBool">${row.controlTv === 1 ? `<span class="tdTrue">Si</span>` : `<span class="tdFalse">No</span>`}</td>
+      <td data-title="Aire" class="tdBool">${row.controlAire === 1 ? `<span class="tdTrue">Si</span>` : `<span class="tdFalse">No</span>`}</td>
     </tr>
     `;
   });
@@ -59,6 +74,7 @@ const renderHistory = (history) => {
   if (history.length > 0) {
     tableBody.innerHTML = "";
     getHistory(history);
+    getDataAmbs();
   } else {
     tableBody.innerHTML = "No hay resultados para mostrar";
   }
@@ -162,3 +178,13 @@ selectPgLimit.addEventListener("change", () => {
   pgLimit = parseInt(selectPgLimit.value);
   pagination(dataHistory);
 });
+
+ExportFormExcel(
+  "roomExportFormExcel",
+  regAmbientesAPI,
+);
+
+ExportFormPdf(
+  "roomExportFormPdf",
+  regAmbientesAPI,
+);
