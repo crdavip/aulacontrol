@@ -6,6 +6,7 @@ require_once '../model/usuarios.php';
 require_once '../model/registroEquipos.php';
 require_once '../model/equipos.php';
 require_once '../model/objetos.php';
+require_once '../model/registroObjetos.php';
 
 class ExportController
 {
@@ -77,6 +78,8 @@ class ExportController
                 return new RegistroAmbientes();
             case 'registroEquipos':
                 return new RegistroEquipos();
+            case 'registroObjetos':
+                return new RegistroObjetos();
             default:
                 return null;
         }
@@ -122,6 +125,25 @@ class ExportController
                     ];
                 }
                 break;
+                case "registroObjetos":
+                    $centerNumber = $this->results[0]['centro'];
+                    $this->title = "Reporte Registros de Objetos";
+                    $this->subtitle = "Reporte Objetos con destino $centerNumber";
+    
+                    $this->headers = ['R. Nro', 'Entrada', 'Salida', 'Objeto', 'Detalle', 'Destino', 'Usuario', 'Documento'];
+                    foreach ($this->results as $row) {
+                        $this->data[] = [
+                            $row['idRegistro'],
+                            $row['inicio'],
+                            $row['fin'],
+                            $row['idObjeto'],
+                            $row['descripcion'],
+                            $row['centro'],
+                            $row['usuario'],
+                            $row['documento']
+                        ];
+                    }
+                    break;
             case "usuarios":
                 $this->title = "Reporte Usuarios";
                 $this->subtitle = "Registro de Usuarios";
@@ -137,22 +159,22 @@ class ExportController
                     ];
                 }
                 break;
-                case "objetos":
-                    $this->title = "Reporte Objetos";
-                    $this->subtitle = "Registro de Objetos";
-    
-                    $this->headers = ['Numero', 'Descripcion', 'Color', 'Estado', 'Propietario', 'Documento'];
-                    foreach ($this->results as $row) {
-                        $this->data[] = [
-                            $row['idObjeto'],
-                            $row['descripcion'],
-                            $row['color'],
-                            $row['estado'],
-                            $row['usuario'],
-                            $row['documento']
-                        ];
-                    }
-                    break;
+            case "objetos":
+                $this->title = "Reporte Objetos";
+                $this->subtitle = "Registro de Objetos";
+
+                $this->headers = ['Numero', 'Descripcion', 'Color', 'Estado', 'Propietario', 'Documento'];
+                foreach ($this->results as $row) {
+                    $this->data[] = [
+                        $row['idObjeto'],
+                        $row['descripcion'],
+                        $row['color'],
+                        $row['estado'],
+                        $row['usuario'],
+                        $row['documento']
+                    ];
+                }
+                break;
             case "equipos":
                 $roomNumber = $this->results[0]['ambiente'];
                 $this->title = "Reporte Equipos";

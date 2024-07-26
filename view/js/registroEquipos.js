@@ -183,4 +183,4 @@ ExportFormExcel(
 ExportFormPdf(
   "regDeviceExportFormPdf",
   regEquiposAPI,
-)
+);

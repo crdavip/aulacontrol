@@ -64,7 +64,7 @@ class ExportPDF
 
         // Header
         foreach ($header as $col) {
-            $this->pdf->MultiCell($columnWidths[$col], 7, $col, 1, 'C', 1, 0, '', '', true);
+            $this->pdf->MultiCell($columnWidths[$col], 7, $col, 1, 'C', 1, 0, '', '', true, 0, false, true, 7, 'C', true);
         }
         $this->pdf->Ln();
 
@@ -76,8 +76,16 @@ class ExportPDF
         // Data
         $fill = 0;
         foreach ($data as $row) {
+            // Calculate the max height of the row
+            $maxHeight = 0;
             foreach ($header as $col) {
-                $this->pdf->MultiCell($columnWidths[$col], 6, $row[array_search($col, $header)], 'LR', 'C', $fill, 0, '', '', true, 0, false, true, 6, 'M', true);
+                $nb = $this->pdf->getNumLines($row[array_search($col, $header)], $columnWidths[$col]);
+                $maxHeight = max($maxHeight, $nb * 6);
+            }
+            
+            // Write the row data with the max height
+            foreach ($header as $col) {
+                $this->pdf->MultiCell($columnWidths[$col], $maxHeight, $row[array_search($col, $header)], 'LR', 'C', $fill, 0, '', '', true, 0, false, true, $maxHeight, 'M', true);
             }
             $this->pdf->Ln();
             $fill = !$fill;
@@ -115,16 +123,16 @@ class ExportPDF
                     'Responsable' => 40,
                 ];
                 break;
-            case "Reporte Registros de Equipos":
+            case "Reporte Registros de Objetos":
                 $defaultWidths = [
-                    'Registro' => 20,
-                    'Inicio' => 26,
-                    'Fin' => 26,
-                    'Ambiente' => 19,
-                    'Referencia' => 22,
-                    'Marca' => 16,
+                    'R. Nro' => 20,
+                    'Entrada' => 26,
+                    'Salida' => 26,
+                    'Objeto' => 19,
+                    'Detalle' => 24,
+                    'Destino' => 17,
                     'Usuario' => 30,
-                    'Documento' => 27,
+                    'Documento' => 25,
                 ];
                 break;
             case "Reporte Usuarios":
@@ -173,3 +181,4 @@ class ExportPDF
         $this->pdf->Output($name, $dest);
     }
 }
+
