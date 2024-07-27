@@ -965,7 +965,7 @@ a {
 }
 
 .messageOK,
-.messageErr {
+.messageErr, .messageAlert {
   display: block;
   transition: all 0.5s;
   line-height: 1.1rem;
@@ -979,8 +979,13 @@ a {
 }
 
 .messageErr {
-  border: 2px solid var(--color-error);
-  color: var(--color-error);
+  border: 2px solid var(--segundario);
+  color: var(--segundario);
+}
+
+.messageAlert {
+  border: 2px solid var(--segundario);
+  color: var(--segundario);
 }
 
 .contentLoginBgImg {

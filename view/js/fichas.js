@@ -233,19 +233,45 @@ document.getElementById("saveTraineesSelected").addEventListener("click", async 
   const checkboxes = document.querySelectorAll('.customCheckbox:checked');
   const selectedIds = Array.from(checkboxes).map(checkbox => checkbox.getAttribute('data-id'));
   if (selectedIds.length > 0) {
-    const response = await fetch(aprendicesAPI, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ ids: selectedIds, idSheet: idSheetAdd })
-    });
-    const result = await response.json();
-    showMessage("messageSheetAdd", "messageOK", result.message, "dataSheetAddTrainees", 1500);
+    try {
+      const response = await fetch(aprendicesAPI, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ids: selectedIds, idSheet: idSheetAdd })
+      });
+
+      const result = await response.json();
+      let messageType
+      let messageContent;
+
+      switch (result.insertion) {
+        case 'completa':
+          messageType = 'messageOK';
+          messageContent = 'Todos los aprendices se guardaron correctamente.';
+          break;
+        case 'parcial':
+          messageType = 'messageAlert';
+          messageContent = `Se guardaron algunos aprendices. IDs omitidos: ${result.details.excludedIds.join(', ')}.`;
+          break;
+        case 'incompleta':
+          messageType = 'messageErr';
+          messageContent = `Error: ${result.details.error}`;
+          break;
+        default:
+          messageType = 'messageErr';
+          messageContent = 'Ocurrió un error inesperado.';
+          break;
+      }
+      showMessage("messageSheetAdd", messageType, messageContent, "dataSheetAddTrainees", 1500);
+    } catch (error) {
+      showMessage("messageSheetAdd", "messageErr", 'Error al procesar la solicitud.', "dataSheetAddTrainees", 1500);
+    }
   } else {
-    showMessage("messageSheetAdd", "messageErr", result.message, "dataSheetAddTrainees", 1500);
+    showMessage("messageSheetAdd", "messageErr", 'No se seleccionó ningún aprendiz.', "dataSheetAddTrainees", 1500);
   }
-})
+});
 
 sendForm(
   "dataSheetCreateForm",

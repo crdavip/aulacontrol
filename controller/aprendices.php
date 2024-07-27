@@ -18,15 +18,15 @@ switch ($method) {
       $idSheet = $data['idSheet'];
       $result = $trainees->saveTrainee($ids, $idSheet);
 
-      if($result) {
-        echo json_encode(['success' => true, 'message' => 'Aprendices guardados correctamente.']);
+      if ($result) {
+        echo json_encode($result);
 
       } else {
-        echo json_encode(['success' => false, 'message' => 'No se recibieron IDs válidos.']);
+        echo json_encode(['insertion' => 'incompleta', 'details' => ['error' => 'No se recibieron IDs válidos.']]);
 
       }
     } else {
-      echo json_encode(['success' => false, 'message' => 'No se recibieron IDs válidos.']);
+      echo json_encode(['insertion' => 'incompleta', 'details' => ['error' => 'No se recibieron IDs válidos.']]);
     }
     break;
 }

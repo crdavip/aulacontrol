@@ -116,7 +116,7 @@
         <div class="buttonGroup">
             <button id="openModalAdd" onclick="openModal(`dataSheetAddTrainees`); closeModal(`dataSheetListTrainees`)"
                 class="btn btnAlt"><i class="fa-solid fa-square-plus"></i>
-                Crear Nuevo</button>
+                 Nuevo</button>
         </div>
         <p id="messageSheetList" class="message"></p>
     </div>
