@@ -2,16 +2,30 @@
 require_once ('../model/sessions.php');
 require_once ('../model/objetos.php');
 require_once ('./funciones.php');
+require_once ('./ExportController.php');
 
 $functions = new Funciones();
 $objects = new Objetos();
+$exportController = new ExportController();
 
 $method = $_SERVER['REQUEST_METHOD'];
 $data = json_decode(file_get_contents("php://input"), true);
 
 switch ($method) {
   case 'GET':
-    if (isset($_GET['columns'])) {
+    if (isset($_GET['format'])) {
+      $format = $_GET['format'];
+
+      if ($format === "excel") {
+        $exportController->simpleExport($format, "objetos");
+      } elseif ($format === "pdf") {
+        $exportController->simpleExport($format, "objetos");
+      } else {
+        $icon = $functions->getIcon('Err');
+        echo json_encode(['success' => false, 'message' => "$icon No es un formato válido."]);
+      }
+
+    } elseif (isset($_GET['columns'])) {
       $columns = json_decode($_GET['columns']);
       echo json_encode($functions->getColumns('objetos', $columns), JSON_UNESCAPED_UNICODE);
     } else {

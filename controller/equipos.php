@@ -3,16 +3,38 @@ require_once ('../model/sessions.php');
 require_once ('../model/equipos.php');
 require_once ('./funciones.php');
 require_once('../controller/qrcode.php');
+require_once ('./ExportController.php');
 
 $functions = new Funciones();
 $devices = new Equipos();
+$exportController = new ExportController();
 
 $method = $_SERVER['REQUEST_METHOD'];
 $data = json_decode(file_get_contents("php://input"), true);
 
 switch ($method) {
   case 'GET':
-    if (isset($_GET['columns'])) {
+    if (isset($_GET['selectedRoomDevicesExcel'])) {
+      $idRoom = $_GET['selectedRoomDevicesExcel'];
+      $format = "excel";
+
+      if ($functions->checkNotEmpty([$idRoom])) {
+          $icon = $functions->getIcon('Err');
+          echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+      } else {
+        $exportController->simpleExport($format, "equipos", $idRoom);
+      }
+  } elseif (isset($_GET['selectedRoomDevicesPdf'])) {
+      $idRoom = $_GET['selectedRoomDevicesPdf'];
+      $format = "pdf";
+
+      if ($functions->checkNotEmpty([$idRoom])) {
+          $icon = $functions->getIcon('Err');
+          echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+      } else {
+          $exportController->simpleExport($format, "equipos", $idRoom);
+      }
+  } elseif (isset($_GET['columns'])) {
       $columns = json_decode($_GET['columns']);
       echo json_encode($functions->getColumns('computador', $columns), JSON_UNESCAPED_UNICODE);
     } else {

@@ -269,6 +269,66 @@ const sendForm = async (formId, urlAPI, type, messageId, getFunc, modal) => {
 };
 //Fin SendForm
 
+// Inicio ExportFormPdf
+const ExportFormPdf = async (formId, urlAPI) => {
+  const form = document.getElementById(formId);
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const params = new URLSearchParams(Object.fromEntries(formData)).toString();
+    const url = `${urlAPI}?${params}`;
+    window.open(url, '_blank');
+  });
+};
+// Fin ExportFormPdf
+
+// Inicio ExportFormExcel
+const ExportFormExcel = async (formId, urlAPI) => {
+  const form = document.getElementById(formId);
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    formData.append('format', 'excel');
+    const params = new URLSearchParams(Object.fromEntries(formData)).toString();
+    const url = `${urlAPI}?${params}`;
+
+    const response = await fetch(url);
+    const blob = await response.blob();
+
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'reporte.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+};
+// Fin ExportFormExcel
+
+// Logica de Exportación
+  // Función para exportar a PDF
+  const exportToPdf = async (urlAPI) => {
+    const params = new URLSearchParams({ format: 'pdf' }).toString();
+    const url = `${urlAPI}?${params}`;
+    window.open(url, '_blank');
+  };
+  
+  // Función para exportar a Excel
+  const exportToExcel = async (urlAPI) => {
+    const params = new URLSearchParams({ format: 'excel' }).toString();
+    const url = `${urlAPI}?${params}`;
+  
+    const response = await fetch(url);
+    const blob = await response.blob();
+  
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'reporte.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
 //Inicio APIList
 const ingresoAPI = `./controller/ingreso`;
 const ambientesAPI = `./controller/ambientes`;

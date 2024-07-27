@@ -19,11 +19,11 @@ include('./view/layout/header.php');
 
 if ($userIdRole === 1) {
     $titlePgRight .= '
-        <a onclick="" class="btnUi btnUiAlt">
+        <a onclick="openModal(`roomExportExcel`)" class="btnUi btnUiAlt">
             <i class="fa-solid fa-print"></i>
-            <p>Imprimir</p>
+            <p>Exportar Excel</p>
         </a>
-        <a onclick="" class="btnUi">
+        <a onclick="openModal(`roomExportPdf`)" class="btnUi">
             <i class="fa-solid fa-file-pdf"></i>
             <p>Exportar PDF</p>
         </a>';

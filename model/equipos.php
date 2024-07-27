@@ -23,6 +23,14 @@ class Equipos extends ConnPDO
     echo json_encode($devices);
   }
 
+  function getDevicesExport($idAmbiente) {
+    $sql = "SELECT c.idComputador, c.ref, c.marca, c.estado, a.numero AS ambiente FROM computador AS c INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente WHERE c.idAmbiente = ? ORDER BY c.ref DESC";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$idAmbiente]);
+    $devices = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $devices;
+  }
+
   function createDevice($reference, $brand, $stateDevice, $imageQr, $room)
   {
     $sql = "INSERT INTO computador (ref, marca, estado, imagenQr, idAmbiente) VALUES (?, ?, ?, ?, ?)";

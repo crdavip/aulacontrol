@@ -1,19 +1,33 @@
 <?php
-require_once('../model/sessions.php');
-require_once('../model/usuarios.php');
-require_once('../model/usuariosDetalles.php');
-require_once('../controller/qrcode.php');
+require_once ('../model/sessions.php');
+require_once ('../model/usuarios.php');
+require_once ('../model/usuariosDetalles.php');
+require_once ('../controller/qrcode.php');
+require_once ('./ExportController.php');
 
 $users = new Usuarios();
 $userDetails = new UsuariosDetalles();
 $functions = new Funciones();
+$exportController = new ExportController();
 
 $method = $_SERVER['REQUEST_METHOD'];
 $data = json_decode(file_get_contents("php://input"), true);
 
 switch ($method) {
     case 'GET':
-        if (isset($_GET['docUserAssoc'])) {
+        if (isset($_GET['format'])) {
+            $format = $_GET['format'];
+
+            if ($format === "excel") {
+                $exportController->simpleExport($format,"usuarios");
+            } elseif ($format === "pdf") {
+                $exportController->simpleExport($format,"usuarios");
+            } else {
+                $icon = $functions->getIcon('Err');
+                echo json_encode(['success' => false, 'message' => "$icon No es un formato válido."]);
+            }
+
+        } elseif (isset($_GET['docUserAssoc'])) {
             $docUserAssoc = $_GET['docUserAssoc'];
             $users->getDocUserAssoc($docUserAssoc);
             exit();

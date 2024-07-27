@@ -16,13 +16,13 @@ include ('./view/layout/header.php');
 
 if ($userIdRole === 1) {
   $titlePgRight .= '
-      <a onclick="openModal(`createRegisterObj`)" id="createRegisterObjBtn" class="btnUi btnUiAlt">
-        <i class="fa-solid fa-square-plus"></i>
-        <p>Nuevo Registro</p>
+  <a onclick="openModal(`regObjectExportExcel`)" class="btnUi btnUiAlt">
+          <i class="fa-solid fa-print"></i>
+          <p>Exportar Excel</p>
       </a>
-      <a onclick="" class="btnUi">
-        <i class="fa-solid fa-file-pdf"></i>
-        <p>Exportar PDF</p>
+      <a onclick="openModal(`regObjectExportPdf`)" class="btnUi">
+          <i class="fa-solid fa-file-pdf"></i>
+          <p>Exportar PDF</p>
       </a>';
 }
 
@@ -60,6 +60,6 @@ include_once ('./view/layout/titlePg.php');
 </div>
 
 <?php
-// include_once('./view/layout/ambienteModal.php');
+include_once('./view/layout/objetosModal.php');
 include ('./view/layout/footer.php');
 ?>

@@ -15,6 +15,14 @@ include ('./view/layout/header.php');
 
 if ($userIdRole === 1) {
     $titlePgRight .= '
+    <a id="btnExportExcelObjects" onclick="" class="btnUi btnUiAlt">
+        <i class="fa-solid fa-print"></i>
+        <p>Exportar Excel</p>
+    </a>
+    <a id="btnExportPdfObjects" onclick="" class="btnUi">
+        <i class="fa-solid fa-file-pdf"></i>
+        <p>Exportar PDF</p>
+    </a>
     <a href="./registro-objetos" class="btnUi btnUiAlt">
         <i class="fas fa-clipboard-list"></i>
         <p>Ver Registros</p>

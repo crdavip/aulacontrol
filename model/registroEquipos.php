@@ -34,6 +34,15 @@ class RegistroEquipos extends ConnPDO
     echo json_encode($row);
   }
 
+  function getGroupOfHistory($idAmbiente, $startDateTime, $endDateTime)
+  {
+    $sql = "SELECT re.*, a.numero, ud.nombre AS usuario, u.documento AS documento, c.ref, c.marca FROM registro_computador AS re INNER JOIN usuario_detalle AS ud ON ud.idUsuario = re.idUsuario INNER JOIN computador AS c ON c.idComputador = re.idComputador INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente INNER JOIN usuario AS u ON u.idUsuario = re.idUsuario WHERE c.idAmbiente = ? AND inicio >= ? AND fin <= ? ORDER BY re.idRegistro DESC";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$idAmbiente, $startDateTime, $endDateTime]);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $rows;
+  }
+
   function addDeviceHistory($idUser, $idDevice)
   {
     $sqlCheck = "SELECT * FROM registro_computador
