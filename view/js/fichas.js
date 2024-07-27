@@ -49,7 +49,7 @@ const createDataSheetCard = (dataSheets) => {
         '<i class="fa-solid fa-user-graduate"></i>Aprendices';
       const btnAssistance = document.createElement("a");
       btnAssistance.innerHTML =
-        '<i class="fa-regular fa-address-book"></i>Lista';
+        '<i class="fa-regular fa-address-book"></i>Asistencia';
       const btnEdit = document.createElement("a");
       btnEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>Editar';
       const btnDelete = document.createElement("a");
@@ -66,6 +66,7 @@ const createDataSheetCard = (dataSheets) => {
         // inputIdSheetAdd.value = sheet.idFicha;
         idSheetAdd = sheet.idFicha;
         idSheetList = sheet.idFicha;
+        getDataOfSheetList();
         openModal("dataSheetListTrainees");
       });
       btnAssistance.addEventListener("click", () => {
@@ -145,19 +146,45 @@ numberInputFilter.addEventListener("keyup", filterDataSheets);
 loadSelectFilters(centrosAPI, "dataSheetCenter", ["idCentro", "detalle"]);
 loadSelectFilters(centrosAPI, "dataSheetCenterEdit", ["idCentro", "detalle"]);
 
-// Lista de aprendices
-searchListTraineesInput.addEventListener('keyup', async function () {
-  const doc = searchListTraineesInput.value
-  console.log(typeof (doc));
-  if (doc.length > 0) {
-    const response = await fetch(`${usuariosAPI}.php?query=${doc}`);
-    const results = await response.json();
+// Lista de aprendices predeterminada
+const getDataOfSheetList = async () => {
+  const response = await fetch(`${aprendicesAPI}.php?paramSheet=${idSheetList}`);
+  const results = await response.json();
+  console.log(results);
 
+  if (results.length > 0) {
     resultsListSearchDiv.innerHTML = '';
-
     results.forEach(result => {
       const div = document.createElement('div');
       div.classList.add("divCardSearchTrainee")
+      div.innerHTML = `
+          <div>
+            <img src=${result.imagen} with="50" heigh="50"  alt="">
+            <div>
+              <span>${result.nombre}</span>
+              <span>${result.estado}</span>
+            </div>
+          </div>
+          <button id="btnOpenModalRemove" onclick="openModal('dataSheetremoveTrainee')" class="btn btnAlt" type="submit"><i class="fa-regular fa-trash-can"></i></button>
+            `;
+      resultsListSearchDiv.appendChild(div);
+    });
+
+  } else {
+    resultsListSearchDiv.innerHTML = '<p>Esta ficha no tiene aprendices asociados.</p>';
+  }
+}
+
+// Lista de aprendices Busqueda
+searchListTraineesInput.addEventListener('keyup', async function () {
+  const doc = searchListTraineesInput.value;
+  if (doc.length > 0) {
+    const response = await fetch(`${aprendicesAPI}.php?queryList=${idSheetList}&searchDoc=${doc}`);
+    const results = await response.json();
+    resultsListSearchDiv.innerHTML = '';
+    results.forEach(result => {
+      const div = document.createElement('div');
+      div.classList.add("divCardSearchTrainee");
       div.innerHTML = `
         <div>
           <img src=${result.imagen} with="50" heigh="50"  alt="">
@@ -171,7 +198,7 @@ searchListTraineesInput.addEventListener('keyup', async function () {
       resultsListSearchDiv.appendChild(div);
     });
   } else {
-    resultsListSearchDiv.innerHTML = '';
+    getDataOfSheetList();
   }
 });
 

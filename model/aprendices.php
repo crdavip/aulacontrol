@@ -10,14 +10,36 @@ class Aprendices extends ConnPDO
     $this->functions = new Funciones();
   }
 
+  public function getTrainees($sheet)
+  {
+    try {
+      $sql = "SELECT a.*, u.documento, u.estado, ud.nombre, ud.imagen FROM aprendices AS a INNER JOIN usuario AS u ON u.idUsuario = a.idUsuario INNER JOIN usuario_detalle AS ud ON a.idUsuario = ud.idUsuario WHERE a.idFicha = ?";
+      $stmt = $this->getConn()->prepare($sql);
+      $stmt->execute([$sheet]);
+      $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      echo json_encode($results);
+    } catch (Exception $e) {
+      $icon = $this->functions->getIcon('Err');
+      echo json_encode(['success' => false, 'message' => "$icon No se recuperó la información"]);
+    }
+  }
+
+  public function getTraineesForSearching($doc, $idSheet){
+    $sql = "SELECT a.*, u.documento, u.estado, ud.imagen, ud.nombre FROM aprendices AS a INNER JOIN usuario AS u ON u.idUsuario = a.idUsuario INNER JOIN usuario_detalle AS ud ON ud.idUsuario = a.idUsuario WHERE a.idFicha = ? AND u.documento LIKE ?";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$idSheet,"$doc%"]);
+    $trainees = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($trainees);
+  }
+
   public function saveTrainee($ids, $sheet)
   {
     $conn = $this->getConn();
-    $conn->beginTransaction(); // Inicia la transacción
+    $conn->beginTransaction();
     $excludedIds = [];
 
     try {
-      // 1. Verifica los usuarios que ya están asociados a una ficha activa
+      // Verificar los usuarios que ya están asociados a una ficha activa
       $placeholders = implode(',', array_fill(0, count($ids), '?'));
       $sqlCheck = "SELECT idUsuario FROM aprendices 
                        JOIN ficha ON aprendices.idFicha = ficha.idFicha
@@ -26,12 +48,12 @@ class Aprendices extends ConnPDO
       $stmtCheck->execute($ids);
       $activeUsers = $stmtCheck->fetchAll(PDO::FETCH_COLUMN);
 
-      // 2. Filtra los IDs excluyendo aquellos que ya están en fichas activas
+      // Filtrar los IDs excluyendo aquellos que ya están en fichas activas
       $filteredIds = array_diff($ids, $activeUsers);
       $excludedIds = array_intersect($ids, $activeUsers);
 
       if (!empty($filteredIds)) {
-        // 3. Inserta los nuevos registros en la tabla aprendices
+        // Inserta los nuevos registros en la tabla aprendices
         $placeholders = implode(',', array_fill(0, count($filteredIds), '(?, ?)'));
         $sqlInsert = "INSERT INTO aprendices (idUsuario, idFicha)
                             VALUES " . $placeholders;
@@ -44,14 +66,15 @@ class Aprendices extends ConnPDO
         $stmtInsert->execute($params);
       }
 
-      // 4. Actualiza la tabla fichas con el nuevo conteo de aprendices
+      // Actualiza la tabla fichas con el nuevo conteo de aprendices
       $sqlUpdate = "UPDATE ficha 
                         SET aprendices = (SELECT COUNT(*) FROM aprendices WHERE idFicha = ficha.idFicha)
                         WHERE idFicha = ?";
       $stmtUpdate = $conn->prepare($sqlUpdate);
       $stmtUpdate->execute([$sheet]);
 
-      $conn->commit(); // Confirma la transacción
+      $conn->commit();
+      // Fin de transacción
 
       return [
         'insertion' => empty($excludedIds) ? 'completa' : 'parcial',
