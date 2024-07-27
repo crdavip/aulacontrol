@@ -10,11 +10,16 @@ const searchListTraineesInput = document.getElementById("traineesListSearch");
 // const inputIdSheetList = document.getElementById("inputIdSheetList");
 const resultsListSearchDiv = document.getElementById("resultsTraineesListSearch");
 let idSheetList;
+let idTrainee;
 
 const searchAddTraineesInput = document.getElementById("traineesAddSearch");
 // const inputIdSheetAdd = document.getElementById("inputIdSheetAdd");
 const resultsAddSearchDiv = document.getElementById("resultsTraineesAddSearch");
 let idSheetAdd;
+
+// For Removing Trainee
+const inputRemoveIdTrainee = document.getElementById("dataSheetIdRemoveTrainee");
+const inputRemoveIdSheet = document.getElementById("dataSheetIdRemoveSheet");
 
 loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
 
@@ -23,6 +28,7 @@ const loadDataSheets = async () => {
   const data = await getData(fichasAPI);
   dataSheets = data;
   renderDataSheets(dataSheets);
+  getDataOfSheetList();
 };
 
 window.addEventListener("DOMContentLoaded", loadDataSheets);
@@ -165,7 +171,7 @@ const getDataOfSheetList = async () => {
               <span>${result.estado}</span>
             </div>
           </div>
-          <button id="btnOpenModalRemove" onclick="openModal('dataSheetremoveTrainee')" class="btn btnAlt" type="submit"><i class="fa-regular fa-trash-can"></i></button>
+          <button id="btnOpenModalRemove" onclick="openRemoveModal(this)" data-id-trainee="${result.idAprendices}" data-id-sheet="${result.idFicha}" class="btn btnAlt"><i class="fa-regular fa-trash-can"></i></button>
             `;
       resultsListSearchDiv.appendChild(div);
     });
@@ -193,7 +199,7 @@ searchListTraineesInput.addEventListener('keyup', async function () {
             <span>${result.estado}</span>
           </div>
         </div>
-        <button id="btnOpenModalRemove" onclick="openModal('dataSheetremoveTrainee')" class="btn btnAlt" type="submit"><i class="fa-regular fa-trash-can"></i></button>
+        <button id="btnOpenModalRemove" onclick="openRemoveModal(this)" data-id-trainee="${result.idAprendices}" data-id-sheet="${result.idFicha}" class="btn btnAlt"><i class="fa-regular fa-trash-can"></i></button>
           `;
       resultsListSearchDiv.appendChild(div);
     });
@@ -201,6 +207,15 @@ searchListTraineesInput.addEventListener('keyup', async function () {
     getDataOfSheetList();
   }
 });
+
+const openRemoveModal = (button) => {
+  const idAprendiz = button.getAttribute('data-id-trainee');
+  const idSheet = button.getAttribute('data-id-sheet');
+  inputRemoveIdSheet.value = idSheet;
+  inputRemoveIdTrainee.value = idAprendiz;
+  console.log(inputRemoveIdSheet.value, inputRemoveIdTrainee.value);
+  openModal('dataSheetRemoveTrainee');
+}
 
 // Asistencia de aprendices
 searchAssistanceTraineesInput.addEventListener('keyup', async function () {
@@ -225,7 +240,7 @@ searchAssistanceTraineesInput.addEventListener('keyup', async function () {
       resultsAssistanceSearchDiv.appendChild(div);
     });
   } else {
-    resultsAssistanceSearchDiv.innerHTML = '';
+    resultsAssistanceSearchDiv.innerHTML = '<p>Esta ficha no tiene aprendices asociados.</p>';
   }
 });
 
@@ -292,6 +307,7 @@ document.getElementById("saveTraineesSelected").addEventListener("click", async 
           break;
       }
       showMessage("messageSheetAdd", messageType, messageContent, "dataSheetAddTrainees", 1500);
+      updateDataSheets();
     } catch (error) {
       showMessage("messageSheetAdd", "messageErr", 'Error al procesar la solicitud.', "dataSheetAddTrainees", 1500);
     }
@@ -330,13 +346,12 @@ sendForm(
   1500
 );
 
-// Agregar aprendiz a la ficha
-// sendForm(
-//   "dataSheetAddTraineesForm",
-//   aprendicesAPI,
-//   "POST",
-//   "messageSheetAdd",
-//   updateDataSheets,
-//   "dataSheetAddTrainees",
-//   1500
-// );
+sendForm(
+  "dataSheetRemoveTraineeForm",
+  aprendicesAPI,
+  "DELETE",
+  "messageRemove",
+  updateDataSheets,
+  "dataSheetRemoveTrainee",
+  1500
+);

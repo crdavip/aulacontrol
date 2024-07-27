@@ -142,7 +142,7 @@
 </section>
 
 <!-- Modal Remover aprendiz de la ficha -->
-<section class="modal" id="dataSheetremoveTrainee">
+<section class="modal" id="dataSheetRemoveTrainee">
     <div class="containerModal">
         <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
         <div class="titlePg">
@@ -152,7 +152,7 @@
         <form id="dataSheetRemoveTraineeForm" action="" class="form">
             <input type="hidden" name="dataSheetIdRemoveTrainee" id="dataSheetIdRemoveTrainee">
             <input type="hidden" name="dataSheetIdRemoveSheet" id="dataSheetIdRemoveSheet">
-            <p class="modalTxt">Esta acción no se puede revertir. <strong>¿Desea continuar?</strong></p>
+            <p class="modalTxt">Remover Aprendiz de esta ficha. <strong>¿Desea continuar?</strong></p>
             <div class="buttonGroup">
                 <button id="confirmRemoveButton" class="btn btnAlt" type="submit"><i class="bi bi-trash3"></i>
                     Eliminar</button>

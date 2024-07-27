@@ -42,6 +42,18 @@ switch ($method) {
       echo json_encode(['insertion' => 'incompleta', 'details' => ['error' => 'No se recibieron IDs válidos.']]);
     }
     break;
+  case 'DELETE':
+    if (isset($data['dataSheetIdRemoveSheet']) && isset($data['dataSheetIdRemoveTrainee'])) {
+      $idTrainee = $data['dataSheetIdRemoveTrainee'];
+      $idSheet = $data['dataSheetIdRemoveSheet'];
+      $trainees->removeTrainee($idTrainee, $idSheet);
+      $icon = $functions->getIcon('OK');
+      echo json_encode(['success' => true, 'message' => "$icon Usuario removido exitosamente."]);
+    } else {
+      $icon = $functions->getIcon('Err');
+      echo json_encode(['success' => false, 'message' => "$icon Parametros incorrectos."]);
+    }
+    break;
   default:
     $icon = $functions->getIcon('Err');
     echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
