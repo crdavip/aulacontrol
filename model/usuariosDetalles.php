@@ -33,6 +33,17 @@ class UsuariosDetalles extends ConnPDO
     }
   }
 
+  function updateUserDetails($img, $birth, $genre, $idUser)
+  {
+    $sql = "UPDATE usuario_detalle SET imagen=?, nacimiento=?, genero=? WHERE idUsuario=?";
+    $stmt = $this->getConn()->prepare($sql);
+    if ($stmt->execute([$img, $birth, $genre, $idUser])) {
+      $_SESSION['success'] = true;
+    } else {
+      $_SESSION['success'] = false;
+    }
+  }
+
   function deleteUsersDetails($idUser)
   {
     $sql = "DELETE FROM usuario_detalle WHERE idUsuario=?";

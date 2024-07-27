@@ -98,6 +98,17 @@ class Usuarios extends ConnPDO
     }
   }
 
+  function updatePass($idUser, $pass)
+  {
+    $sql = "UPDATE usuario SET contrasena=?, nuevo='No' WHERE idUsuario=?";
+    $stmt = $this->getConn()->prepare($sql);
+    if ($stmt->execute([$pass, $idUser])) {
+      $_SESSION['success'] = true;
+    } else {
+      $_SESSION['success'] = false;
+    }
+  }
+
   function deleteUsers($idUser)
   {
     $sql = "DELETE FROM usuario WHERE idUsuario=?";

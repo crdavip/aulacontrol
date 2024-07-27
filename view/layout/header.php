@@ -8,9 +8,13 @@ $userRole = $_SESSION['role'];
 $userImg = $_SESSION['img'];
 $userImgQr = $_SESSION['imgQr'];
 $userCenter = $_SESSION['center'];
+$userFirstTime = $_SESSION['firstTime'];
 
 if (!isset($userId)) {
     header('Location: ./ingreso');
+    exit();
+} elseif (isset($userId) && $userFirstTime == 'Si') {
+    header('Location: ./datos');
     exit();
 }
 ?>

@@ -1,13 +1,17 @@
 <?php
-// session_start();
-// if (isset($_SESSION['USUARIO_ID'])) {
-//     header('Location: ./');
-//     exit();
-// }
 session_start();
 $userId = $_SESSION['userId'];
 $userName = $_SESSION['name'];
 $userImg = $_SESSION['img'];
+$userFirstTime = $_SESSION['firstTime'];
+
+if (!isset($userId)) {
+    header('Location: ./ingreso');
+    exit();
+} elseif (isset($userId) && $userFirstTime == 'No') {
+    header('Location: ./');
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +54,7 @@ $userImg = $_SESSION['img'];
                 <div class="contentForm" id="contentLogin">
                     <form id="userFirstTime" action="" class="form" enctype="multipart/form-data">
                         <div class="inputGroup uploadProfileImg">
-                            <input type="file" name="userImgProfile" id="userImgProfile" accept="image/jpeg, image/png" hidden required>
+                            <input type="file" name="userImgProfile" id="userImgProfile" accept="image/jpeg, image/png" hidden>
                             <div class="userImgPreview" id="userImgPreview">
                                 <a class="userImgUpload" id="userImgUpload"><i class="fa-solid fa-camera"></i></a>
                                 <div class="userImgPicContent">
@@ -58,7 +62,7 @@ $userImg = $_SESSION['img'];
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="userIdProfile" id="userIdProfile" value="<?php echo $userId; ?>">
+                        <input type="hidden" name="idUser" id="idUser" value="<?php echo $userId; ?>">
                         <div class="inputGroup">
                             <input class="inputGroupInput" type="password" name="pass" id="pass" autocomplete="off" required>
                             <label class="inputGroupLabel" for="pass" id="labelPass"><i class="fa-solid fa-lock"></i> Nueva Contraseña</label>
