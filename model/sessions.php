@@ -11,4 +11,5 @@ $userImgQr = $_SESSION['imgQr'];
 $userStatus = $_SESSION['status'];
 $userBirth = $_SESSION['birth'];
 $userCenter = $_SESSION['center'];
+$userFirstTime = $_SESSION['firstTime'];
 ?>

@@ -8,9 +8,13 @@ $userRole = $_SESSION['role'];
 $userImg = $_SESSION['img'];
 $userImgQr = $_SESSION['imgQr'];
 $userCenter = $_SESSION['center'];
+$userFirstTime = $_SESSION['firstTime'];
 
 if (!isset($userId)) {
     header('Location: ./ingreso');
+    exit();
+} elseif (isset($userId) && $userFirstTime == 'Si') {
+    header('Location: ./datos');
     exit();
 }
 ?>
@@ -68,14 +72,6 @@ if (!isset($userId)) {
                     <?php } ?>
                     <?php if ($userIdRole == 1) { ?>
                         <li class="navLink">
-                            <a href="./asistencia">
-                                <i class="fa-solid fa-calendar-check icon"></i>
-                                <span class="text navText">Asistencia</span>
-                            </a>
-                        </li>
-                    <?php } ?>
-                    <?php if ($userIdRole == 1) { ?>
-                        <li class="navLink">
                             <a href="./usuarios">
                             <i class="fa-solid fa-user icon"></i>
                                 <span class="text navText">Usuarios</span>
@@ -98,20 +94,12 @@ if (!isset($userId)) {
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if ($userIdRole == 1) { ?>
                         <li class="navLink">
                             <a href="./observaciones">
                                 <i class="fa-solid fa-binoculars icon"></i>
                                 <span class="text navText">Observaciones</span>
                             </a>
                         </li>
-                    <?php } ?>
-                    <li class="navLink" id="navAlert">
-                        <a>
-                            <i class="fa-solid fa-bell icon"></i>
-                            <span class="text navText">Notificaciones</span>
-                        </a>
-                    </li>
                 </ul>
             </div>
             <div class="sidenavBottom">
