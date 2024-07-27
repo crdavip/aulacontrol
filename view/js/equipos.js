@@ -5,12 +5,13 @@ const statusSelectFilter = document.getElementById("statusSelectFilter");
 const roomPdf = document.getElementById("selectedRoomDevicesPdf");
 const roomExcel = document.getElementById("selectedRoomDevicesExcel");
 
+let renderRoomsInExport;
 let roomsList;
 let centersList;
 const selectListRooms = document.getElementById("idRoom");
 const selectCenterDevice = document.getElementById("centerDevice");
 
-const getAmbsForExport = async () =>{ 
+const getAmbsForExport = async () => {
   const dataAmbientesExport = await getData(ambientesAPI);
   let roomsListExport = await dataAmbientesExport;
 
