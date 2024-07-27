@@ -2014,9 +2014,44 @@ td img {
     display: none;
 }
 
+.resultsTraineesSearch {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
 .relative.activeCover .bkDarkCoverNotClick {
   display: block;
   pointer-events: auto;
+}
+
+.divCardSearchTrainee, .divCardSearchTrainee > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.divCardSearchTrainee {
+  justify-content: space-between;
+}
+
+.divCardSearchTrainee > div > img {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+}
+
+.divCardSearchTrainee > div > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+#resultsTraineesSearch {
+  width: 76%;
+
 }
 
 /** ######################################################### */

@@ -56,6 +56,23 @@ class Usuarios extends ConnPDO
     echo json_encode($users);
   }
 
+  function getUsersForSearching($doc) {
+    $sql = "SELECT u.documento, u.idUsuario, u.estado, ud.imagen, ud.nombre FROM usuario AS u INNER JOIN usuario_detalle AS ud ON ud.idUsuario = u.idUsuario WHERE documento LIKE ?";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute(["$doc%"]);
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($users);
+  }
+
+  // Al momento de utilizar el sistema para todo el complejo se requiere mostrar solo los usuarios que pertenezcan al mismo centro del instructor.
+  function getUsersForSearchingAdd($doc) {
+    $sql = "SELECT u.documento, u.idUsuario, u.estado, ud.imagen, ud.nombre FROM usuario AS u INNER JOIN usuario_detalle AS ud ON ud.idUsuario = u.idUsuario WHERE u.idCargo = 3 AND documento LIKE ?";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute(["$doc%"]);
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($users);
+  }
+
   function getUsersExport() {
     $sql = "SELECT u.idUsuario, u.documento, u.estado, ud.nombre, ud.imagen, ud.idCentro, ud.correo, c.siglas, rol.idCargo, rol.detalle AS cargo
           FROM usuario AS u

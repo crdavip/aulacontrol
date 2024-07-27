@@ -1,6 +1,18 @@
 const numberInputFilter = document.getElementById("numberInputFilter");
 const centerSelectFilter = document.getElementById("centerSelectFilter");
 
+const searchAssistanceTraineesInput = document.getElementById("traineesAssistanceSearch");
+const inputIdSheetAssistance = document.getElementById("inputIdSheetAssistance");
+const resultsAssistanceSearchDiv = document.getElementById("resultsTraineesAssistanceSearch");
+
+const searchListTraineesInput = document.getElementById("traineesListSearch");
+const inputIdSheetList = document.getElementById("inputIdSheetList");
+const resultsListSearchDiv = document.getElementById("resultsTraineesListSearch");
+
+const searchAddTraineesInput = document.getElementById("traineesAddSearch");
+const inputIdSheetAdd = document.getElementById("inputIdSheetAdd");
+const resultsAddSearchDiv = document.getElementById("resultsTraineesAddSearch");
+
 loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
 
 let dataSheets = [];
@@ -32,16 +44,29 @@ const createDataSheetCard = (dataSheets) => {
       const btnTrainees = document.createElement("a");
       btnTrainees.innerHTML =
         '<i class="fa-solid fa-user-graduate"></i>Aprendices';
+      const btnAssistance = document.createElement("a");
+      btnAssistance.innerHTML =
+        '<i class="fa-regular fa-address-book"></i>Lista';
       const btnEdit = document.createElement("a");
       btnEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>Editar';
       const btnDelete = document.createElement("a");
       btnDelete.innerHTML = '<i class="fa-solid fa-trash"></i>Eliminar';
       cardMenuItems.appendChild(btnTrainees);
+      cardMenuItems.appendChild(btnAssistance);
       cardMenuItems.appendChild(btnEdit);
       cardMenuItems.appendChild(btnDelete);
       cardTop.appendChild(cardMenuItems);
       cardTop.appendChild(cardMenu);
       dropDown(cardMenu, cardMenuItems);
+      btnTrainees.addEventListener("click", () => {
+        inputIdSheetList.valule = sheet.idFicha;
+        openModal("dataSheetListTrainees");
+        console.log(inputIdSheetList);
+      });
+      btnAssistance.addEventListener("click", () => {
+        inputIdSheetAssistance.value = sheet.idFicha;
+        openModal("dataSheetAssistanceTrainees");
+      });
       btnEdit.addEventListener("click", () => {
         loadDataForm({
           inputs: [
@@ -50,7 +75,7 @@ const createDataSheetCard = (dataSheets) => {
             "dataSheetCourseEdit",
             "dataSheetCenterEdit",
           ],
-          inputsValue: [sheet. idFicha, sheet.ficha, sheet.curso, sheet.idCentro],
+          inputsValue: [sheet.idFicha, sheet.ficha, sheet.curso, sheet.idCentro],
           modal: "dataSheetEdit",
         });
       });
@@ -72,9 +97,8 @@ const createDataSheetCard = (dataSheets) => {
     cardBodyTxt.classList.add("cardBodyTxt");
     cardBodyTxt.innerHTML = `<p>${sheet.curso}</p>
                                 <h3>${sheet.centro}</h3>
-                                <span>${sheet.aprendices} ${
-      sheet.aprendices == 1 ? "Aprendiz" : "Aprendices"
-    }</span>`;
+                                <span>${sheet.aprendices} ${sheet.aprendices == 1 ? "Aprendiz" : "Aprendices"
+      }</span>`;
     cardBody.appendChild(cardBodyTxt);
     card.appendChild(cardTop);
     card.appendChild(cardBody);
@@ -115,6 +139,108 @@ numberInputFilter.addEventListener("keyup", filterDataSheets);
 
 loadSelectFilters(centrosAPI, "dataSheetCenter", ["idCentro", "detalle"]);
 loadSelectFilters(centrosAPI, "dataSheetCenterEdit", ["idCentro", "detalle"]);
+
+// Lista de aprendices
+searchListTraineesInput.addEventListener('keyup', async function () {
+  const doc = searchListTraineesInput.value
+  console.log(typeof (doc));
+  if (doc.length > 0) {
+    const response = await fetch(`${usuariosAPI}.php?query=${doc}`);
+    const results = await response.json();
+
+    resultsListSearchDiv.innerHTML = '';
+
+    results.forEach(result => {
+      const div = document.createElement('div');
+      div.classList.add("divCardSearchTrainee")
+      div.innerHTML = `
+        <div>
+          <img src=${result.imagen} with="50" heigh="50"  alt="">
+          <div>
+            <span>${result.nombre}</span>
+            <span>${result.estado}</span>
+          </div>
+        </div>
+        <button id="btnOpenModalRemove" onclick="openModal('dataSheetremoveTrainee')" class="btn btnAlt" type="submit"><i class="fa-regular fa-trash-can"></i></button>
+          `;
+      resultsListSearchDiv.appendChild(div);
+    });
+  } else {
+    resultsListSearchDiv.innerHTML = '';
+  }
+});
+
+// Asistencia de aprendices
+searchAssistanceTraineesInput.addEventListener('keyup', async function () {
+  const doc = searchAssistanceTraineesInput.value
+  if (doc.length > 0) {
+    const response = await fetch(`${usuariosAPI}.php?query=${doc}`);
+    const results = await response.json();
+    resultsAssistanceSearchDiv.innerHTML = '';
+    results.forEach(result => {
+      const div = document.createElement('div');
+      div.classList.add("divCardSearchTrainee")
+      div.innerHTML = `
+        <div>
+          <img src=${result.imagen} with="50" heigh="50"  alt="">
+          <div>
+            <span>${result.nombre}</span>
+            <span>${result.estado}</span>
+          </div>
+        </div>
+        <input type="checkbox" class="customCheckbox">
+          `;
+      resultsAssistanceSearchDiv.appendChild(div);
+    });
+  } else {
+    resultsAssistanceSearchDiv.innerHTML = '';
+  }
+});
+
+// Agregar aprendices
+searchAddTraineesInput.addEventListener('keyup', async function () {
+  const doc = searchAddTraineesInput.value;
+  if (doc.length > 0) {
+    const response = await fetch(`${usuariosAPI}.php?queryAdd=${doc}`);
+    const results = await response.json();
+    resultsAddSearchDiv.innerHTML = '';
+    results.forEach(result => {
+      const div = document.createElement('div');
+      div.classList.add("divCardSearchTrainee")
+      div.innerHTML = `
+        <div>
+          <img src=${result.imagen} with="50" heigh="50"  alt="">
+          <div>
+            <span>${result.nombre}</span>
+            <span>${result.estado}</span>
+          </div>
+        </div>
+        <input type="checkbox" class="customCheckbox" data-id="${result.idUsuario}">
+          `;
+      resultsAddSearchDiv.appendChild(div);
+    });
+  } else {
+    resultsAddSearchDiv.innerHTML = '';
+  }
+});
+
+document.getElementById("saveTraineesSelected").addEventListener("click", async function () {
+  const checkboxes = document.querySelectorAll('.customCheckbox:checked');
+  const selectedIds = Array.from(checkboxes).map(checkbox => checkbox.getAttribute('data-id'));
+  if (selectedIds.length > 0) {
+    const response = await fetch(`${traineesAPI}.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ids: selectedIds, idSheet: inputIdSheetAdd })
+    });
+    const result = await response.json();
+    alert(result.message);
+  } else {
+    alert('No se seleccionó ningún aprendiz.');
+  }
+})
 
 sendForm(
   "dataSheetCreateForm",
