@@ -95,7 +95,7 @@
             <i class="fa-solid fa-clipboard-list"></i>
             <h1>Asistencia</h1>
         </div>
-        <input type="hidden" id="inputIdSheetAssistance">
+        <!-- <input type="hidden" id="inputIdSheetAssistance"> -->
         <input type="text" id="traineesAssistanceSearch" placeholder="Buscar por documento">
         <div id="resultsTraineesAssistanceSearch" class="resultsTraineesSearch"></div>
         <p id="messageSheetAssistance" class="message"></p>
@@ -110,11 +110,12 @@
             <i class="fa-solid fa-user"></i>
             <h1>Lista</h1>
         </div>
-        <input type="hidden" id="inputIdSheetList">
+        <!-- <input type="hidden" id="inputIdSheetList"> -->
         <input type="text" id="traineesListSearch" placeholder="Buscar por documento">
         <div id="resultsTraineesListSearch" class="resultsTraineesSearch"></div>
         <div class="buttonGroup">
-            <button id="openModalAdd" onclick="openModal(`dataSheetAddTrainees`); closeModal(`dataSheetListTrainees`)" class="btn btnAlt" type="submit"><i class="fa-solid fa-square-plus"></i>
+            <button id="openModalAdd" onclick="openModal(`dataSheetAddTrainees`); closeModal(`dataSheetListTrainees`)"
+                class="btn btnAlt"><i class="fa-solid fa-square-plus"></i>
                 Crear Nuevo</button>
         </div>
         <p id="messageSheetList" class="message"></p>
@@ -129,7 +130,7 @@
             <i class="fa-solid fa-user-plus"></i>
             <h1>Nuevo Aprendiz</h1>
         </div>
-        <input type="hidden" id="inputIdSheetAdd">
+        <!-- <input type="hidden" id="inputIdSheetAdd"> -->
         <input type="text" id="traineesAddSearch" placeholder="Buscar por documento">
         <div id="resultsTraineesAddSearch" class="resultsTraineesSearch"></div>
         <div class="buttonGroup">
