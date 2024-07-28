@@ -184,14 +184,10 @@ const renderDevices = async (data) => {
 };
 
 const filterDevices = () => {
-  const center = centerSelectFilter.value;
   const status = statusSelectFilter.value;
   const number = numberInputFilter.value;
   let newdevices = devices;
   console.log(newdevices);
-  if (center !== "all") {
-    newdevices = newdevices.filter((device) => device.centro == center);
-  }
   if (status !== "all") {
     newdevices = newdevices.filter((device) => device.estado == status);
   }
@@ -202,7 +198,6 @@ const filterDevices = () => {
   }
   renderDevices(newdevices);
 };
-centerSelectFilter.addEventListener("change", filterDevices);
 statusSelectFilter.addEventListener("change", filterDevices);
 numberInputFilter.addEventListener("keyup", filterDevices);
 
