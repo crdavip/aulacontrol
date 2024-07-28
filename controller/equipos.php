@@ -58,7 +58,6 @@ switch ($method) {
         echo json_encode(['success' => false, 'message' => "$icon ¡Oops! Parece que este equipo ya existe."]);
         exit();
       } else {
-        // ! NOT WORKING - error con la imagen
         $qr = new QRgenerator($refDevice, "device");
         $qr->createQR();
         $deviceQr = "./view/img/devices/qr-$refDevice.png";
@@ -76,7 +75,6 @@ switch ($method) {
       $deviceAmbEdit = $data['deviceAmbEdit'];
       $refDeviceBD = $functions->getValue('computador', 'ref', 'idComputador', $deviceIdEdit);
       $brandDeviceBD = $functions->getValue('computador', 'marca', 'idComputador', $deviceIdEdit);
-      $stateDeviceBD = $functions->getValue('computador', 'estado', 'idComputador', $deviceIdEdit);
       $roomDeviceBD = $functions->getValue('computador', 'idAmbiente', 'idComputador', $deviceIdEdit);
       $deviceEdit = $deviceRefEdit !== $refDeviceBD || $deviceBrandEdit !== $brandDeviceBD || $deviceAmbEdit !== $roomDeviceBD;
       if ($functions->checkNotEmpty([$deviceRefEdit, $deviceBrandEdit, $deviceAmbEdit])) {

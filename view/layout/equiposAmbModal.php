@@ -105,7 +105,7 @@
         </div>
         <div class="deviceAssocInfo"></div>
         <div class="containerQr"></div>
-        <p id="messageRoomAssoc" class="message"></p>
+        <p id="messageDeviceAssoc" class="message"></p>
     </div>
 </section>
 

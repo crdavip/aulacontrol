@@ -246,6 +246,32 @@ ExportFormPdf(
   equiposAPI,
 );
 
+const deviceAssocInfo = async (device) => {
+  const deviceAssocInfo = document.querySelector(".deviceAssocInfo");
+  deviceAssocInfo.innerHTML = "";
+  deviceAssocInfo.innerHTML += `<input type="hidden" name="deviceIdAssoc" id="deviceIdAssoc" value="${device.idComputador}">`;
+  deviceAssocInfo.innerHTML += `<input type="hidden" name="deviceStatusAssoc" id="deviceStatusAssoc" value="${device.estado}">`;
+  const deviceAssocTitle = document.createElement("h3");
+  deviceAssocTitle.innerHTML = `${device.marca} - ${device.ref}`;
+  deviceAssocInfo.appendChild(deviceAssocTitle);
+  if (device.estado == "Disponible") {
+    const assocInfo = document.createElement("p");
+    (device.ambiente == "Mesa Ayuda") ? assocInfo.innerHTML = `${device.ambiente} - ${device.centro}` : assocInfo.innerHTML = `Ambiente ${device.ambiente} - ${device.centro}`;
+    deviceAssocInfo.appendChild(assocInfo);
+  } else {
+    const res = await fetch(`${regEquiposAPI}?idComputador=${device.idComputador}`);
+    const data = await res.json();
+    console.log(data);
+    const roomAssocUser = document.createElement("p");
+    roomAssocUser.innerHTML = `Vinculada con <strong>${data.usuario}</strong>`;
+    deviceAssocInfo.appendChild(roomAssocUser);
+    const roomAssocStart = document.createElement("p");
+    roomAssocStart.classList.add("roomAssocStart");
+    roomAssocStart.innerHTML = `<strong>Inicio:</strong> ${data.inicio}`;
+    deviceAssocInfo.appendChild(roomAssocStart);
+  }
+};
+
 const deviceAssoc = (device) => {
   openModal("deviceAssoc");
   const titleDeviceAssoc = document.getElementById("titleDeviceAssoc");
@@ -254,38 +280,67 @@ const deviceAssoc = (device) => {
     : (titleDeviceAssoc.innerHTML = `Desvincular Equipo`);
   deviceAssocInfo(device);
   renderScanQR();
-  configScanQR(filterDoc);
+  // configScanQR(filterDoc);
+  setTimeout(() => {
+    filterDoc(100004);
+  }, 2000);
 };
 
-const deviceAssocInfo = async (device) => {
-  const deviceAssocInfo = document.querySelector(".deviceAssocInfo");
-  deviceAssocInfo.innerHTML = "";
-  deviceAssocInfo.innerHTML += `<input type="hidden" name="deviceIdAssoc" id="deviceIdAssoc" value="${device.idComputador}">`;
-  deviceAssocInfo.innerHTML += `<input type="hidden" name="deviceStatusAssoc" id="deviceStatusAssoc" value="${device.estado}">`;
-  const deviceAssocTitle = document.createElement("h3");
-  deviceAssocTitle.innerHTML = `Equipo ${device.ref} - ${device.idAmbiente}`;
-  deviceAssocInfo.appendChild(deviceAssocTitle);
-  if (device.estado == "Disponible") {
-    const inputGroupQr = document.createElement("div");
-    inputGroupQr.classList.add("inputGroup", "inputGroupQr");
-    inputGroupQr.innerHTML = `
-    <label for="deviceCharge">Cargador</label>
-    <input class="inputCheck" type="checkbox" name="deviceCharge" id="deviceCharge" value="charge" checked>
-    <label for="mouseDevice">Mouse</label>
-    <input class="inputCheck" type="checkbox" name="mouseDevice" id="mouseDevice" value="mouse">
-    <label for="allInOneDevice">Todo en Uno</label>
-    <input class="inputCheck" type="checkbox" name="allInOneDevice" id="allInOneDevice" value="allInOne">
-    `;
-    deviceAssocInfo.appendChild(inputGroupQr);
+const deviceAssocHistory = async (method, json, userData) => {
+  const jsonData = JSON.stringify(json);
+  const res = await fetch(regEquiposAPI, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: jsonData,
+  });
+  const data = await res.json();
+  if (data.success == true) {
+    updateRenderDevices();
+    renderSenaCard();
+    loadSenaCard(
+      "picSenaCard",
+      "roleSenaCard",
+      "nameUserSenaCard",
+      "docUserSenaCard",
+      "fichaSenaCard",
+      userData
+    );
+    showMessage(
+      "messageDeviceAssoc",
+      "messageOK",
+      data.message,
+      "romm",
+      2500
+    );
   } else {
-    const res = await fetch(`${regAmbientesAPI}?idAmbiente=${room.idAmbiente}`);
-    const data = await res.json();
-    const roomAssocUser = document.createElement("p");
-    roomAssocUser.innerHTML = `Vinculada con <strong>${data.instructor}</strong>`;
-    roomAssocInfo.appendChild(roomAssocUser);
-    const roomAssocStart = document.createElement("p");
-    roomAssocStart.classList.add("roomAssocStart");
-    roomAssocStart.innerHTML = `<strong>Inicio:</strong> ${data.inicio}`;
-    roomAssocInfo.appendChild(roomAssocStart);
+    showMessage("messageDeviceAssoc", "messageErr", data.message, "", 2500);
+  }
+};
+
+const filterDoc = async (doc) => {
+  const deviceIdAssoc = document.getElementById("deviceIdAssoc").value;
+  const deviceStatusAssoc = document.getElementById("deviceStatusAssoc").value;
+  const res = await fetch(`${usuariosAPI}?docUserAssoc2=${doc}`);
+  const data = await res.json();
+  console.log(data);
+  if (data.success == true) {
+    const userData = data.user;
+    if (deviceStatusAssoc == "Disponible") {
+      const dataAssoc = {
+        idUserAssoc: data.user.idUsuario,
+        idDevice: deviceIdAssoc,
+      };
+      deviceAssocHistory("POST", dataAssoc, userData);
+    } else {
+      const dataAssoc = {
+        idUserAssoc: data.user.idUsuario,
+        idDevice: deviceIdAssoc,
+      };
+      deviceAssocHistory("PUT", dataAssoc, userData);
+    }
+  } else {
+    showMessage("messageDeviceAssoc", "messageErr", data.message, "", 2000);
   }
 };

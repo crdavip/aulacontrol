@@ -210,7 +210,7 @@ const roomAssocHistory = async (method, json, userData) => {
   const data = await res.json();
   if (data.success == true) {
     updateRenderRooms();
-    instructorSenaCard();
+    renderSenaCard();
     loadSenaCard(
       "picSenaCard",
       "roleSenaCard",
