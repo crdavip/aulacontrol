@@ -103,7 +103,7 @@
         echo '<script src="./view/js/registroAmbientes.js" type="module"></script>';
         break;
     case 'Fichas':
-        echo '<script src="./view/js/fichas.js"></script>';
+        echo '<script src="./view/js/fichas.js" type="module"></script>';
         break;
     case 'Usuarios':
         echo '<script src="./view/js/usuarios.js"></script>';

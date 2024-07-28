@@ -1,6 +1,7 @@
 const numberInputFilter = document.getElementById("numberInputFilter");
 const centerSelectFilter = document.getElementById("centerSelectFilter");
 const room = document.getElementById("selectedRoom");
+const btnNavigateRegAssist = document.getElementById("btnNavigateRegAssist");
 
 const searchAssistanceTraineesInput = document.getElementById("traineesAssistanceSearch");
 const resultsAssistanceSearchDiv = document.getElementById("resultsTraineesAssistanceSearch");
@@ -9,7 +10,19 @@ const selectRoomAssist = document.getElementById("selectedRoom");
 let allTraineesAssist = [];
 let filteredTraineesAssist = [];
 let selectedTraineesAssist = new Set();
+//  ? exportar variable a registro asistencia
 let idSheetAssistance;
+// let idSheetForExport;
+// Función para establecer el valor
+// export function setIdSheetAssistance(value) {
+//   idSheetForExport = value;
+// }
+// // Función para obtener el valor
+// export function getIdSheetAssistance() {
+//   return idSheetForExport;
+// }
+// // ? Fin exportacion
+
 
 const searchListTraineesInput = document.getElementById("traineesListSearch");
 const resultsListSearchDiv = document.getElementById("resultsTraineesListSearch");
@@ -189,6 +202,8 @@ const createDataSheetCard = (dataSheets) => {
       });
       btnAssistance.addEventListener("click", () => {
         idSheetAssistance = sheet.idFicha;
+        // setIdSheetAssistance(sheet.idFicha);
+        localStorage.setItem('idSheet', sheet.idFicha);
         loadAllTrainees();
         openModal("dataSheetAssistanceTrainees");
       });
@@ -427,6 +442,11 @@ saveButtons.forEach(button => {
       showMessage(messageId, "messageErr", 'No se seleccionó ningún elemento.', modalUsed, 1500);
     }
   });
+});
+
+btnNavigateRegAssist.addEventListener('click', () => {
+  console.log(idSheetAssistance);
+  window.location.href = "./registro-asistencia";
 });
 
 sendForm(

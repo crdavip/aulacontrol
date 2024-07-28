@@ -101,8 +101,7 @@
             <div id="resultsTraineesAssistanceSearch" class="resultsTraineesSearch"></div>
             <div class="inputGroup" id="inputGroupAssistDate">
                 <label><i class="fa-regular fa-calendar"></i> Fecha Asistencia</label>
-                <input class="inputGroupInput" type="date" name="assistDate" id="assistDate" autocomplete="off"
-                    required>
+                <input class="inputGroupInput" type="date" name="assistDate" id="assistDate" autocomplete="off" required>
             </div>
             <div class="inputGroup">
                 <label class="inputGroupLabel" for="selectedRoom"><i class="bi bi-door-open"></i></label>
@@ -113,6 +112,9 @@
                 <button id="saveAssistancesSelected" data-selection="selectedTraineesAssist" class="btn"><i
                         class="fa-solid fa-floppy-disk"></i> Guardar</button>
                 <button class="btn btnAlt" type="reset"><i class="fa-solid fa-eraser"></i> Limpiar</button>
+            </div>
+            <div class="buttonGroup">
+                <button id="btnNavigateRegAssist" class="btn"><i class="fa-solid fa-clipboard-list"></i> Ver Registros</button>
             </div>
         </div>
         <p id="messageSheetAssist" class="message"></p>

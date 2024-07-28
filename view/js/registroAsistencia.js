@@ -1,4 +1,5 @@
 import { getDataHistory } from "../js/fetch.js";
+// import { getIdSheetAssistance } from "./fichas.js";
 
 const numberInputFilter = document.getElementById("numberInputFilter");
 const dateInputFilter = document.getElementById("dateInputFilter");
@@ -9,7 +10,6 @@ const pgPrevBtn = document.getElementById("pgPrev");
 const tableBody = document.getElementById("tableBody");
 const roomPdf = document.getElementById("selectedRoomPdf");
 const roomExcel = document.getElementById("selectedRoomExcel");
-const btnShowDetailsAssist = document.getElementById("btnShowDetailsAssist");
 
 const getDataAmbs = async () => {
   const dataAmbientes = await getData(ambientesAPI);
@@ -24,8 +24,9 @@ const getDataAmbs = async () => {
   roomExcel.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
 }
 // loadSelectFilters(centrosAPI, "centerSelectFilter", ["detalle"]);
-
-let dataHistory = await getDataHistory(regAsistenciaAPI);
+const sheet = localStorage.getItem('idSheet');
+console.log("sheet in regs :",sheet)
+let dataHistory = await getDataHistory(`${regAsistenciaAPI}.php?sheet=${sheet}`);
 
 let pgFrom = 0;
 let pgLimit = parseInt(selectPgLimit.value);
@@ -37,7 +38,6 @@ let history = dataHistory.slice(pgFrom, pgLimit);
 const getHistory = async (history) => {
   tableBody.innerHTML = "";
   history.forEach((row) => {
-    // Convertir cadenas a arrays si es necesario
     const docs = row.docUsuarios.split(',');
     const names = row.nombresUsuarios.split(',');
     
@@ -75,10 +75,8 @@ const getHistory = async (history) => {
     </tr>
     `;
   });
-
   loadItemsPg(pages);
 
-  // Agregar el event listener después de cargar el contenido
   document.querySelectorAll('.btnShowDetailsAssist').forEach(button => {
     button.addEventListener('click', function() {
       const idAssist = this.getAttribute('data-id-assist');
@@ -186,7 +184,7 @@ const filterHistory = async () => {
   if (center !== "all") {
     dataHistory = dataHistory.filter((row) => row.centro == center);
   } else {
-    dataHistory = await getDataHistory(regAsistenciaAPI);
+    dataHistory = await getDataHistory(`${regAsistenciaAPI}.php?sheet=${sheet}`);
   }
   if (number !== "") {
     dataHistory = dataHistory.filter((row) =>
@@ -212,3 +210,7 @@ ExportFormExcel(
   regAsistenciaAPI,
 );
 
+ExportFormPdf(
+  "regAssistExportFormPdf",
+  regAsistenciaAPI,
+);

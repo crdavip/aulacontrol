@@ -17,10 +17,6 @@ $titlePgRight = '
 include('./view/layout/header.php');
 if ($userIdRole === 1) {
     $titlePgRight .= '
-        <a href="./registro-asistencia" class="btnUi btnUiAlt">
-            <i class="fas fa-clipboard-list"></i>
-            <p>Ver Registros</p>
-        </a>
         <a onclick="openModal(`dataSheetCreate`)" class="btnUi">
             <i class="fa-solid fa-square-plus"></i>
             <p>Nueva Ficha</p>

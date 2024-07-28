@@ -7,6 +7,7 @@ require_once '../model/registroEquipos.php';
 require_once '../model/equipos.php';
 require_once '../model/objetos.php';
 require_once '../model/registroObjetos.php';
+require_once '../model/registroAsistencia.php';
 
 class ExportController
 {
