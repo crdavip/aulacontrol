@@ -122,25 +122,6 @@
     </div>
 </section>
 
-<!-- Modal Add Trainees
-<section class="modal" id="dataSheetAddTrainees">
-    <div class="containerModal">
-        <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
-        <div class="titlePg">
-            <i class="fa-solid fa-user-plus"></i>
-            <h1>Nuevo Aprendiz</h1>
-        </div>
-        <input type="text" id="traineesAddSearch" placeholder="Buscar por documento">
-        <div id="resultsTraineesAddSearch" class="resultsTraineesSearch"></div>
-        <div id="selectedTrainees" class="selectedTrainees"></div>
-        <div class="buttonGroup">
-            <button id="saveTraineesSelected" class="btn btnAlt" type="submit"><i class="fa-solid fa-floppy-disk"></i>
-                Guardar</button>
-        </div>
-        <p id="messageSheetAdd" class="message"></p>
-    </div>
-</section> -->
-
 <!-- Modal Add Trainees -->
 <section class="modal" id="dataSheetAddTrainees">
     <div class="containerModal">

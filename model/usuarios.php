@@ -71,7 +71,7 @@ class Usuarios extends ConnPDO
             INNER JOIN usuario_detalle AS ud ON ud.idUsuario = u.idUsuario
             LEFT JOIN aprendices AS a ON u.idUsuario = a.idUsuario
             LEFT JOIN ficha AS f ON a.idFicha = f.idFicha
-            WHERE u.idCargo = 3 AND u.documento LIKE ?
+            WHERE u.idCargo = 3 AND u.estado = 'Activo' AND u.documento LIKE ?
             AND (a.idUsuario IS NULL OR f.estado != 'Activa')";
     $stmt = $this->getConn()->prepare($sql);
     $stmt->execute(["$doc%"]);
@@ -87,6 +87,7 @@ class Usuarios extends ConnPDO
             LEFT JOIN aprendices AS a ON u.idUsuario = a.idUsuario
             LEFT JOIN ficha AS f ON a.idFicha = f.idFicha
             WHERE u.idCargo = 3
+            AND u.estado = 'Activo'
             AND (a.idUsuario IS NULL OR f.estado != 'Activa')
             AND c.idCentro = ?";
     $stmt = $this->getConn()->prepare($sql);

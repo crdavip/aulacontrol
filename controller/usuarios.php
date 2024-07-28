@@ -48,7 +48,7 @@ switch ($method) {
                 echo json_encode(['success' => false, 'message' => "$icon Navegación erronea."]);
                 exit;
             } else {
-                $users->getTraineesAvailables(1);
+                $users->getTraineesAvailables($userCenter);
                 exit;
             }
         } elseif (isset($_GET['format'])) {
