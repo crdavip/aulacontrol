@@ -111,6 +111,9 @@
     case 'Equipos':
         echo '<script src="./view/js/equipos.js" type="module"></script>';
         break;
+    case 'Mesa de Ayuda':
+        echo '<script src="./view/js/mesadeayuda.js" type="module"></script>';
+        break;
     case 'Registro de Equipos':
         echo '<script src="./view/js/registroEquipos.js" type="module"></script>';
         break;

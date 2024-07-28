@@ -383,7 +383,7 @@ const renderScanQR = () => {
   wrapperQr.appendChild(wrapperScanQr);
   const titleScanQr = document.createElement("p");
   titleScanQr.classList.add("titleScanQr");
-  titleScanQr.innerHTML = "Escanear codigo QR del instructor";
+  titleScanQr.innerHTML = "Escanear Código QR del Usuario";
   wrapperScanQr.appendChild(titleScanQr);
   const scanQrGif = document.createElement("img");
   scanQrGif.id = "scanQrGif";
@@ -413,8 +413,8 @@ const renderScanQR = () => {
 };
 //Fin RenderScanQR
 
-//Incio RenderInstructorSenaCard
-const instructorSenaCard = () => {
+//Incio RenderSenaCard
+const renderSenaCard = () => {
   const containerQr = document.querySelector(".containerQr");
   containerQr.innerHTML = "";
   const wrapperQr = document.createElement("div");

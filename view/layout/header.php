@@ -88,6 +88,14 @@ if (!isset($userId)) {
                     <?php } ?>
                     <?php if ($userIdRole == 1) { ?>
                         <li class="navLink">
+                            <a href="./mesadeayuda">
+                                <i class="fa-solid fa-handshake-angle icon"></i>
+                                <span class="text navText">Mesa de Ayuda</span>
+                            </a>
+                        </li>
+                    <?php } ?>
+                    <?php if ($userIdRole == 1) { ?>
+                        <li class="navLink">
                             <a href="./objetos">
                                 <i class="fa-solid fa-cubes icon"></i>
                                 <span class="text navText">Objetos</span>

@@ -2,7 +2,6 @@ const numberInputFilter = document.getElementById("numberInputFilter");
 const centerSelectFilter = document.getElementById("centerSelectFilter");
 const statusSelectFilter = document.getElementById("statusSelectFilter");
 
-loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
 loadSelectFilters(equiposAPI, "statusSelectFilter", ["estado"]);
 
 const roomPdf = document.getElementById("selectedRoomDevicesPdf");
@@ -29,8 +28,8 @@ const getAmbsForExport = async () =>{
 const getDataAmbs = async () => {
   const dataCentros = await getData(centrosAPI);
   const dataAmbientes = await getData(ambientesAPI);
-  centersList = dataCentros;
-  roomsList = dataAmbientes;
+  centersList = dataCentros.filter((item) => item.siglas !== "PORT");
+  roomsList = dataAmbientes.filter((item) => item.numero == "Mesa Ayuda");
 
   let contentSelectTagCenters = centersList.map((center) => {
     return `<option value="${center.idCentro}">${center.detalle}</option>`;
@@ -51,7 +50,7 @@ const updateRoomsDropdown = () => {
 
 let devices = [];
 const loadRenderDevices = async () => {
-  const data = await getData(equiposAPI);
+  const data = await getData(`${equiposAPI}?helpDevices`);
   devices = data;
   renderDevices(devices);
   getDataAmbs();
@@ -101,6 +100,7 @@ const createDeviceCard  = (devices) => {
         const selectEditRoom = document.getElementById("deviceAmbEdit");
 
         let roomFiltered = roomsList.find((room) => room.numero == device.ambiente);
+        console.log(roomsList);
         let centerFiltered = centersList.find((center) => center.idCentro === roomFiltered.idCentro);
 
         let contentSelectTagCenterFiltered = centersList.filter((center) => center.idCentro !== centerFiltered.idCentro);
@@ -159,8 +159,7 @@ const createDeviceCard  = (devices) => {
     const cardBodyTxt = document.createElement("div");
     cardBodyTxt.classList.add("cardBodyTxt");
     cardBodyTxt.innerHTML = `<p>${device.estado}</p>
-                                <h3>REF ${device.ref}</h3>
-                                <span>Ambiente ${device.ambiente}</span>`;
+                                <h3>REF ${device.ref}</h3>`;
     if (device.estado == "Ocupado") {
       cardDataSheetNum.classList.add("cardRoomNumAlt");
       cardBodyTxt.classList.add("cardBodyTxtAlt");
@@ -281,10 +280,7 @@ const deviceAssoc = (device) => {
     : (titleDeviceAssoc.innerHTML = `Desvincular Equipo`);
   deviceAssocInfo(device);
   renderScanQR();
-  // configScanQR(filterDoc);
-  setTimeout(() => {
-    filterDoc(100004);
-  }, 2000);
+  configScanQR(filterDoc);
 };
 
 const deviceAssocHistory = async (method, json, userData) => {
@@ -312,7 +308,7 @@ const deviceAssocHistory = async (method, json, userData) => {
       "messageDeviceAssoc",
       "messageOK",
       data.message,
-      "romm",
+      "deviceAssoc",
       2500
     );
   } else {
