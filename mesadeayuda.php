@@ -9,7 +9,7 @@ $titlePgIcon = 'fa-solid fa-handshake-angle icon';
 $titlePgRight = '
     <div class="containerFilterPg">
         <label for="numberInputFilter"><i class="fa-solid fa-magnifying-glass"></i></label>
-        <input type="text" class="filterSearchPg" name="numberInputFilter" id="numberInputFilter" placeholder="Buscar:" autocomplete="off">
+        <input type="text" class="filterSearchPg" name="numberInputFilter" id="numberInputFilter" placeholder="Buscar Ref:" autocomplete="off">
         <select class="filterSelectPg" id="statusSelectFilter">
             <option value="all">Estado</option>
         </select>
