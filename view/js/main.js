@@ -343,6 +343,8 @@ const regEquiposAPI = `./controller/registroEquipos`;
 const objetosAPI = `./controller/objetos`;
 const regObjetosAPI = `./controller/registroObjetos`;
 const aprendicesAPI = `./controller/aprendices`;
+const asistenciaAPI = `./controller/asistencia`;
+const regAsistenciaAPI = `./controller/registroAsistencia`;
 //Fin APIList
 
 //Inicio LoadDataFilters

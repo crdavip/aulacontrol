@@ -96,9 +96,23 @@
             <h1>Asistencia</h1>
         </div>
         <!-- <input type="hidden" id="inputIdSheetAssistance"> -->
-        <input type="text" id="traineesAssistanceSearch" placeholder="Buscar por documento">
+        <input type="number" id="traineesAssistanceSearch" placeholder="Buscar por documento">
         <div id="resultsTraineesAssistanceSearch" class="resultsTraineesSearch"></div>
-        <p id="messageSheetAssistance" class="message"></p>
+        <div class="inputGroup">
+            <label><i class="fa-regular fa-calendar"></i> Hasta</label>
+            <input class="inputGroupInput" type="date" name="asistDate" id="assistDate" autocomplete="off"
+                required>
+        </div>
+        <div class="inputGroup">
+            <label class="inputGroupLabel" for="selectedRoom"><i class="bi bi-door-open"></i></label>
+            <select class="inputGroupSelect" name="selectedRoom" id="selectedRoom" required>
+            </select>
+        </div>
+        <div class="buttonGroup">
+            <button id="saveAssistancesSelected" data-selection="selectedTraineesAssist" class="btn"><i
+                    class="fa-solid fa-floppy-disk"></i> Guardar</button>
+            <button class="btn btnAlt" type="reset"><i class="fa-solid fa-eraser"></i> Limpiar</button>
+        </div>
     </div>
 </section>
 
@@ -116,7 +130,7 @@
         <div class="buttonGroup">
             <button id="openModalAdd" onclick="openModal(`dataSheetAddTrainees`); closeModal(`dataSheetListTrainees`)"
                 class="btn btnAlt"><i class="fa-solid fa-square-plus"></i>
-                 Nuevo</button>
+                Nuevo</button>
         </div>
         <p id="messageSheetList" class="message"></p>
     </div>
@@ -135,7 +149,8 @@
         <!-- <h2>Seleccionados</h2> -->
         <!-- <div id="selectedTraineesContainer" class="resultsTraineesSearch"></div> -->
         <div class="buttonGroup">
-            <button id="saveTraineesSelected" class="btn btnAlt" type="submit"><i class="fa-solid fa-floppy-disk"></i>
+            <button id="saveTraineesSelected" data-selection="selectedTraineesAdd" class="btn btnAlt" type="submit"><i
+                    class="fa-solid fa-floppy-disk"></i>
                 Guardar</button>
         </div>
         <p id="messageSheetAdd" class="message"></p>
