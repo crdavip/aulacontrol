@@ -15,16 +15,14 @@ let idTrainee;
 const searchAddTraineesInput = document.getElementById("traineesAddSearch");
 const resultsAndSelectedContainer = document.getElementById("resultsTraineesAddSearch");
 // const selectedTraineesContainer = document.getElementById('selectedTraineesContainer');
-// let selectedIds = [];
-let selectedIds = new Set();
+let allTrainees = [];
+let filteredTrainees = [];
+let selectedTrainees = new Set();
 let idSheetAdd;
 
 // For Removing Trainee
 const inputRemoveIdTrainee = document.getElementById("dataSheetIdRemoveTrainee");
 const inputRemoveIdSheet = document.getElementById("dataSheetIdRemoveSheet");
-
-// Lista de usuarios
-let resultsOf;
 
 loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
 
@@ -36,6 +34,91 @@ const loadDataSheets = async () => {
   getDataOfSheetList();
 };
 
+// ! Bloque de pruebas
+const loadAllTrainees = async () => {
+  try {
+    const response = await fetch(`${usuariosAPI}.php?queryAll=true`);
+    const trainees = await response.json();
+    allTrainees = trainees;
+    filteredTrainees = trainees;
+    console.log(allTrainees, filterTrainees, trainees);
+    renderTrainees();
+  } catch (error) {
+    console.error('Error al cargar los aprendices:', error);
+  }
+};
+
+const renderTrainees = () => {
+  resultsAndSelectedContainer.innerHTML = '';
+
+  filteredTrainees.forEach(trainee => {
+    const div = document.createElement('div');
+    div.classList.add("divCardSearchTrainee");
+    div.innerHTML = `
+      <div>
+        <img src=${trainee.imagen} width="50" height="50" alt="">
+        <div>
+          <span>${trainee.nombre}</span>
+          <span>${trainee.estado}</span>
+        </div>
+      </div>
+      <button onclick="toggleSelection(${trainee.idUsuario})" class="btn btnAlt">
+        <i class="fa-solid ${selectedTrainees.has(trainee.idUsuario) ? 'fa-minus' : 'fa-plus'}"></i>
+      </button>
+    `;
+    resultsAndSelectedContainer.appendChild(div);
+  });
+
+  // Renderizar los seleccionados al final
+  selectedTrainees.forEach(id => {
+    const trainee = allTrainees.find(t => t.idUsuario === id);
+    if (trainee) {
+      const div = document.createElement('div');
+      div.classList.add("divCardSearchTrainee");
+      div.innerHTML = `
+        <div>
+          <img src=${trainee.imagen} width="50" height="50" alt="">
+          <div>
+            <span>${trainee.nombre}</span>
+            <span>${trainee.estado}</span>
+          </div>
+        </div>
+        <button onclick="toggleSelection(${trainee.idUsuario})" class="btn btnAlt">
+          <i class="fa-solid fa-minus"></i>
+        </button>
+      `;
+      resultsAndSelectedContainer.appendChild(div);
+    }
+  });
+};
+
+const filterTrainees = () => {
+  const query = searchAddTraineesInput.value;
+  console.log("query: ", query);
+  filteredTrainees = allTrainees.filter(trainee => {
+    console.log('trainee ', trainee);
+    const documentStr = trainee.documento.toString();
+    return documentStr.startsWith(query);
+  }
+  );
+  console.log(filteredTrainees);
+  renderTrainees();
+};
+
+const toggleSelection = (id) => {
+  if (selectedTrainees.has(id)) {
+    selectedTrainees.delete(id);
+  } else {
+    selectedTrainees.add(id);
+  }
+  console.log("selectedTrainees: ", selectedTrainees);
+  renderTrainees();
+};
+
+searchAddTraineesInput.addEventListener('keyup', filterTrainees);
+window.addEventListener('DOMContentLoaded', loadAllTrainees);
+
+// !! FIN BLoque de pruebas
 window.addEventListener("DOMContentLoaded", loadDataSheets);
 
 const updateDataSheets = async () => {
@@ -249,176 +332,20 @@ searchAssistanceTraineesInput.addEventListener('keyup', async function () {
   }
 });
 
-
-// ? Función para renderizar los resultados de búsqueda Modal Agregar Aprendiz
-// const renderSearchResults = (results) => {
-//   resultsAndSelectedContainer.innerHTML = '';
-
-//   results.forEach(result => {
-//       // Verifica si el usuario ya está seleccionado
-//       if (!selectedTrainees.has(result.idUsuario)) {
-//           const div = document.createElement('div');
-//           div.classList.add("divCardSearchTrainee");
-//           div.innerHTML = `
-//               <div>
-//                   <img src=${result.imagen} width="50" height="50" alt="">
-//                   <div>
-//                       <span>${result.nombre}</span>
-//                       <span>${result.estado}</span>
-//                   </div>
-//               </div>
-//               <input type="checkbox" class="customCheckbox" data-id="${result.idUsuario}">
-//           `;
-//           resultsAndSelectedContainer.appendChild(div);
-//       }
-//   });
-// };
-
-// const updateSelectedTrainees = () => {
-//   selectedTraineesContainer.innerHTML = '';
-//   selectedIds.forEach(id => {
-//     console.log("id ? ",id);
-//     const result = id;
-//     const div = document.createElement('div');
-//     div.classList.add("divCardSearchTrainee");
-//     div.innerHTML = `
-//       <div>
-//         <img src=${result.imagen} width="50" height="50" alt="">
-//         <div>
-//           <span>${result.nombre}</span>
-//           <span>${result.estado}</span>
-//         </div>
-//       </div>
-//       <button onclick="removeTrainee(${id})" class="btn btnAlt" type="button"><i class="fa-regular fa-trash-can"></i></button>
-//     `;
-//     selectedTraineesContainer.appendChild(div);
-//   });
-// }
-
-// // Función para renderizar los usuarios seleccionados
-// const renderSelectedTrainees = () => {
-//   selectedTraineesContainer.innerHTML = '';
-
-//   selectedTrainees.forEach(id => {
-//       const div = document.createElement('div');
-//       div.classList.add("divCardSearchTrainee");
-//       div.innerHTML = `
-//           <div>
-//               <img src="default_image.jpg" width="50" height="50" alt="">
-//               <div>
-//                   <span>User ${id}</span>
-//                   <span>Selected</span>
-//               </div>
-//           </div>
-//           <button class="btnRemove" data-id="${id}"><i class="fa-regular fa-trash-can"></i></button>
-//       `;
-//       selectedTraineesContainer.appendChild(div);
-//   });
-// };
-
-const updateResultsAndSelected = async () => {
-  const doc = searchAddTraineesInput.value;
-  if (doc.length > 0) {
-    const response = await fetch(`${usuariosAPI}.php?queryAdd=${doc}`);
-    const results = await response.json();
-    resultsOf = results;
-    resultsAndSelectedContainer.innerHTML = '';
-    console.log("resultsOf ",resultsOf)
-    results.forEach(result => {
-      if (!selectedIds.has(result.idUsuario)) {
-        const div = document.createElement('div');
-        div.classList.add("divCardSearchTrainee");
-        div.innerHTML = `
-                  <div>
-                      <img src=${result.imagen} width="50" height="50" alt="">
-                      <div>
-                          <span>${result.nombre}</span>
-                          <span>${result.estado}</span>
-                      </div>
-                  </div>
-                  <input type="checkbox" class="customCheckbox" data-id="${result.idUsuario}">
-              `;
-        resultsAndSelectedContainer.appendChild(div);
-      }
-    });
-
-    // Renderizar seleccionados al final
-    selectedIds.forEach(id => {
-      console.log(results);
-      console.log(selectedIds, id);
-      const result = results.find(trainee => trainee.idUsuario === parseInt(id));
-      const div = document.createElement('div');
-      console.log(result);
-      div.classList.add("divCardSearchTrainee");
-      div.innerHTML = `
-              <div>
-                  <img src=${result.imagen} width="50" height="50" alt="">
-                  <div>
-                      <span>${result.nombre}</span>
-                      <span>${result.estado}</span>
-                  </div>
-              </div>
-              <button onclick="removeTrainee(${id})" class="btn btnAlt" type="button"><i class="fa-regular fa-trash-can"></i></button>
-          `;
-      resultsAndSelectedContainer.appendChild(div);
-    });
-  } else {
-    // Mostrar los seleccionados si no hay búsqueda
-    selectedIds.forEach(id => {
-      const result = resultsOf.find(trainee => trainee.idUsuario === parseInt(id));
-      const div = document.createElement('div');
-      div.classList.add("divCardSearchTrainee");
-      div.innerHTML = `
-              <div>
-                  <img src=${result.imagen} width="50" height="50" alt="">
-                  <div>
-                      <span>${result.nombre}</span>
-                      <span>${result.estado}</span>
-                  </div>
-              </div>
-              <button onclick="removeTrainee(${id})" class="btn btnAlt" type="button"><i class="fa-regular fa-trash-can"></i></button>
-          `;
-      resultsAndSelectedContainer.appendChild(div);
-    });
-  }
-};
-
-searchAddTraineesInput.addEventListener('keyup', updateResultsAndSelected);
-const removeTrainee = (id) => {
-  console.log("remov ",id);
-  selectedIds.delete(id);
-  console.log("selectedIDs ", selectedIds);
-  updateResultsAndSelected();
-
-};
-
-resultsAndSelectedContainer.addEventListener('change', (event) => {
-  if (event.target.classList.contains('customCheckbox')) {
-    const id = event.target.getAttribute('data-id');
-    if (event.target.checked) {
-      selectedIds.add(id);
-    } else {
-      selectedIds.delete(id);
-    }
-    updateResultsAndSelected();
-  }
-});
-
-document.getElementById("saveTraineesSelected").addEventListener("click", async function () {
-  const checkboxes = document.querySelectorAll('.customCheckbox:checked');
-  const selectedIds = Array.from(checkboxes).map(checkbox => checkbox.getAttribute('data-id'));
-  if (selectedIds.length > 0) {
+document.getElementById("saveTraineesSelected").addEventListener("click", async () => {
+  const idsToSave = Array.from(selectedTrainees);
+  if (idsToSave.length > 0) {
     try {
       const response = await fetch(aprendicesAPI, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ ids: selectedIds, idSheet: idSheetAdd })
+        body: JSON.stringify({ ids: idsToSave, idSheet: idSheetAdd })
       });
 
       const result = await response.json();
-      let messageType
+      let messageType;
       let messageContent;
 
       switch (result.insertion) {

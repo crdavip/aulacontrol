@@ -30,7 +30,7 @@ switch ($method) {
             // Busqueda .-----------
         } elseif (isset($_GET['queryAdd'])) {
             $query = $_GET['queryAdd'];
-
+            // $idCenter = session
             if ($functions->checkNotEmpty([$query])) {
                 $icon = $functions->getIcon('Err');
                 echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
@@ -40,6 +40,17 @@ switch ($method) {
                 exit;
             }
 
+        } elseif (isset($_GET['queryAll'])) {
+            $query = $_GET['queryAll'];
+            // $idCenter = session
+            if (!$query) {
+                $icon = $functions->getIcon('Err');
+                echo json_encode(['success' => false, 'message' => "$icon Navegación erronea."]);
+                exit;
+            } else {
+                $users->getTraineesAvailables(1);
+                exit;
+            }
         } elseif (isset($_GET['format'])) {
             $format = $_GET['format'];
 

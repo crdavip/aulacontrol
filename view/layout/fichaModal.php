@@ -149,7 +149,7 @@
             <i class="fa-solid fa-user-plus"></i>
             <h1>Nuevo Aprendiz</h1>
         </div>
-        <input type="text" id="traineesAddSearch" placeholder="Buscar por documento">
+        <input type="number" id="traineesAddSearch" placeholder="Buscar por documento">
         <div id="resultsTraineesAddSearch" class="resultsTraineesSearch"></div>
         <!-- <h2>Seleccionados</h2> -->
         <!-- <div id="selectedTraineesContainer" class="resultsTraineesSearch"></div> -->
