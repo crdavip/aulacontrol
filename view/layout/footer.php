@@ -108,6 +108,9 @@
     case 'Usuarios':
         echo '<script src="./view/js/usuarios.js"></script>';
         break;
+    case 'Equipos':
+        echo '<script src="./view/js/equipos.js" type="module"></script>';
+        break;
     case 'Mesa de Ayuda':
         echo '<script src="./view/js/mesadeayuda.js" type="module"></script>';
         break;

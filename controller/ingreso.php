@@ -48,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['status'] = $row['estado'];
             $_SESSION['birth'] = $row['nacimiento'];
             $_SESSION['center'] = $row['centro'];
+            $_SESSION['idCenter'] = $row['idCentro'];
 
             echo json_encode(['successUser' => true, 'image' => $row['imagen']]);
           } else {

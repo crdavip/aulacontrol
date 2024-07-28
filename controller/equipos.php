@@ -37,6 +37,8 @@ switch ($method) {
   } elseif (isset($_GET['columns'])) {
       $columns = json_decode($_GET['columns']);
       echo json_encode($functions->getColumns('computador', $columns), JSON_UNESCAPED_UNICODE);
+    } elseif (isset($_GET['helpDevices'])) {
+      $devices->getHelpDevices();
     } else {
       $devices->getDevices();
     }

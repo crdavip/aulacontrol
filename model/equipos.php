@@ -20,9 +20,24 @@ class Equipos extends ConnPDO
             FROM computador AS c
             INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente
             INNER JOIN centro AS ce ON ce.idCentro = a.idCentro
+            WHERE a.numero != 'Mesa Ayuda' AND ce.detalle = ?
             ORDER BY c.idComputador DESC";
     $stmt = $this->getConn()->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([$_SESSION['center']]);
+    $devices = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($devices);
+  }
+
+  function getHelpDevices()
+  {
+    $sql = "SELECT c.idComputador, c.ref, c.marca, c.estado, a.numero AS ambiente, ce.siglas AS centro
+            FROM computador AS c
+            INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente
+            INNER JOIN centro AS ce ON ce.idCentro = a.idCentro
+            WHERE a.numero = 'Mesa Ayuda' AND ce.detalle = ?
+            ORDER BY c.idComputador DESC";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$_SESSION['center']]);
     $devices = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($devices);
   }

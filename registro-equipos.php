@@ -60,6 +60,6 @@ include_once('./view/layout/titlePg.php');
 </div>
 
 <?php
-include_once('./view/layout/equiposAmbModal.php');
+include_once('./view/layout/mesadeayudaModal.php');
 include('./view/layout/footer.php');
 ?>
