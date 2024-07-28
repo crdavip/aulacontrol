@@ -69,17 +69,17 @@ const loadAllTrainees = async () => {
 
 const renderTrainees = (divOfRender, selectedTrainees, filteredTrainees, allTrainees, render) => {
   divOfRender.innerHTML = '';
-
-  if (filteredTrainees.length == 0) {
+  const traineesToRender = filteredTrainees.filter(trainee => !selectedTrainees.has(trainee.idUsuario));
+  if (allTrainees.length === 0) {
     divOfRender.innerHTML = '<p>Ningún aprendiz asociado.</p>';
   }
 
-  filteredTrainees.forEach(trainee => {
+  traineesToRender.forEach(trainee => {
     const div = document.createElement('div');
     div.classList.add("divCardSearchTrainee");
     div.innerHTML = `
       <div>
-        <img src=${trainee.imagen} width="50" height="50" alt="">
+        <img src="${trainee.imagen}" width="50" height="50" alt="">
         <div>
           <span>${trainee.nombre}</span>
           <span>${trainee.documento}</span>
@@ -92,7 +92,6 @@ const renderTrainees = (divOfRender, selectedTrainees, filteredTrainees, allTrai
     divOfRender.appendChild(div);
   });
 
-  // Renderizar los seleccionados al final
   selectedTrainees.forEach(id => {
     const trainee = allTrainees.find(t => t.idUsuario === id);
     if (trainee) {
@@ -100,7 +99,7 @@ const renderTrainees = (divOfRender, selectedTrainees, filteredTrainees, allTrai
       div.classList.add("divCardSearchTrainee");
       div.innerHTML = `
         <div>
-          <img src=${trainee.imagen} width="50" height="50" alt="">
+          <img src="${trainee.imagen}" width="50" height="50" alt="">
           <div>
             <span>${trainee.nombre}</span>
             <span>${trainee.documento}</span>
@@ -146,7 +145,6 @@ const toggleSelection = (id, render) => {
 searchAddTraineesInput.addEventListener('keyup', () => filterTrainees(filteredTraineesAdd, allTraineesAdd, resultsAndSelectedContainer, selectedTraineesAdd, "add"));
 searchAssistanceTraineesInput.addEventListener('keyup', () => filterTrainees(filteredTraineesAssist, allTraineesAssist, resultsAssistanceSearchDiv, selectedTraineesAssist, "assist"));
 window.addEventListener("DOMContentLoaded", loadDataSheets);
-
 
 const updateDataSheets = async () => {
   await loadDataSheets();
@@ -332,14 +330,8 @@ const openRemoveModal = (button) => {
   openModal('dataSheetRemoveTrainee');
 }
 
-// const inputDate = document.getElementById("assistDate");
-// const selectRoomAssist = document.getElementById("selectedRoom")
 const saveButtons = document.querySelectorAll("#saveTraineesSelected, #saveAssistancesSelected");
-
-// Transformar fecha
-const dateFormated = formatDateWithoutTime(inputDate.value);
 const idRoomSelected = selectRoomAssist.value;
-
 const cleantInformatoin = (selectionType) => {
 
   if (selectionType == 'selectedTraineesAdd') {
@@ -375,12 +367,11 @@ saveButtons.forEach(button => {
       apiRequired = asistenciaAPI;
       messageId = "messageSheetAssist";
       modalUsed = "dataSheetAssistanceTrainees";
-      // Transformar fecha
-      const dateFormated = formatDateWithoutTime(inputDate.value);
+      const date = inputDate.value;
       const idRoomSelected = selectRoomAssist.value;
       bodyObject = {
         items: idsToSave,
-        dateAssistance: dateFormated,
+        dateAssistance: date,
         sheet: idSheetAssistance,
         envrmnt: parseInt(idRoomSelected),
       }
