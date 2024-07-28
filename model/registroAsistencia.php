@@ -25,15 +25,18 @@ class RegistroAsistencia extends ConnPDO
       $stmtInsert = $conn->prepare($sqlInsert);
       $stmtInsert->execute($params);
       $conn->commit();
-      $icon = $this->functions->getIcon('OK');
       // echo json_encode(['success' => true, 'message' => "$icon ¡Asistencia Registrada éxitosamente!"]);
       return [
-        'insertion' => 'completa',
+        'insertion' => 'completa'
       ];
     } catch (Exception $e) {
       $conn->rollBack();
-      $icon = $this->functions->getIcon('Err');
-      echo json_encode(['success' => false, 'message' => "$icon Error al registrar la asistencia: " . $e->getMessage()]);
+      return [
+        'insertion' => 'incompleta',
+        'details' => [
+          'error' => $e->getMessage()
+        ]
+      ];
     }
   }
 }

@@ -24,7 +24,19 @@ switch ($method) {
       $envrmnt = $data['envrmnt'];
       $idAssistance = $assistance->saveAssistance($date, $sheet, $user, $envrmnt);
       if ($idAssistance) {
-        return $regAssistance->saveRegAssistance($items, $idAssistance);
+        $result = $regAssistance->saveRegAssistance($items, $idAssistance);
+        if ($result['insertion'] === 'completa') {
+          echo json_encode([
+            'success' => true,
+            'insertion' => $result['insertion']
+          ]);
+        } else {
+          echo json_encode([
+            'success' => false,
+            'insertion' => $result['insertion'],
+            'details' => $result['details']
+          ]);
+        }
       } else {
         $icon = $functions->getIcon('Err');
         echo json_encode(['success' => false, 'message' => "$icon No se pudo ingresar la asistencia."]);

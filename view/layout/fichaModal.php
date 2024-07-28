@@ -99,8 +99,8 @@
         <div class="wrapper-container">
             <input type="number" id="traineesAssistanceSearch" placeholder="Buscar por documento">
             <div id="resultsTraineesAssistanceSearch" class="resultsTraineesSearch"></div>
-            <div class="inputGroup">
-                <label><i class="fa-regular fa-calendar"></i> Hasta</label>
+            <div class="inputGroup" id="inputGroupAssistDate">
+                <label><i class="fa-regular fa-calendar"></i> Fecha Asistencia</label>
                 <input class="inputGroupInput" type="date" name="assistDate" id="assistDate" autocomplete="off"
                     required>
             </div>
@@ -109,12 +109,13 @@
                 <select class="inputGroupSelect" name="selectedRoom" id="selectedRoom" required>
                 </select>
             </div>
-            <div class="buttonGroup">
+            <div class="buttonGroup" id="btnsContainer">
                 <button id="saveAssistancesSelected" data-selection="selectedTraineesAssist" class="btn"><i
                         class="fa-solid fa-floppy-disk"></i> Guardar</button>
                 <button class="btn btnAlt" type="reset"><i class="fa-solid fa-eraser"></i> Limpiar</button>
             </div>
         </div>
+        <p id="messageSheetAssist" class="message"></p>
     </div>
 </section>
 

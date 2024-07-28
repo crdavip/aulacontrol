@@ -4,6 +4,8 @@ const room = document.getElementById("selectedRoom");
 
 const searchAssistanceTraineesInput = document.getElementById("traineesAssistanceSearch");
 const resultsAssistanceSearchDiv = document.getElementById("resultsTraineesAssistanceSearch");
+const inputDate = document.getElementById("assistDate");
+const selectRoomAssist = document.getElementById("selectedRoom");
 let allTraineesAssist = [];
 let filteredTraineesAssist = [];
 let selectedTraineesAssist = new Set();
@@ -49,21 +51,29 @@ const loadDataSheets = async () => {
 const loadAllTrainees = async () => {
   try {
     const response = await fetch(`${usuariosAPI}.php?queryAll=true`);
+    console.log("idSheetList: ", response);
+    const responseAssist = await fetch(`${aprendicesAPI}.php?paramSheet=${idSheetAssistance}`);
     const trainees = await response.json();
+    const traineesAssist = await responseAssist.json();
     allTraineesAdd = trainees;
-    allTraineesAssist = trainees;
+    allTraineesAssist = traineesAssist;
     filteredTraineesAdd = trainees;
-    filteredTraineesAssist = trainees;
+    console.log(filteredTraineesAdd);
+    filteredTraineesAssist = traineesAssist;
     renderTrainees(resultsAndSelectedContainer, selectedTraineesAdd, filteredTraineesAdd, allTraineesAdd, "add");
     renderTrainees(resultsAssistanceSearchDiv, selectedTraineesAssist, filteredTraineesAssist, allTraineesAssist, "assist");
   } catch (error) {
     console.error('Error al cargar los aprendices:', error);
   }
 };
-// ! pocos pasos ....
+
 const renderTrainees = (divOfRender, selectedTrainees, filteredTrainees, allTrainees, render) => {
   divOfRender.innerHTML = '';
-  // let renderItems;
+
+  if (filteredTrainees.length == 0) {
+    divOfRender.innerHTML = '<p>Ningún aprendiz asociado.</p>';
+  }
+
   filteredTrainees.forEach(trainee => {
     const div = document.createElement('div');
     div.classList.add("divCardSearchTrainee");
@@ -131,13 +141,12 @@ const toggleSelection = (id, render) => {
     }
     renderTrainees(resultsAssistanceSearchDiv, selectedTraineesAssist, filteredTraineesAssist, allTraineesAssist, render);
   }
-
 };
 
 searchAddTraineesInput.addEventListener('keyup', () => filterTrainees(filteredTraineesAdd, allTraineesAdd, resultsAndSelectedContainer, selectedTraineesAdd, "add"));
 searchAssistanceTraineesInput.addEventListener('keyup', () => filterTrainees(filteredTraineesAssist, allTraineesAssist, resultsAssistanceSearchDiv, selectedTraineesAssist, "assist"));
-window.addEventListener('DOMContentLoaded', loadAllTrainees);
 window.addEventListener("DOMContentLoaded", loadDataSheets);
+
 
 const updateDataSheets = async () => {
   await loadDataSheets();
@@ -177,12 +186,12 @@ const createDataSheetCard = (dataSheets) => {
         idSheetAdd = sheet.idFicha;
         idSheetList = sheet.idFicha;
         getDataOfSheetList();
+        loadAllTrainees();
         openModal("dataSheetListTrainees");
       });
       btnAssistance.addEventListener("click", () => {
         idSheetAssistance = sheet.idFicha;
-        // getDataOfSheetAssistance();
-
+        loadAllTrainees();
         openModal("dataSheetAssistanceTrainees");
       });
       btnEdit.addEventListener("click", () => {
@@ -224,6 +233,8 @@ const createDataSheetCard = (dataSheets) => {
   });
   return fragment;
 };
+
+// window.addEventListener('DOMContentLoaded', loadAllTrainees);
 
 const row = document.querySelector(".row");
 const renderDataSheets = (data) => {
@@ -321,33 +332,49 @@ const openRemoveModal = (button) => {
   openModal('dataSheetRemoveTrainee');
 }
 
-const inputDate = document.getElementById("assistDate");
-const selectRoomAssist = document.getElementById("selectedRoom")
+// const inputDate = document.getElementById("assistDate");
+// const selectRoomAssist = document.getElementById("selectedRoom")
 const saveButtons = document.querySelectorAll("#saveTraineesSelected, #saveAssistancesSelected");
 
 // Transformar fecha
 const dateFormated = formatDateWithoutTime(inputDate.value);
 const idRoomSelected = selectRoomAssist.value;
 
+const cleantInformatoin = (selectionType) => {
+
+  if (selectionType == 'selectedTraineesAdd') {
+    allTraineesAdd = [];
+    filteredTraineesAdd = [];
+    selectedTraineesAdd.clear();
+  } else {
+    allTraineesAssist = [];
+    filteredTraineesAssist = [];
+    selectedTraineesAssist.clear();
+    inputDate.value = '';
+  }
+  updateDataSheets();
+}
+
 saveButtons.forEach(button => {
   button.addEventListener("click", async () => {
     const selectionType = button.getAttribute('data-selection');
     let bodyObject;
     let apiRequired;
+    let messageId, modalUsed;
     let selectedItems = selectionType === 'selectedTraineesAdd' ? selectedTraineesAdd : selectedTraineesAssist;
     const idsToSave = Array.from(selectedItems);
     if (selectionType === 'selectedTraineesAdd') {
-      // selectedItems = selectedTraineesAdd;
       apiRequired = aprendicesAPI;
+      messageId = "messageSheetAdd";
+      modalUsed = "dataSheetAddTrainees";
       bodyObject = {
         ids: idsToSave,
         idSheet: idSheetAdd
       }
     } else if (selectionType === 'selectedTraineesAssist') {
-      // selectedItems = selectedTraineesAssist;
       apiRequired = asistenciaAPI;
-      const inputDate = document.getElementById("assistDate");
-      const selectRoomAssist = document.getElementById("selectedRoom")
+      messageId = "messageSheetAssist";
+      modalUsed = "dataSheetAssistanceTrainees";
       // Transformar fecha
       const dateFormated = formatDateWithoutTime(inputDate.value);
       const idRoomSelected = selectRoomAssist.value;
@@ -370,13 +397,19 @@ saveButtons.forEach(button => {
         });
 
         const result = await response.json();
+        console.log("result", result);
         let messageType;
         let messageContent;
 
         switch (result.insertion) {
           case 'completa':
             messageType = 'messageOK';
-            messageContent = 'Todos los elementos se guardaron correctamente.';
+            if (messageId === "messageSheetAssist") {
+              messageContent = 'Se ha registrado la asistencia correctamente.';
+            } else {
+              messageContent = 'Todos los elementos se guardaron correctamente.';
+            }
+            cleantInformatoin(selectionType);
             break;
           case 'parcial':
             messageType = 'messageAlert';
@@ -391,13 +424,16 @@ saveButtons.forEach(button => {
             messageContent = 'Ocurrió un error inesperado.';
             break;
         }
-        showMessage("messageSheetAdd", messageType, messageContent, "dataSheetAddTrainees", 1500);
+        showMessage(messageId, messageType, messageContent, modalUsed, 1500);
         updateDataSheets();
       } catch (error) {
-        showMessage("messageSheetAdd", "messageErr", 'Error al procesar la solicitud.', "dataSheetAddTrainees", 1500);
+        console.log(error);
+        showMessage(messageId, "messageErr", `Error al procesar la solicitud :${error}`, modalUsed, 1500);
       }
+
+
     } else {
-      showMessage("messageSheetAdd", "messageErr", 'No se seleccionó ningún elemento.', "dataSheetAddTrainees", 1500);
+      showMessage(messageId, "messageErr", 'No se seleccionó ningún elemento.', modalUsed, 1500);
     }
   });
 });

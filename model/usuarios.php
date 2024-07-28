@@ -69,10 +69,12 @@ class Usuarios extends ConnPDO
     $sql = "SELECT u.documento, u.idUsuario, u.estado, ud.imagen, ud.nombre
             FROM usuario AS u
             INNER JOIN usuario_detalle AS ud ON ud.idUsuario = u.idUsuario
+            LEFT JOIN centro AS c ON c.idCentro = ud.idCentro
             LEFT JOIN aprendices AS a ON u.idUsuario = a.idUsuario
             LEFT JOIN ficha AS f ON a.idFicha = f.idFicha
             WHERE u.idCargo = 3 AND u.estado = 'Activo' AND u.documento LIKE ?
-            AND (a.idUsuario IS NULL OR f.estado != 'Activa')";
+            AND c.idCentro = ?
+            ";
     $stmt = $this->getConn()->prepare($sql);
     $stmt->execute(["$doc%"]);
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
