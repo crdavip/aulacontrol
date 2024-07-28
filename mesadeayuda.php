@@ -4,8 +4,8 @@ if ($userIdRole !== 1 && $userIdRole !== 2) {
     header("Location: ./");
     exit();
 }
-$titlePg = 'Equipos';
-$titlePgIcon = 'fa-solid fa-desktop icon';
+$titlePg = 'Mesa de Ayuda';
+$titlePgIcon = 'fa-solid fa-handshake-angle icon';
 $titlePgRight = '
     <div class="containerFilterPg">
         <label for="numberInputFilter"><i class="fa-solid fa-magnifying-glass"></i></label>
@@ -37,6 +37,6 @@ include_once ('./view/layout/titlePg.php');
 <div class="row"></div>
 
 <?php
-include_once ('./view/layout/equiposAmbModal.php');
+include_once ('./view/layout/mesadeayudaModal.php');
 include ('./view/layout/footer.php');
 ?>
