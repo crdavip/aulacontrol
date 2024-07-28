@@ -2069,6 +2069,16 @@ td img {
   width: 340px !important;
 }
 
+.cardRegAssistance {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 2px solid var(--terciario);
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 6px;
+}
+
 /** ######################################################### */
 /* ** END DANIEL STYLES ** */
 /** ######################################################### */

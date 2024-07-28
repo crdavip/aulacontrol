@@ -10,6 +10,37 @@ class RegistroAsistencia extends ConnPDO
     $this->functions = new Funciones();
   }
 
+  public function getAllRegsByCenter($center)
+  {
+    $sql = "SELECT 
+      a.*,
+      ra.idRegistro, 
+      f.ficha AS numeroFicha, 
+      f.aprendices AS totalAprendices, 
+      COUNT(ra.idUsuario) AS presentes, 
+      GROUP_CONCAT(ra.idUsuario SEPARATOR ',') AS usuarios, 
+      GROUP_CONCAT(ud.nombre SEPARATOR ', ') AS nombresUsuarios, 
+      GROUP_CONCAT(u.documento SEPARATOR ', ') AS docUsuarios, 
+      am.numero AS ambiente,
+      i.nombre AS instructorNombre,
+      iu.documento AS instructorDocumento
+      FROM registro_asistencia ra 
+      JOIN asistencia a ON ra.idAsistencia = a.idAsistencia 
+      JOIN ficha f ON a.idFicha = f.idFicha 
+      JOIN usuario_detalle ud ON ra.idUsuario = ud.idUsuario 
+      JOIN usuario u ON ud.idUsuario = u.idUsuario 
+      JOIN ambiente am ON a.idAmbiente = am.idAmbiente 
+      LEFT JOIN usuario_detalle i ON a.idInstructor = i.idUsuario
+      LEFT JOIN usuario iu ON i.idUsuario = iu.idUsuario
+      WHERE am.idCentro = ?
+      GROUP BY a.idAsistencia, f.ficha, f.aprendices, i.nombre, iu.documento
+    ";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$center]);
+    $regsAssist = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($regsAssist, JSON_UNESCAPED_UNICODE);
+  }
+
   public function saveRegAssistance($ids, $idAsistencia)
   {
     $conn = $this->getConn();
