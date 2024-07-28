@@ -14,10 +14,35 @@ class RegistroEquipos extends ConnPDO
 
   function getAllDevicesHistory()
   {
-    $sql = "SELECT rc.idRegistro, ud.nombre AS usuario, ud.imagen, u.documento, c.ref AS referencia, c.marca, cent.siglas AS centro, a.numero as ambiente, rc.inicio, rc.fin FROM registro_computador AS rc INNER JOIN usuario_detalle AS ud ON ud.idUsuario = rc.idUsuario INNER JOIN usuario AS u ON u.idUsuario = rc.idUsuario INNER JOIN computador AS c ON c.idComputador = rc.idComputador INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente INNER JOIN centro AS cent ON cent.idCentro = a.idCentro ORDER BY idRegistro DESC";
+    $sql = "SELECT rc.idRegistro, ud.nombre AS usuario, ud.imagen, u.documento, c.ref AS referencia, c.marca, cent.siglas AS centro, a.numero as ambiente, rc.inicio, rc.fin
+            FROM registro_computador AS rc
+            INNER JOIN usuario_detalle AS ud ON ud.idUsuario = rc.idUsuario
+            INNER JOIN usuario AS u ON u.idUsuario = rc.idUsuario
+            INNER JOIN computador AS c ON c.idComputador = rc.idComputador
+            INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente
+            INNER JOIN centro AS cent ON cent.idCentro = a.idCentro
+            ORDER BY idRegistro DESC";
 
     $stmt = $this->getConn()->prepare($sql);
     $stmt->execute();
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($rows, JSON_UNESCAPED_UNICODE);
+  }
+
+  function getAllHelpDevicesHistory()
+  {
+    $sql = "SELECT rc.idRegistro, ud.nombre AS usuario, ud.imagen, u.documento, c.ref AS referencia, c.marca, cent.siglas AS centro, a.numero as ambiente, rc.inicio, rc.fin
+            FROM registro_computador AS rc
+            INNER JOIN usuario_detalle AS ud ON ud.idUsuario = rc.idUsuario
+            INNER JOIN usuario AS u ON u.idUsuario = rc.idUsuario
+            INNER JOIN computador AS c ON c.idComputador = rc.idComputador
+            INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente
+            INNER JOIN centro AS cent ON cent.idCentro = a.idCentro
+            WHERE a.numero = 'Mesa Ayuda' AND cent.idCentro = ?
+            ORDER BY idRegistro DESC";
+
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$_SESSION['idCenter']]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($rows, JSON_UNESCAPED_UNICODE);
   }

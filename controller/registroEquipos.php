@@ -41,6 +41,8 @@ switch ($method) {
         } elseif (isset($_GET['idComputador'])) {
             $idDevice = $_GET['idComputador'];
             $registerDevices->getDeviceHistory($idDevice);
+        } elseif (isset($_GET['helpDevice'])) {
+            $registerDevices->getAllHelpDevicesHistory();
         } else {
             $registerDevices->getAllDevicesHistory();
         }
