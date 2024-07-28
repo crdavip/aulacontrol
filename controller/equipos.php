@@ -73,14 +73,13 @@ switch ($method) {
       $deviceRefEdit = $data['deviceRefEdit'];
       $deviceBrandEdit = $data['deviceBrandEdit'];
       $deviceBrandEdit = strtoupper($deviceBrandEdit);
-      $deviceStateEdit = $data['deviceStateEdit'];
       $deviceAmbEdit = $data['deviceAmbEdit'];
       $refDeviceBD = $functions->getValue('computador', 'ref', 'idComputador', $deviceIdEdit);
       $brandDeviceBD = $functions->getValue('computador', 'marca', 'idComputador', $deviceIdEdit);
       $stateDeviceBD = $functions->getValue('computador', 'estado', 'idComputador', $deviceIdEdit);
       $roomDeviceBD = $functions->getValue('computador', 'idAmbiente', 'idComputador', $deviceIdEdit);
-      $deviceEdit = $deviceRefEdit !== $refDeviceBD || $deviceBrandEdit !== $brandDeviceBD || $deviceStateEdit !== $stateDeviceBD || $deviceAmbEdit !== $roomDeviceBD;
-      if ($functions->checkNotEmpty([$deviceRefEdit, $deviceBrandEdit, $deviceStateEdit, $deviceAmbEdit])) {
+      $deviceEdit = $deviceRefEdit !== $refDeviceBD || $deviceBrandEdit !== $brandDeviceBD || $deviceAmbEdit !== $roomDeviceBD;
+      if ($functions->checkNotEmpty([$deviceRefEdit, $deviceBrandEdit, $deviceAmbEdit])) {
         $icon = $functions->getIcon('Err');
         echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
         exit();
@@ -89,7 +88,7 @@ switch ($method) {
         echo json_encode(['success' => false, 'message' => "$icon ¡Oops! Parece que este equipo ya existe."]);
         exit();
       } else {
-        $devices->updateDevice($deviceRefEdit, $deviceBrandEdit, $deviceStateEdit, $deviceAmbEdit, $deviceIdEdit);
+        $devices->updateDevice($deviceRefEdit, $deviceBrandEdit, $deviceAmbEdit, $deviceIdEdit);
         exit();
       }
     }
@@ -97,7 +96,9 @@ switch ($method) {
   case 'DELETE':
     if (isset($data['deviceIdDelete'])) {
       $deviceIdDelete = $data['deviceIdDelete'];
+      $deviceImgQr = $functions->getValue("computador", "imagenQr", "idComputador", $deviceIdDelete);
       $devices->deleteDevice($deviceIdDelete);
+      unlink("." . $deviceImgQr);
       exit();
     }
     break;

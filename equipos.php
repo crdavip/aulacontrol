@@ -21,22 +21,14 @@ include ('./view/layout/header.php');
 
 if ($userIdRole === 1) {
     $titlePgRight .= '
-    <a onclick="openModal(`deviceExportExcel`)" class="btnUi btnUiAlt">
-        <i class="fa-solid fa-print"></i>
-        <p>Exportar Excel</p>
-    </a>
-    <a onclick="openModal(`deviceExportPdf`)" class="btnUi">
-        <i class="fa-solid fa-file-pdf"></i>
-        <p>Exportar PDF</p>
-    </a>
     <a href="./registro-equipos" class="btnUi btnUiAlt">
         <i class="fas fa-clipboard-list"></i>
         <p>Ver Registros</p>
-        </a>
-    <a onclick="openModal(`createDevice`)" id="createDeviceBtn" class="btnUi btnUiAlt">
+    </a>
+    <a onclick="openModal(`createDevice`)" id="createDeviceBtn" class="btnUi">
         <i class="fa-solid fa-square-plus"></i>
         <p>Nuevo Equipo</p>
-        </a>';
+    </a>';
 }
 
 include_once ('./view/layout/titlePg.php');

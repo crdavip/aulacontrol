@@ -57,14 +57,6 @@
                 <label class="inputGroupLabel" for="deviceBrandEdit"><i class="fa-solid fa-list-ol"></i> Marca</label>
             </div>
             <div class="inputGroup">
-                <label class="inputGroupLabel" for="deviceStateEdit"><i class="bi bi-laptop"></i></label>
-                <select class="inputGroupSelect" name="deviceStateEdit" id="deviceStateEdit" required>
-                    <option value="">Seleccione un estado</option>
-                    <option value="Ocupado">Ocupado</option>
-                    <option value="Disponible">Disponible</option>
-                </select>
-            </div>
-            <div class="inputGroup">
                 <label class="inputGroupLabel" for="centerDevice"><i class="fa-solid fa-school-flag"></i></label>
                 <select class="inputGroupSelect" name="centerDeviceEdit" id="centerDeviceEdit" required>
                 </select>

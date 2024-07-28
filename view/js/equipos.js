@@ -2,9 +2,13 @@ const numberInputFilter = document.getElementById("numberInputFilter");
 const centerSelectFilter = document.getElementById("centerSelectFilter");
 const statusSelectFilter = document.getElementById("statusSelectFilter");
 
+loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
+loadSelectFilters(equiposAPI, "statusSelectFilter", ["estado"]);
+
 const roomPdf = document.getElementById("selectedRoomDevicesPdf");
 const roomExcel = document.getElementById("selectedRoomDevicesExcel");
 
+let renderRoomsInExport;
 let roomsList;
 let centersList;
 const selectListRooms = document.getElementById("idRoom");
@@ -44,8 +48,6 @@ const updateRoomsDropdown = () => {
   renderRoomsInExport = contentSelectTagRooms;
   selectListRooms.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
 }
-
-loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
 
 let devices = [];
 const loadRenderDevices = async () => {
@@ -120,8 +122,8 @@ const createDeviceCard = (devices) => {
         selectEditRoom.innerHTML = `<option value="${roomFiltered.idAmbiente}">${roomFiltered.numero}</option>${contentSelectTagRooms}`;
 
         loadDataForm({
-          inputs: ["deviceIdEdit", "deviceRefEdit", "deviceBrandEdit", "deviceStateEdit"],
-          inputsValue: [device.idComputador, device.ref, device.marca, device.estado],
+          inputs: ["deviceIdEdit", "deviceRefEdit", "deviceBrandEdit"],
+          inputsValue: [device.idComputador, device.ref, device.marca],
           modal: "editDevice",
         });
       });
@@ -181,6 +183,29 @@ const renderDevices = async (data) => {
   }
 };
 
+const filterDevices = () => {
+  const center = centerSelectFilter.value;
+  const status = statusSelectFilter.value;
+  const number = numberInputFilter.value;
+  let newdevices = devices;
+  console.log(newdevices);
+  if (center !== "all") {
+    newdevices = newdevices.filter((device) => device.centro == center);
+  }
+  if (status !== "all") {
+    newdevices = newdevices.filter((device) => device.estado == status);
+  }
+  if (number !== "") {
+    newdevices = newdevices.filter((device) =>
+      `${device.ref.toLowerCase()}`.includes(`${number.toLowerCase()}`)
+    );
+  }
+  renderDevices(newdevices);
+};
+centerSelectFilter.addEventListener("change", filterDevices);
+statusSelectFilter.addEventListener("change", filterDevices);
+numberInputFilter.addEventListener("keyup", filterDevices);
+
 sendForm(
   "createDeviceForm",
   equiposAPI,
@@ -209,6 +234,16 @@ sendForm(
   updateRenderDevices,
   "deleteDevice",
   1500
+);
+
+ExportFormExcel(
+  "deviceExportFormExcel",
+  equiposAPI,
+);
+
+ExportFormPdf(
+  "deviceExportFormPdf",
+  equiposAPI,
 );
 
 const deviceAssoc = (device) => {
@@ -254,13 +289,3 @@ const deviceAssocInfo = async (device) => {
     roomAssocInfo.appendChild(roomAssocStart);
   }
 };
-
-ExportFormExcel(
-  "deviceExportFormExcel",
-  equiposAPI,
-);
-
-ExportFormPdf(
-  "deviceExportFormPdf",
-  equiposAPI,
-);
