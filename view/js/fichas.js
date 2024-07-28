@@ -286,34 +286,6 @@ const getDataOfSheetList = async () => {
   }
 }
 
-// Lista de aprendices para asistencia predeterminada
-// const getDataOfSheetAssistance = async () => {
-//   const response = await fetch(`${aprendicesAPI}.php?paramSheet=${idSheetAssistance}`);
-//   const results = await response.json();
-
-//   if (results.length > 0) {
-//     resultsAssistanceSearchDiv.innerHTML = '';
-//     results.forEach(result => {
-//       const div = document.createElement('div');
-//       div.classList.add("divCardSearchTrainee")
-//       div.innerHTML = `
-//           <div>
-//             <img src=${result.imagen} with="50" heigh="50"  alt="">
-//             <div>
-//               <span>${result.nombre}</span>
-//               <span>${result.documento}</span>
-//             </div>
-//           </div>
-//           <input type="checkbox" class="customCheckbox" data-id-trainee="${result.idAprendices}" data-id-sheet="${result.idFicha}">
-//             `;
-//             resultsAssistanceSearchDiv.appendChild(div);
-//     });
-
-//   } else {
-//     resultsAssistanceSearchDiv.innerHTML = '<p>Esta ficha no tiene aprendices asociados.</p>';
-//   }
-// }
-
 // Lista de aprendices Busqueda
 searchListTraineesInput.addEventListener('keyup', async function () {
   const doc = searchListTraineesInput.value;
@@ -349,57 +321,52 @@ const openRemoveModal = (button) => {
   openModal('dataSheetRemoveTrainee');
 }
 
-// Asistencia de aprendices
-// searchAssistanceTraineesInput.addEventListener('keyup', async function () {
-//   const doc = searchAssistanceTraineesInput.value
-//   if (doc.length > 0) {
-//     const response = await fetch(`${aprendicesAPI}.php?queryList=${idSheetList}&searchDoc=${doc}`);
-//     const results = await response.json();
-//     resultsAssistanceSearchDiv.innerHTML = '';
-//     results.forEach(result => {
-//       const div = document.createElement('div');
-//       div.classList.add("divCardSearchTrainee")
-//       div.innerHTML = `
-//         <div>
-//           <img src=${result.imagen} with="50" heigh="50"  alt="">
-//           <div>
-//             <span>${result.nombre}</span>
-//             <span>${result.documento}</span>
-//           </div>
-//         </div>
-//         <input type="checkbox" class="customCheckbox" data-id-trainee="${result.idUsuario}" data-id-sheet="${result.idFicha}>
-//           `;
-//       resultsAssistanceSearchDiv.appendChild(div);
-//     });
-//   } else {
-//     getDataOfSheetAssistance();
-//   }
-// });
-
+const inputDate = document.getElementById("assistDate");
+const selectRoomAssist = document.getElementById("selectedRoom")
 const saveButtons = document.querySelectorAll("#saveTraineesSelected, #saveAssistancesSelected");
+
+// Transformar fecha
+const dateFormated = formatDateWithoutTime(inputDate.value);
+const idRoomSelected = selectRoomAssist.value;
 
 saveButtons.forEach(button => {
   button.addEventListener("click", async () => {
     const selectionType = button.getAttribute('data-selection');
+    let bodyObject;
     let apiRequired;
-    let selectedItems;
-    if (selectionType === 'selectedTraineesAdd') {
-      selectedItems = selectedTraineesAdd;
-      apiRequired = aprendicesAPI;
-    } else if (selectionType === 'selectedTraineesAssist') {
-      selectedItems = selectedTraineesAssist;
-      apiRequired = asistenciaAPI;
-    }
-
+    let selectedItems = selectionType === 'selectedTraineesAdd' ? selectedTraineesAdd : selectedTraineesAssist;
     const idsToSave = Array.from(selectedItems);
+    if (selectionType === 'selectedTraineesAdd') {
+      // selectedItems = selectedTraineesAdd;
+      apiRequired = aprendicesAPI;
+      bodyObject = {
+        ids: idsToSave,
+        idSheet: idSheetAdd
+      }
+    } else if (selectionType === 'selectedTraineesAssist') {
+      // selectedItems = selectedTraineesAssist;
+      apiRequired = asistenciaAPI;
+      const inputDate = document.getElementById("assistDate");
+      const selectRoomAssist = document.getElementById("selectedRoom")
+      // Transformar fecha
+      const dateFormated = formatDateWithoutTime(inputDate.value);
+      const idRoomSelected = selectRoomAssist.value;
+      bodyObject = {
+        items: idsToSave,
+        dateAssistance: dateFormated,
+        sheet: idSheetAssistance,
+        envrmnt: parseInt(idRoomSelected),
+      }
+    }
+    console.log("body: ", bodyObject);
     if (idsToSave.length > 0) {
       try {
-        const response = await fetch(apiRequired, {
+        const response = await fetch(`${apiRequired}.php`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ ids: idsToSave, idSheet: idSheetAdd })
+          body: JSON.stringify(bodyObject)
         });
 
         const result = await response.json();

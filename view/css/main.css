@@ -2059,6 +2059,16 @@ td img {
 
 }
 
+.wrapper-container {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  width: 340px !important;
+}
+
 /** ######################################################### */
 /* ** END DANIEL STYLES ** */
 /** ######################################################### */

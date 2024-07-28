@@ -20,12 +20,11 @@ switch ($method) {
       $items = $data['items'];
       $date = $data['dateAssistance'];
       $sheet = $data['sheet'];
-      $instructor = $userId;
+      $user = $_SESSION['userId'];
       $envrmnt = $data['envrmnt'];
-
-      $idAssistance = $assistance->saveAssistance($date, $sheet, $idUser, $envrmnt);
+      $idAssistance = $assistance->saveAssistance($date, $sheet, $user, $envrmnt);
       if ($idAssistance) {
-        $regAssistance->saveRegAssistance($items, $idAssistance);
+        return $regAssistance->saveRegAssistance($items, $idAssistance);
       } else {
         $icon = $functions->getIcon('Err');
         echo json_encode(['success' => false, 'message' => "$icon No se pudo ingresar la asistencia."]);

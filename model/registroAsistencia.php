@@ -26,7 +26,10 @@ class RegistroAsistencia extends ConnPDO
       $stmtInsert->execute($params);
       $conn->commit();
       $icon = $this->functions->getIcon('OK');
-      echo json_encode(['success' => true, 'message' => "$icon ¡Asistencia Registrada éxitosamente!"]);
+      // echo json_encode(['success' => true, 'message' => "$icon ¡Asistencia Registrada éxitosamente!"]);
+      return [
+        'insertion' => 'completa',
+      ];
     } catch (Exception $e) {
       $conn->rollBack();
       $icon = $this->functions->getIcon('Err');

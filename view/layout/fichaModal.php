@@ -96,22 +96,24 @@
             <h1>Asistencia</h1>
         </div>
         <!-- <input type="hidden" id="inputIdSheetAssistance"> -->
-        <input type="number" id="traineesAssistanceSearch" placeholder="Buscar por documento">
-        <div id="resultsTraineesAssistanceSearch" class="resultsTraineesSearch"></div>
-        <div class="inputGroup">
-            <label><i class="fa-regular fa-calendar"></i> Hasta</label>
-            <input class="inputGroupInput" type="date" name="asistDate" id="assistDate" autocomplete="off"
-                required>
-        </div>
-        <div class="inputGroup">
-            <label class="inputGroupLabel" for="selectedRoom"><i class="bi bi-door-open"></i></label>
-            <select class="inputGroupSelect" name="selectedRoom" id="selectedRoom" required>
-            </select>
-        </div>
-        <div class="buttonGroup">
-            <button id="saveAssistancesSelected" data-selection="selectedTraineesAssist" class="btn"><i
-                    class="fa-solid fa-floppy-disk"></i> Guardar</button>
-            <button class="btn btnAlt" type="reset"><i class="fa-solid fa-eraser"></i> Limpiar</button>
+        <div class="wrapper-container">
+            <input type="number" id="traineesAssistanceSearch" placeholder="Buscar por documento">
+            <div id="resultsTraineesAssistanceSearch" class="resultsTraineesSearch"></div>
+            <div class="inputGroup">
+                <label><i class="fa-regular fa-calendar"></i> Hasta</label>
+                <input class="inputGroupInput" type="date" name="assistDate" id="assistDate" autocomplete="off"
+                    required>
+            </div>
+            <div class="inputGroup">
+                <label class="inputGroupLabel" for="selectedRoom"><i class="bi bi-door-open"></i></label>
+                <select class="inputGroupSelect" name="selectedRoom" id="selectedRoom" required>
+                </select>
+            </div>
+            <div class="buttonGroup">
+                <button id="saveAssistancesSelected" data-selection="selectedTraineesAssist" class="btn"><i
+                        class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                <button class="btn btnAlt" type="reset"><i class="fa-solid fa-eraser"></i> Limpiar</button>
+            </div>
         </div>
     </div>
 </section>

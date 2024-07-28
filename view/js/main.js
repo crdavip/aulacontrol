@@ -544,3 +544,29 @@ const configScanQR = async (func) => {
   };
 };
 //Fin configScanQR
+
+// Formatear fecha
+const formatDate = (data) => {
+  const date = new Date(data);
+  const year = date.getFullYear();
+  let month = date.toLocaleDateString("es-ES", { month: "long" });
+  month = month.charAt(0).toUpperCase() + month.slice(1);
+  const day = date.toLocaleDateString("es-ES", { day: "2-digit" });
+  const dateFormat = `${month} ${day}, ${year}`;
+  const timeFormat = date.toLocaleTimeString("es-ES", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+  return { dateFormat: dateFormat, timeFormat: timeFormat };
+};
+
+const formatDateWithoutTime = (data) => {
+  const date = new Date(data);
+  const year = date.getFullYear();
+  let month = date.toLocaleDateString("es-ES", { month: "long" });
+  month = month.charAt(0).toUpperCase() + month.slice(1);
+  const day = date.toLocaleDateString("es-ES", { day: "2-digit" });
+  const dateFormat = `${year}-${date.getMonth() + 1}-${day}`;
+  return dateFormat;
+};
