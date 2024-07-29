@@ -967,7 +967,7 @@ a {
 }
 
 .messageOK,
-.messageErr {
+.messageErr, .messageAlert {
   display: block;
   transition: all 0.5s;
   line-height: 1.1rem;
@@ -981,8 +981,13 @@ a {
 }
 
 .messageErr {
-  border: 2px solid var(--color-error);
-  color: var(--color-error);
+  border: 2px solid var(--segundario);
+  color: var(--segundario);
+}
+
+.messageAlert {
+  border: 2px solid var(--segundario);
+  color: var(--segundario);
 }
 
 .contentLoginBgImg {
@@ -2067,9 +2072,64 @@ td img {
     display: none;
 }
 
+.resultsTraineesSearch {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
 .relative.activeCover .bkDarkCoverNotClick {
   display: block;
   pointer-events: auto;
+}
+
+.divCardSearchTrainee, .divCardSearchTrainee > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.divCardSearchTrainee {
+  justify-content: space-between;
+}
+
+.divCardSearchTrainee > div > img {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+}
+
+.divCardSearchTrainee > div > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+#resultsTraineesSearch {
+  width: 76%;
+
+}
+
+.wrapper-container {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  width: 340px !important;
+}
+
+.cardRegAssistance {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 2px solid var(--terciario);
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 6px;
 }
 
 /** ######################################################### */

@@ -15,7 +15,52 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 switch ($method) {
     case 'GET':
-        if (isset($_GET['format'])) {
+        if (isset($_GET['query'])) {
+            $query = $_GET['query'];
+
+            if ($functions->checkNotEmpty([$query])) {
+                $icon = $functions->getIcon('Err');
+                echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+                exit;
+            } else {
+                $users->getUsersForSearching($query);
+                exit;
+            }
+
+            // Busqueda .-----------
+        } elseif (isset($_GET['queryAdd'])) {
+            $query = $_GET['queryAdd'];
+            // $idCenter = session
+            if ($functions->checkNotEmpty([$query])) {
+                $icon = $functions->getIcon('Err');
+                echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+                exit;
+            } else {
+                $users->getUsersForSearchingAdd($query);
+                exit;
+            }
+
+        } elseif (isset($_GET['queryAll'])) {
+            $query = $_GET['queryAll'];
+            $centerDetail = $_SESSION['center'];
+            $center;
+            if ($centerDetail === "Centro del Diseño y Manufactura del Cuero") {
+                $center = 1;
+            } elseif ($centerDetail === "Centro Tecnológico del Mobiliario") {
+                $center = 2;
+            } elseif ($centerDetail === "Centro de Formación en Diseño Confección y Moda") {
+                $center = 3;
+            }
+            // $idCenter = session
+            if (!$query) {
+                $icon = $functions->getIcon('Err');
+                echo json_encode(['success' => false, 'message' => "$icon Navegación erronea."]);
+                exit;
+            } else {
+                $users->getTraineesAvailables($center);
+                exit;
+            }
+        } elseif (isset($_GET['format'])) {
             $format = $_GET['format'];
 
             if ($format === "excel") {

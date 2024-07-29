@@ -306,28 +306,28 @@ const ExportFormExcel = async (formId, urlAPI) => {
 // Fin ExportFormExcel
 
 // Logica de Exportación
-  // Función para exportar a PDF
-  const exportToPdf = async (urlAPI) => {
-    const params = new URLSearchParams({ format: 'pdf' }).toString();
-    const url = `${urlAPI}?${params}`;
-    window.open(url, '_blank');
-  };
-  
-  // Función para exportar a Excel
-  const exportToExcel = async (urlAPI) => {
-    const params = new URLSearchParams({ format: 'excel' }).toString();
-    const url = `${urlAPI}?${params}`;
-  
-    const response = await fetch(url);
-    const blob = await response.blob();
-  
-    const link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.download = 'reporte.xlsx';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+// Función para exportar a PDF
+const exportToPdf = async (urlAPI) => {
+  const params = new URLSearchParams({ format: 'pdf' }).toString();
+  const url = `${urlAPI}?${params}`;
+  window.open(url, '_blank');
+};
+
+// Función para exportar a Excel
+const exportToExcel = async (urlAPI) => {
+  const params = new URLSearchParams({ format: 'excel' }).toString();
+  const url = `${urlAPI}?${params}`;
+
+  const response = await fetch(url);
+  const blob = await response.blob();
+
+  const link = document.createElement('a');
+  link.href = window.URL.createObjectURL(blob);
+  link.download = 'reporte.xlsx';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
 
 //Inicio APIList
 const ingresoAPI = `./controller/ingreso`;
@@ -343,6 +343,9 @@ const regEquiposAPI = `./controller/registroEquipos`;
 const objetosAPI = `./controller/objetos`;
 const regObjetosAPI = `./controller/registroObjetos`;
 const datosAPI = `./controller/datos`
+const aprendicesAPI = `./controller/aprendices`;
+const asistenciaAPI = `./controller/asistencia`;
+const regAsistenciaAPI = `./controller/registroAsistencia`;
 //Fin APIList
 
 //Inicio LoadDataFilters
@@ -542,3 +545,29 @@ const configScanQR = async (func) => {
   };
 };
 //Fin configScanQR
+
+// Formatear fecha
+const formatDate = (data) => {
+  const date = new Date(data);
+  const year = date.getFullYear();
+  let month = date.toLocaleDateString("es-ES", { month: "long" });
+  month = month.charAt(0).toUpperCase() + month.slice(1);
+  const day = date.toLocaleDateString("es-ES", { day: "2-digit" });
+  const dateFormat = `${month} ${day}, ${year}`;
+  const timeFormat = date.toLocaleTimeString("es-ES", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+  return { dateFormat: dateFormat, timeFormat: timeFormat };
+};
+
+const formatOnlyDateYMD = (dateString) => {
+  const [year, month, day] = dateString.split('/');
+  return `${year}-${month}-${day}`;
+};
+
+const formatOnlyDateMDY = (dateString) => {
+  const [year, month, day] = dateString.split('-');
+  return `${month}/${day}/${year}`;
+};

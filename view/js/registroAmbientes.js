@@ -12,7 +12,7 @@ const roomExcel = document.getElementById("selectedRoomExcel");
 const getDataAmbs = async () => {
   const dataAmbientes = await getData(ambientesAPI);
   let roomsList = await dataAmbientes;
-
+  roomsList = roomsList.filter(roomItem => roomItem.centro === "CDMC");
   let contentSelectTagRooms = roomsList.map((room) => {
     return `<option value="${room.idAmbiente}">${room.numero}</option>`;
   }).join("");
@@ -32,21 +32,6 @@ let pages = Math.ceil(dataHistory.length / pgLimit);
 let pgActive = 1;
 
 let history = dataHistory.slice(pgFrom, pgLimit);
-
-const formatDate = (data) => {
-  const date = new Date(data);
-  const year = date.getFullYear();
-  let month = date.toLocaleDateString("es-ES", { month: "long" });
-  month = month.charAt(0).toUpperCase() + month.slice(1);
-  const day = date.toLocaleDateString("es-ES", { day: "2-digit" });
-  const dateFormat = `${month} ${day}, ${year}`;
-  const timeFormat = date.toLocaleTimeString("es-ES", {
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  });
-  return { dateFormat: dateFormat, timeFormat: timeFormat };
-};
 
 const getHistory = async (history) => {
   tableBody.innerHTML = "";
