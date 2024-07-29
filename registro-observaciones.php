@@ -8,6 +8,9 @@ $titlePg = 'Registro de Observaciones';
 $titlePgIcon = 'fa-clipboard-list icon';
 $titlePgRight = '
     <div class="containerFilterPg">
+        <input type="number" name="documentInputFilter" id="documentInputFilter">
+        <br>
+        <br>
         <input type="date" class="filterDatePg" name="dateInputFilter" id="dateInputFilter">
     </div>';
 include('./view/layout/header.php');

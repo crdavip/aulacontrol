@@ -5,7 +5,6 @@ const loadRenderObservations = async () => {
   console.log(data)
   console.log(objects);
   renderObservations(objects);
-  // getDataCenters();
 }
 
 window.addEventListener("DOMContentLoaded", loadRenderObservations);
@@ -14,9 +13,19 @@ const updateRenderObservations = async () => {
   await loadRenderObservations();
 };
 
+const userRolView = document.getElementById("userRolView")
+
 const createObservationCard = (observations) => {
   const fragment = document.createDocumentFragment();
-  const filteredObs = observations.filter((obs) => obs.estado == 0);
+  let filteredObs
+  if(userRolView.value == 3 || userRolView.value == 4){
+    filteredObs = observations.sort((a, b) => {
+      return a.estado === b.estado ? 0 : a.estado === 0 ? -1 : 1;
+    });
+  } else {
+    filteredObs = observations.filter((obs) => obs.estado == 0);
+  }
+  console.log("filteredObs ", filteredObs)
   filteredObs.forEach((obs) => {
     const cardUser = document.createElement("div");
     cardUser.className = "card";
@@ -56,11 +65,21 @@ const createObservationCard = (observations) => {
     // Btn Revision
     const cardUserObservationDivBtn = document.createElement("div");
     cardUserObservationDivBtn.classList.add("cardBodyTxt");
-    cardUserObservationDivBtn.innerHTML = `
-    <a class="btnExitMarkObject" onclick="openModal('markObsChecked')" data-id-observation="${obs.idObservacion}"><i class="fa-regular fa-circle-check"></i> Marcar como revisado</a>`;
-
-    const observationId = document.getElementById("observationId");
-    observationId.value = obs.idObservacion;
+    if (userRolView.value == 3 || userRolView == 4) {
+      if(obs.estado === 0){
+        cardUserObservationDivBtn.innerHTML = `
+          <p><i class="fa-regular fa-circle"></i>  Por revisar</p>
+        `;
+      } else {
+        cardUserObservationDivBtn.innerHTML = `
+          <p><i class="fa-regular fa-circle-check"></i>  Revisado</p>
+        `;
+      }
+    } else {
+      cardUserObservationDivBtn.innerHTML = `
+        <a class="btnExitMarkObject" id="btnMarkChecked" onclick="openModal('markObsChecked')" data-id-observation="${obs.idObservacion}"><i class="fa-regular fa-circle-check"></i> Marcar como revisado</a>
+      `;
+    }
 
     cardUserBody.appendChild(cardUserPic);
     cardUserBody.appendChild(cardUserTxt);
@@ -73,12 +92,24 @@ const createObservationCard = (observations) => {
   return fragment;
 };
 
+const observationId = document.getElementById("observationId");
+const initializeEventListeners = () => {
+  document.querySelectorAll('.btnExitMarkObject').forEach(button => {
+    button.addEventListener('click', (event) => {
+      const observationId = event.currentTarget.getAttribute('data-id-observation');
+      document.getElementById('observationId').value = observationId;
+      openModal('markObsChecked');
+    });
+  });
+};
+
 const row = document.querySelector(".row");
 const renderObservations = async (data) => {
   if (data.length > 0) {
     const cards = createObservationCard(data);
     row.innerHTML = "";
     row.appendChild(cards);
+    initializeEventListeners();
   } else {
     row.innerHTML = "No hay resultados para mostrar.";
   }

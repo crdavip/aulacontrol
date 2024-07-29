@@ -15,7 +15,7 @@ class Observaciones extends ConnPDO
 
   function getObservations()
   {
-    $sql = "SELECT o.*, u.documento, c.detalle, ud.imagen, ud.idCentro, ud.nombre, ro.fechaPublicacion, ro.estado FROM observaciones AS o INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN cargo AS c ON u.idCargo = c.idCargo INNER JOIN registro_observaciones AS ro ON ro.idObservacion = o.idObservacion";
+    $sql = "SELECT o.*, u.documento, c.detalle, ud.imagen, ud.idCentro, ud.nombre, ro.fechaPublicacion, ro.estado, c.detalle AS detalleCargo FROM observaciones AS o INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN cargo AS c ON u.idCargo = c.idCargo INNER JOIN registro_observaciones AS ro ON ro.idObservacion = o.idObservacion";
     $stmt = $this->getConn()->prepare($sql);
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -24,11 +24,11 @@ class Observaciones extends ConnPDO
 
   public function getObservationsUser($idUser)
   {
-    $sql = "SELECT o.*, u.documento, c.detalle, ud.imagen, ud.idCentro, ud.nombre FROM observaciones AS o INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN cargo AS c ON u.idCargo = c.idCargo WHERE o.idUsuario = ?";
+    $sql = "SELECT o.*, u.documento, c.detalle, ud.imagen, ud.idCentro, ud.nombre, ro.fechaPublicacion, ro.estado, c.detalle AS detalleCargo FROM observaciones AS o INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN cargo AS c ON u.idCargo = c.idCargo INNER JOIN registro_observaciones AS ro ON ro.idObservacion = o.idObservacion WHERE o.idUsuario = ?";
     $stmt = $this->getConn()->prepare($sql);
     $stmt->execute([$idUser]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $rows;
+    echo json_encode($rows);
   }
 
   function createObservation($descripcion, $idUser, $type)

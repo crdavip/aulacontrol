@@ -1,9 +1,6 @@
 <?php
 require_once('./model/sessions.php');
-if ($userIdRole !== 1 && $userIdRole !== 2) {
-    header("Location: ./");
-    exit();
-}
+
 $titlePg = 'Observaciones';
 $titlePgIcon = 'fa-binoculars icon';
 

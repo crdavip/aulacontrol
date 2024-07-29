@@ -1,15 +1,10 @@
 import { getDataHistory } from "../js/fetch.js";
 
-// const numberInputFilter = document.getElementById("numberInputFilter");
 const dateInputFilter = document.getElementById("dateInputFilter");
 const selectPgLimit = document.getElementById("selectPgLimit");
 const pgNextBtn = document.getElementById("pgNext");
 const pgPrevBtn = document.getElementById("pgPrev");
 const tableBody = document.getElementById("tableBody");
-// const roomPdf = document.getElementById("selectedCenterPdf");
-// const roomExcel = document.getElementById("selectedCenterExcel");
-
-// loadSelectFilters(centrosAPI, "centerSelectFilter", ["detalle"]);
 
 let dataHistory = await getDataHistory(regObservacionesAPI);
 let pgFrom = 0;
@@ -35,15 +30,26 @@ const formatDate = (data) => {
 };
 
 const getHistory = async (history) => {
+  let filteredHistory = history.sort((a, b) => {
+      return a.estado === b.estado ? 0 : a.estado === 0 ? -1 : 1;
+    });
+  console.log("filteredObs ", filteredHistory)
   tableBody.innerHTML = "";
-  history.forEach((row) => {
+  filteredHistory.forEach((row) => {
     const postDate = formatDate(row.fechaPublicacion);
     const checkedDate = formatDate(row.fechaRevision);
     tableBody.innerHTML += `
     <tr>
       <td data-title="Usuario" class="tdCol2"><div><img src="${row.imgUsuario}" width="50"></div><div><p class="historyUserName">${row.nombreUsuario}</p><br><span class="historyUserDoc">C.C. ${row.docuUsuario}</span></div></td>
       <td data-title="Fecha Publicacion"><strong>${postDate.dateFormat}</strong></td>
-      <td data-title="Descripcion"><div class="tdRow2"><strong class="historyRoomNum">Descripción: </strong><p>${row.descripcion}</p></div></td>
+      <td data-title="Descripcion"><div class="tdRow2">
+      <div>
+      <span class="historyRoomNum">Asunto: </span>
+      <span>${row.tipoAsunto}</span>
+      </div>
+      <br>
+      <strong class="historyRoomNum">Descripción: </strong>
+      <p>${row.descripcion}</p></div></td>
       
       ${row.fechaRevision === null
           ? `<td data-title="Fecha Revision"><span class="tdStatus">Pendiente</span></td>`
@@ -67,7 +73,6 @@ const renderHistory = (history) => {
   if (history.length > 0) {
     tableBody.innerHTML = "";
     getHistory(history);
-    getDataCenters();
   } else {
     tableBody.innerHTML = "No hay resultados para mostrar";
   }
