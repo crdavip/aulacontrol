@@ -1,9 +1,9 @@
 <?php
-require_once ('../model/sessions.php');
-require_once ('../model/equipos.php');
-require_once ('./funciones.php');
+require_once('../model/sessions.php');
+require_once('../model/equipos.php');
+require_once('./funciones.php');
 require_once('../controller/qrcode.php');
-require_once ('./ExportController.php');
+require_once('./ExportController.php');
 
 $functions = new Funciones();
 $devices = new Equipos();
@@ -19,26 +19,30 @@ switch ($method) {
       $format = "excel";
 
       if ($functions->checkNotEmpty([$idRoom])) {
-          $icon = $functions->getIcon('Err');
-          echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+        $icon = $functions->getIcon('Err');
+        echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
       } else {
         $exportController->simpleExport($format, "equipos", $idRoom);
       }
-  } elseif (isset($_GET['selectedRoomDevicesPdf'])) {
+    } elseif (isset($_GET['selectedRoomDevicesPdf'])) {
       $idRoom = $_GET['selectedRoomDevicesPdf'];
       $format = "pdf";
 
       if ($functions->checkNotEmpty([$idRoom])) {
-          $icon = $functions->getIcon('Err');
-          echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+        $icon = $functions->getIcon('Err');
+        echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
       } else {
-          $exportController->simpleExport($format, "equipos", $idRoom);
+        $exportController->simpleExport($format, "equipos", $idRoom);
       }
-  } elseif (isset($_GET['columns'])) {
+    } elseif (isset($_GET['columns'])) {
       $columns = json_decode($_GET['columns']);
       echo json_encode($functions->getColumns('computador', $columns), JSON_UNESCAPED_UNICODE);
     } elseif (isset($_GET['helpDevices'])) {
       $devices->getHelpDevices();
+    } elseif (isset($_GET['deviceAssoc'])) {
+      $deviceAssoc = $_GET['deviceAssoc'];
+      $devices->getRefDeviceAssoc($deviceAssoc);
+      exit();
     } else {
       $devices->getDevices();
     }

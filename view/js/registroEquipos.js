@@ -9,8 +9,6 @@ const tableBody = document.getElementById("tableBody");
 const roomPdf = document.getElementById("selectedRoomPdf");
 const roomExcel = document.getElementById("selectedRoomExcel");
 
-// loadSelectFilters(centrosAPI, "centerSelectFilter", ["detalle"]);
-
 let dataHistory = await getDataHistory(regEquiposAPI);
 
 let pgFrom = 0;
@@ -57,9 +55,6 @@ const getHistory = async (history) => {
       <td data-title="Usuario" class="tdCol2"><div><img src="${row.imagen}" width="50"></div><div><strong class="historyUserName">${row.usuario}</strong><br><span class="historyUserDoc">C.C. ${row.documento}</span></div></td>
       <td data-title="Equipo"><div class="tdRow2"><strong class="historyRoomNum">Equipo ${row.referencia} - ${row.marca}</strong><span class="historyCenterName">${row.centro} - ${row.ambiente}</span></div></td>
       <td data-title="Inicio"><strong class="tdDate">${startDate.dateFormat}</strong><br><span class="tdTime">${startDate.timeFormat}</span></td>
-      ${row.fin === null
-          ? `<td data-title="Fin"><span class="tdStatus">Pendiente</span></td>`
-          : `<td data-title="Fin"><strong class="tdDate">${endDate.dateFormat}</strong><br><span class="tdTime">${endDate.timeFormat}</span></td>`}
     </tr>
     `;
   });

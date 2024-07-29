@@ -14,6 +14,28 @@ class Equipos extends ConnPDO
     $this->functions = new Funciones();
   }
 
+  function getRefDeviceAssoc($ref)
+  {
+    $sqlRef = 'SELECT * FROM computador WHERE ref = ?';
+    $stmtRef = $this->getConn()->prepare($sqlRef);
+    $stmtRef->execute([$ref]);
+    $count = $stmtRef->rowCount();
+    $row = $stmtRef->fetch(PDO::FETCH_ASSOC);
+    if ($count > 0) {
+      $sql = 'SELECT c.idComputador, c.ref, c.marca, c.idAmbiente, a.numero
+                    FROM computador AS c
+                    INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente
+                    WHERE ref = ?';
+      $stmt = $this->getConn()->prepare($sql);
+      $stmt->execute([$ref]);
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      echo json_encode(['success' => true, 'device' => $row]);
+    } else {
+      $icon = $this->functions->getIcon('Err');
+      echo json_encode(['success' => false, 'message' => "$icon ¡El equipo no es valido!"]);
+    }
+  }
+
   function getDevices()
   {
     $sql = "SELECT c.idComputador, c.ref, c.marca, c.estado, a.numero AS ambiente, ce.siglas AS centro

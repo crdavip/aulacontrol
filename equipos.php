@@ -9,10 +9,7 @@ $titlePgIcon = 'fa-solid fa-desktop icon';
 $titlePgRight = '
     <div class="containerFilterPg">
         <label for="numberInputFilter"><i class="fa-solid fa-magnifying-glass"></i></label>
-        <input type="text" class="filterSearchPg" name="numberInputFilter" id="numberInputFilter" placeholder="Buscar:" autocomplete="off">
-        <select class="filterSelectPg" id="centerSelectFilter">
-            <option value="all">Centro</option>
-        </select>
+        <input type="text" class="filterSearchPg" name="numberInputFilter" id="numberInputFilter" placeholder="Buscar Ref:" autocomplete="off">
         <select class="filterSelectPg" id="statusSelectFilter">
             <option value="all">Estado</option>
         </select>
@@ -21,6 +18,10 @@ include ('./view/layout/header.php');
 
 if ($userIdRole === 1) {
     $titlePgRight .= '
+    <a id="assocDeviceBtn" data-id="'.$userId.'" class="btnUi btnUiAlt">
+        <i class="fa-solid fa-qrcode"></i>
+        <p>Vincular Equipo</p>
+    </a>
     <a href="./registro-equipos" class="btnUi btnUiAlt">
         <i class="fas fa-clipboard-list"></i>
         <p>Ver Registros</p>

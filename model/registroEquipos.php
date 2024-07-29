@@ -21,10 +21,11 @@ class RegistroEquipos extends ConnPDO
             INNER JOIN computador AS c ON c.idComputador = rc.idComputador
             INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente
             INNER JOIN centro AS cent ON cent.idCentro = a.idCentro
+            WHERE a.numero != 'Mesa Ayuda' AND cent.idCentro = ?
             ORDER BY idRegistro DESC";
 
     $stmt = $this->getConn()->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([$_SESSION['idCenter']]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($rows, JSON_UNESCAPED_UNICODE);
   }
@@ -84,6 +85,30 @@ class RegistroEquipos extends ConnPDO
         $stmtUpdate = $this->getConn()->prepare($sqlUpdate);
         $stmtUpdate->execute([$idDevice]);
 
+        $icon = $this->functions->getIcon('OK');
+        echo json_encode(['success' => true, 'message' => "$icon ¡Vinculación exitosa!"]);
+      } else {
+        $icon = $this->functions->getIcon('Err');
+        echo json_encode(['success' => false, 'message' => "$icon ¡Oops! Parece que algo salió mal."]);
+      }
+    } else {
+      $icon = $this->functions->getIcon('Err');
+      echo json_encode(['success' => false, 'message' => "$icon El usuario ya tiene una vinculación activa."]);
+    }
+  }
+
+  function addDeviceHistoryAlt($idDevice, $idUser)
+  {
+    $sqlCheck = "SELECT * FROM registro_computador
+                WHERE fin IS NULL AND idUsuario = ?
+                ORDER BY fin DESC LIMIT 1";
+    $stmtCheck = $this->getConn()->prepare($sqlCheck);
+    $stmtCheck->execute([$idUser]);
+    $count = $stmtCheck->rowCount();
+    if ($count == 0) {
+      $sql = "INSERT INTO registro_computador (inicio, fin, idUsuario, idComputador) VALUES (current_timestamp(), current_timestamp(), ?, ?)";
+      $stmt = $this->getConn()->prepare($sql);
+      if ($stmt->execute([$idUser, $idDevice])) {
         $icon = $this->functions->getIcon('OK');
         echo json_encode(['success' => true, 'message' => "$icon ¡Vinculación exitosa!"]);
       } else {

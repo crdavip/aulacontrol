@@ -51,8 +51,7 @@ include_once('./view/layout/titlePg.php');
             <tr>
                 <th>Usuario</th>
                 <th>Equipo</th>
-                <th>Inicio</th>
-                <th>Fin</th>
+                <th>Fecha</th>
             </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -60,6 +59,6 @@ include_once('./view/layout/titlePg.php');
 </div>
 
 <?php
-include_once('./view/layout/mesadeayudaModal.php');
+include_once('./view/layout/equiposModal.php');
 include('./view/layout/footer.php');
 ?>
