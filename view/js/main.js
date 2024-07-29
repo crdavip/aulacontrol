@@ -560,3 +560,13 @@ const formatDate = (data) => {
   });
   return { dateFormat: dateFormat, timeFormat: timeFormat };
 };
+
+const formatOnlyDateYMD = (dateString) => {
+  const [year, month, day] = dateString.split('/');
+  return `${year}-${month}-${day}`;
+};
+
+const formatOnlyDateMDY = (dateString) => {
+  const [year, month, day] = dateString.split('-');
+  return `${month}/${day}/${year}`;
+};

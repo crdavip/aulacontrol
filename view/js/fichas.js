@@ -10,19 +10,7 @@ const selectRoomAssist = document.getElementById("selectedRoom");
 let allTraineesAssist = [];
 let filteredTraineesAssist = [];
 let selectedTraineesAssist = new Set();
-//  ? exportar variable a registro asistencia
 let idSheetAssistance;
-// let idSheetForExport;
-// Función para establecer el valor
-// export function setIdSheetAssistance(value) {
-//   idSheetForExport = value;
-// }
-// // Función para obtener el valor
-// export function getIdSheetAssistance() {
-//   return idSheetForExport;
-// }
-// // ? Fin exportacion
-
 
 const searchListTraineesInput = document.getElementById("traineesListSearch");
 const resultsListSearchDiv = document.getElementById("resultsTraineesListSearch");
@@ -45,7 +33,7 @@ loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
 const getDataAmbs = async () => {
   const dataAmbientes = await getData(ambientesAPI);
   let roomsList = await dataAmbientes;
-  roomsList = roomsList.filter(roomItem => roomItem.centro === "CDMC");
+  roomsList = roomsList.filter(roomItem => roomItem.centro === "CDMC" && roomItem.numero !== "Mesa Ayuda");
   let contentSelectTagRooms = roomsList.map((roomItem) => {
     return `<option value="${roomItem.idAmbiente}">${roomItem.numero}</option>`;
   }).join("");
@@ -64,7 +52,6 @@ const loadDataSheets = async () => {
 const loadAllTrainees = async () => {
   try {
     const response = await fetch(`${usuariosAPI}.php?queryAll=true`);
-    console.log("idSheetList: ", response);
     const responseAssist = await fetch(`${aprendicesAPI}.php?paramSheet=${idSheetAssistance}`);
     const trainees = await response.json();
     const traineesAssist = await responseAssist.json();
@@ -118,7 +105,7 @@ const renderTrainees = (divOfRender, selectedTrainees, filteredTrainees, allTrai
             <span>${trainee.documento}</span>
           </div>
         </div>
-        <button onclick="toggleSelection(${trainee.idUsuario}, '${render}')" class="btn btnAlt">
+        <button onclick="toggleSelection(${trainee.idUsuario}, '${render}')">
           <i class="fa-solid fa-minus"></i>
         </button>
       `;
@@ -149,7 +136,9 @@ const toggleSelection = (id, render) => {
     if (selectedTraineesAssist.has(id)) {
       selectedTraineesAssist.delete(id);
     } else {
+      console.log(selectedTraineesAssist);
       selectedTraineesAssist.add(id);
+      console.log(selectedTraineesAssist);
     }
     renderTrainees(resultsAssistanceSearchDiv, selectedTraineesAssist, filteredTraineesAssist, allTraineesAssist, render);
   }

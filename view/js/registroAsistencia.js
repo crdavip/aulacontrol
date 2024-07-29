@@ -1,46 +1,186 @@
-import { getDataHistory } from "../js/fetch.js";
-// import { getIdSheetAssistance } from "./fichas.js";
+let dataHistory;
+let pgFrom = 0;
+const selectPgLimit = document.getElementById("selectPgLimit");
+let pages;
+let history;
+
+const pagination = (data) => {
+  pgLimit = parseInt(selectPgLimit.value);
+  pages = Math.ceil(data.length / pgLimit);
+  pgActive = 1;
+
+  history = data.slice(pgFrom, pgLimit);
+  loadItemsPg(pages);
+  pgShow(0);
+  renderHistory(history);
+}
+
+selectPgLimit.addEventListener("change", () => {
+  pgLimit = parseInt(selectPgLimit.value);
+  pagination(dataHistory);
+});
+pgLimit = parseInt(selectPgLimit.value);
+
+const getDataHistory = async (API) => {
+  const res = await fetch(`${API}`);
+  const data = await res.json();
+  console.log(data);
+  return data;
+}
+
+const initializeDataHistory = async () => {
+  const sheet = localStorage.getItem('idSheet');
+  console.log("sheet in regs :", sheet);
+  dataHistory = await getDataHistory(`${regAsistenciaAPI}.php?sheet=${sheet}`);
+  console.log(dataHistory);
+  pages = Math.ceil(dataHistory.length / pgLimit);
+  history = await dataHistory.slice(pgFrom, pgLimit);
+
+  // pagination(dataHistory);
+  // Aquí puedes continuar con la lógica que depende de dataHistory
+  pagination(dataHistory);
+}
+
+initializeDataHistory();
+
+// const sheet = localStorage.getItem('idSheet');
+// console.log("sheet in regs :", sheet)
+// dataHistory = getDataHistory(`${regAsistenciaAPI}.php?sheet=${sheet}`);
+// console.log(dataHistory);
 
 const numberInputFilter = document.getElementById("numberInputFilter");
 const dateInputFilter = document.getElementById("dateInputFilter");
-const selectPgLimit = document.getElementById("selectPgLimit");
 const pgNextBtn = document.getElementById("pgNext");
 const pgPrevBtn = document.getElementById("pgPrev");
 // const tableBody = document.getElementById("fullContainerResults");
 const tableBody = document.getElementById("tableBody");
 const roomPdf = document.getElementById("selectedRoomPdf");
 const roomExcel = document.getElementById("selectedRoomExcel");
+const roomUpdate = document.getElementById("selectedRoom");
+const searchAssistanceTraineesInput = document.getElementById("traineesAssistanceSearch");
+const resultsAssistanceSearchDiv = document.getElementById("resultsTraineesAssistanceSearch");
+let allTraineesAssist = [];
+let filteredTraineesAssist = [];
+let selectedTraineesAssist = new Set();
+let idSheetAssistance;
+
+const loadAllTrainees = async () => {
+  try {
+    const responseAssist = await fetch(`${aprendicesAPI}.php?paramSheet=${idSheetAssistance}`);
+    const traineesAssist = await responseAssist.json();
+    allTraineesAssist = traineesAssist;
+    filteredTraineesAssist = traineesAssist;
+    renderTrainees(resultsAssistanceSearchDiv, selectedTraineesAssist, filteredTraineesAssist, allTraineesAssist, "assist");
+  } catch (error) {
+    console.error('Error al cargar los aprendices:', error);
+  }
+};
+
+const renderTrainees = (divOfRender, selectedTrainees, filteredTrainees, allTrainees, render) => {
+  divOfRender.innerHTML = '';
+  const traineesToRender = filteredTrainees.filter(trainee => !selectedTrainees.has(trainee.idUsuario));
+  if (allTrainees.length === 0) {
+    divOfRender.innerHTML = '<p>Ningún aprendiz asociado.</p>';
+  }
+
+  traineesToRender.forEach(trainee => {
+    const div = document.createElement('div');
+    div.classList.add("divCardSearchTrainee");
+    div.innerHTML = `
+      <div>
+        <img src="${trainee.imagen}" width="50" height="50" alt="">
+        <div>
+          <span>${trainee.nombre}</span>
+          <span>${trainee.documento}</span>
+        </div>
+      </div>
+      <button onclick="toggleSelection(${trainee.idUsuario}, 'assist')">
+        <i class="fa-solid ${selectedTrainees.has(trainee.idUsuario) ? 'fa-minus' : 'fa-plus'}"></i>
+      </button>
+    `;
+    divOfRender.appendChild(div);
+  });
+
+  selectedTrainees.forEach(id => {
+    const trainee = allTrainees.find(t => t.idUsuario === id);
+    if (trainee) {
+      const div = document.createElement('div');
+      div.classList.add("divCardSearchTrainee");
+      div.innerHTML = `
+        <div>
+          <img src="${trainee.imagen}" width="50" height="50" alt="">
+          <div>
+            <span>${trainee.nombre}</span>
+            <span>${trainee.documento}</span>
+          </div>
+        </div>
+        <button onclick="toggleSelection(${trainee.idUsuario}, 'assist')">
+          <i class="fa-solid fa-minus"></i>
+        </button>
+      `;
+      divOfRender.appendChild(div);
+    }
+  });
+};
+
+const filterTrainees = (filteredTrainees, allTrainees, divOfRender, selectedTrainees, render) => {
+  const query = render === "add" ? searchAddTraineesInput.value : searchAssistanceTraineesInput.value;
+  filteredTrainees = allTrainees.filter(trainee => {
+    const documentStr = trainee.documento.toString();
+    return documentStr.startsWith(query);
+  }
+  );
+  renderTrainees(divOfRender, selectedTrainees, filteredTrainees, allTrainees, render);
+};
+
+toggleSelection = (id, render) => {
+  if (render == "add") {
+    if (selectedTraineesAdd.has(id)) {
+      selectedTraineesAdd.delete(id);
+    } else {
+      selectedTraineesAdd.add(id);
+    }
+    renderTrainees(resultsAndSelectedContainer, selectedTraineesAdd, filteredTraineesAdd, allTraineesAdd, render);
+  } else {
+    if (selectedTraineesAssist.has(id)) {
+      selectedTraineesAssist.delete(id);
+    } else {
+      selectedTraineesAssist.add(id);
+    }
+    renderTrainees(resultsAssistanceSearchDiv, selectedTraineesAssist, filteredTraineesAssist, allTraineesAssist, render);
+  }
+};
+
+searchAssistanceTraineesInput.addEventListener('keyup', () => filterTrainees(filteredTraineesAssist, allTraineesAssist, resultsAssistanceSearchDiv, selectedTraineesAssist, "assist"));
+// #################### FIN  ASISTENCIA #####################3
 
 const getDataAmbs = async () => {
   const dataAmbientes = await getData(ambientesAPI);
   console.log(dataAmbientes);
   let roomsList = await dataAmbientes;
-  roomsList = roomsList.filter(roomItem => roomItem.centro === "CDMC");
+  roomsList = roomsList.filter(roomItem => roomItem.centro === "CDMC" && roomItem.numero !== "Mesa Ayuda");
   let contentSelectTagRooms = roomsList.map((room) => {
     return `<option value="${room.idAmbiente}">${room.numero}</option>`;
   }).join("");
 
   roomPdf.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
   roomExcel.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
+  roomUpdate.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
+
+
 }
 // loadSelectFilters(centrosAPI, "centerSelectFilter", ["detalle"]);
-const sheet = localStorage.getItem('idSheet');
-console.log("sheet in regs :",sheet)
-let dataHistory = await getDataHistory(`${regAsistenciaAPI}.php?sheet=${sheet}`);
 
-let pgFrom = 0;
-let pgLimit = parseInt(selectPgLimit.value);
-let pages = Math.ceil(dataHistory.length / pgLimit);
-let pgActive = 1;
 
-let history = dataHistory.slice(pgFrom, pgLimit);
+
+// RENDER APRENDICES
 
 const getHistory = async (history) => {
   tableBody.innerHTML = "";
   history.forEach((row) => {
     const docs = row.docUsuarios.split(',');
     const names = row.nombresUsuarios.split(',');
-    
+
     // Construir el contenido para los aprendices
     const apprenticesHtml = docs.map((doc, index) => {
       const name = names[index] || '';
@@ -57,7 +197,7 @@ const getHistory = async (history) => {
       <td data-title="Fecha">${row.fecha}</td>
       <td data-title="Ficha">${row.numeroFicha}</td>
       <td data-title="Accion" class="tdBool">
-        <button><i class="fa-solid fa-pen-to-square"></i></button>
+        <button class="btnEditRegAssist" data-id-assist="${row.idAsistencia}"><i class="fa-solid fa-pen-to-square"></i></button>
         <button class="btnShowDetailsAssist" data-id-assist="${row.idAsistencia}">
           <i class="fa-solid fa-chevron-down"></i>
         </button>
@@ -74,11 +214,23 @@ const getHistory = async (history) => {
       </div>
     </tr>
     `;
+    const regAssistIdEdit = document.getElementById("regAssistIdEdit");
+    const dateRegAssistEdit = document.getElementById("date");
+    document.querySelectorAll('.btnEditRegAssist').forEach(button => {
+      button.addEventListener('click', function () {
+        idSheetAssistance = row.idFicha;
+        const idAssist = this.getAttribute('data-id-assist');
+        loadAllTrainees();
+        openModal("regAssistEdit");
+        regAssistIdEdit.value = idAssist;
+        dateRegAssistEdit.value = row.fecha;
+      });
+    });
   });
   loadItemsPg(pages);
 
   document.querySelectorAll('.btnShowDetailsAssist').forEach(button => {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
       const idAssist = this.getAttribute('data-id-assist');
       const detailsCell = document.querySelector(`.details-cell[data-details="${idAssist}"]`);
       const icon = this.querySelector('i');
@@ -95,6 +247,8 @@ const getHistory = async (history) => {
     });
   });
 };
+
+
 
 const renderHistory = (history) => {
   if (history.length > 0) {
@@ -163,18 +317,7 @@ const pgPrev = () => {
 pgNextBtn.addEventListener("click", pgNext);
 pgPrevBtn.addEventListener("click", pgPrev);
 
-const pagination = (data) => {
-  pgLimit = parseInt(selectPgLimit.value);
-  pages = Math.ceil(data.length / pgLimit);
-  pgActive = 1;
 
-  history = data.slice(pgFrom, pgLimit);
-  loadItemsPg(pages);
-  pgShow(0);
-  renderHistory(history);
-}
-
-pagination(dataHistory);
 
 //Filtrar Registros
 const filterHistory = async () => {
@@ -200,11 +343,6 @@ const filterHistory = async () => {
 numberInputFilter.addEventListener("keyup", filterHistory);
 dateInputFilter.addEventListener("change", filterHistory);
 
-selectPgLimit.addEventListener("change", () => {
-  pgLimit = parseInt(selectPgLimit.value);
-  pagination(dataHistory);
-});
-
 ExportFormExcel(
   "regAssistExportFormExcel",
   regAsistenciaAPI,
@@ -213,4 +351,14 @@ ExportFormExcel(
 ExportFormPdf(
   "regAssistExportFormPdf",
   regAsistenciaAPI,
+);
+
+sendForm(
+  "regAssistEditForm",
+  regAsistenciaAPI,
+  "PUT",
+  "messageEdit",
+  updateDataHistory,
+  "regAssistEdit",
+  1500
 );

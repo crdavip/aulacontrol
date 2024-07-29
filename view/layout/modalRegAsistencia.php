@@ -1,3 +1,33 @@
+<!-- Modal Edit -->
+<section class="modal" id="regAssistEdit">
+    <div class="containerModal">
+        <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
+        <div class="titlePg">
+            <i class="fa-solid fa-kaaba"></i>
+            <h1>Editar Asistencia</h1>
+        </div>
+        <form id="regAssistEditForm" action="" class="form">
+            <input type="text" name="regAssistIdEdit" id="regAssistIdEdit">
+            <input type="number" id="traineesAssistanceSearch" placeholder="Buscar por documento">
+            <div id="resultsTraineesAssistanceSearch" class="resultsTraineesSearch"></div>
+            <div class="inputGroup">
+                <label><i class="fa-regular fa-calendar"></i> Fecha Asistencia</label>
+                <input class="inputGroupInput" type="date" name="date" id="date" autocomplete="off" required>
+            </div>
+            <div class="inputGroup">
+                <label class="inputGroupLabel" for="selectedRoom"><i class="bi bi-door-open"></i></label>
+                <select class="inputGroupSelect" name="selectedRoom" id="selectedRoom" required>
+                </select>
+            </div>
+            <div class="buttonGroup">
+                <button class="btn" type="submit"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                <button class="btn btnAlt" type="reset"><i class="fa-solid fa-eraser"></i> Limpiar</button>
+            </div>
+        </form>
+        <p id="messageEdit" class="message"></p>
+    </div>
+</section>
+
 <!-- Modal Export PDF Registro Asistencias -->
 <section class="modal" id="regAssistExportPdf">
     <div class="containerModal">

@@ -68,6 +68,14 @@ switch ($method) {
   case 'POST':
 
     break;
+  case 'PUT':
+    if(isset($data['regAssistIdEdit']) && isset($data['date']) && isset($data['selectedRoom'])){
+      $idEdit = $data['regAssistIdEdit'];
+      $date = $data['date'];
+      $room = $data['selectedRoom'];
+      
+    }
+    break;
   default:
     $icon = $functions->getIcon('Err');
     echo json_encode(['success' => false, 'message' => "$icon Acción Denegada."]);

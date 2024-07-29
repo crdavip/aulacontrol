@@ -103,7 +103,7 @@
         echo '<script src="./view/js/registroAmbientes.js" type="module"></script>';
         break;
     case 'Fichas':
-        echo '<script src="./view/js/fichas.js" type="module"></script>';
+        echo '<script src="./view/js/fichas.js"></script>';
         break;
     case 'Usuarios':
         echo '<script src="./view/js/usuarios.js"></script>';
@@ -121,7 +121,7 @@
         echo '<script src="./view/js/registroObjetos.js" type="module"></script>';
         break;
     case 'Registro de Asistencias':
-        echo '<script src="./view/js/registroAsistencia.js" type="module"></script>';
+        echo '<script src="./view/js/registroAsistencia.js"></script>';
         break;
 } ?>
 
