@@ -194,7 +194,7 @@ const roomAssoc = (room) => {
     ? (titleRoomAssoc.innerHTML = `Vincular Ambiente`)
     : (titleRoomAssoc.innerHTML = `Desvincular Ambiente`);
   roomAssocInfo(room);
-  renderScanQR();
+  renderScanQR("user");
   configScanQR(filterDoc);
 };
 
@@ -210,7 +210,7 @@ const roomAssocHistory = async (method, json, userData) => {
   const data = await res.json();
   if (data.success == true) {
     updateRenderRooms();
-    instructorSenaCard();
+    renderSenaCard();
     loadSenaCard(
       "picSenaCard",
       "roleSenaCard",

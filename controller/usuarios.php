@@ -1,9 +1,9 @@
 <?php
-require_once ('../model/sessions.php');
-require_once ('../model/usuarios.php');
-require_once ('../model/usuariosDetalles.php');
-require_once ('../controller/qrcode.php');
-require_once ('./ExportController.php');
+require_once('../model/sessions.php');
+require_once('../model/usuarios.php');
+require_once('../model/usuariosDetalles.php');
+require_once('../controller/qrcode.php');
+require_once('./ExportController.php');
 
 $users = new Usuarios();
 $userDetails = new UsuariosDetalles();
@@ -71,10 +71,13 @@ switch ($method) {
                 $icon = $functions->getIcon('Err');
                 echo json_encode(['success' => false, 'message' => "$icon No es un formato válido."]);
             }
-
         } elseif (isset($_GET['docUserAssoc'])) {
             $docUserAssoc = $_GET['docUserAssoc'];
             $users->getDocUserAssoc($docUserAssoc);
+            exit();
+        } elseif (isset($_GET['docUserAssoc2'])) {
+            $docUserAssoc = $_GET['docUserAssoc2'];
+            $users->getDocUserAssoc2($docUserAssoc);
             exit();
         } else {
             $users->getUsers();

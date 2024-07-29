@@ -4,7 +4,7 @@ if ($userIdRole !== 1 && $userIdRole !== 2) {
     header("Location: ./");
     exit();
 }
-$titlePg = 'Registro de Equipos';
+$titlePg = 'Registro de Mesa de Ayuda';
 $titlePgIcon = 'fa-clipboard-list icon';
 $titlePgRight = '
     <div class="containerFilterPg">
@@ -51,7 +51,8 @@ include_once('./view/layout/titlePg.php');
             <tr>
                 <th>Usuario</th>
                 <th>Equipo</th>
-                <th>Fecha</th>
+                <th>Inicio</th>
+                <th>Fin</th>
             </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -59,6 +60,6 @@ include_once('./view/layout/titlePg.php');
 </div>
 
 <?php
-include_once('./view/layout/equiposModal.php');
+include_once('./view/layout/mesadeayudaModal.php');
 include('./view/layout/footer.php');
 ?>

@@ -1,9 +1,9 @@
 <?php
-require_once ('../model/sessions.php');
-require_once ('../model/equipos.php');
-require_once ('./funciones.php');
+require_once('../model/sessions.php');
+require_once('../model/equipos.php');
+require_once('./funciones.php');
 require_once('../controller/qrcode.php');
-require_once ('./ExportController.php');
+require_once('./ExportController.php');
 
 $functions = new Funciones();
 $devices = new Equipos();
@@ -19,24 +19,30 @@ switch ($method) {
       $format = "excel";
 
       if ($functions->checkNotEmpty([$idRoom])) {
-          $icon = $functions->getIcon('Err');
-          echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+        $icon = $functions->getIcon('Err');
+        echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
       } else {
         $exportController->simpleExport($format, "equipos", $idRoom);
       }
-  } elseif (isset($_GET['selectedRoomDevicesPdf'])) {
+    } elseif (isset($_GET['selectedRoomDevicesPdf'])) {
       $idRoom = $_GET['selectedRoomDevicesPdf'];
       $format = "pdf";
 
       if ($functions->checkNotEmpty([$idRoom])) {
-          $icon = $functions->getIcon('Err');
-          echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+        $icon = $functions->getIcon('Err');
+        echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
       } else {
-          $exportController->simpleExport($format, "equipos", $idRoom);
+        $exportController->simpleExport($format, "equipos", $idRoom);
       }
-  } elseif (isset($_GET['columns'])) {
+    } elseif (isset($_GET['columns'])) {
       $columns = json_decode($_GET['columns']);
       echo json_encode($functions->getColumns('computador', $columns), JSON_UNESCAPED_UNICODE);
+    } elseif (isset($_GET['helpDevices'])) {
+      $devices->getHelpDevices();
+    } elseif (isset($_GET['deviceAssoc'])) {
+      $deviceAssoc = $_GET['deviceAssoc'];
+      $devices->getRefDeviceAssoc($deviceAssoc);
+      exit();
     } else {
       $devices->getDevices();
     }
@@ -58,7 +64,6 @@ switch ($method) {
         echo json_encode(['success' => false, 'message' => "$icon ¡Oops! Parece que este equipo ya existe."]);
         exit();
       } else {
-        // ! NOT WORKING - error con la imagen
         $qr = new QRgenerator($refDevice, "device");
         $qr->createQR();
         $deviceQr = "./view/img/devices/qr-$refDevice.png";
@@ -73,14 +78,12 @@ switch ($method) {
       $deviceRefEdit = $data['deviceRefEdit'];
       $deviceBrandEdit = $data['deviceBrandEdit'];
       $deviceBrandEdit = strtoupper($deviceBrandEdit);
-      $deviceStateEdit = $data['deviceStateEdit'];
       $deviceAmbEdit = $data['deviceAmbEdit'];
       $refDeviceBD = $functions->getValue('computador', 'ref', 'idComputador', $deviceIdEdit);
       $brandDeviceBD = $functions->getValue('computador', 'marca', 'idComputador', $deviceIdEdit);
-      $stateDeviceBD = $functions->getValue('computador', 'estado', 'idComputador', $deviceIdEdit);
       $roomDeviceBD = $functions->getValue('computador', 'idAmbiente', 'idComputador', $deviceIdEdit);
-      $deviceEdit = $deviceRefEdit !== $refDeviceBD || $deviceBrandEdit !== $brandDeviceBD || $deviceStateEdit !== $stateDeviceBD || $deviceAmbEdit !== $roomDeviceBD;
-      if ($functions->checkNotEmpty([$deviceRefEdit, $deviceBrandEdit, $deviceStateEdit, $deviceAmbEdit])) {
+      $deviceEdit = $deviceRefEdit !== $refDeviceBD || $deviceBrandEdit !== $brandDeviceBD || $deviceAmbEdit !== $roomDeviceBD;
+      if ($functions->checkNotEmpty([$deviceRefEdit, $deviceBrandEdit, $deviceAmbEdit])) {
         $icon = $functions->getIcon('Err');
         echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
         exit();
@@ -89,7 +92,7 @@ switch ($method) {
         echo json_encode(['success' => false, 'message' => "$icon ¡Oops! Parece que este equipo ya existe."]);
         exit();
       } else {
-        $devices->updateDevice($deviceRefEdit, $deviceBrandEdit, $deviceStateEdit, $deviceAmbEdit, $deviceIdEdit);
+        $devices->updateDevice($deviceRefEdit, $deviceBrandEdit, $deviceAmbEdit, $deviceIdEdit);
         exit();
       }
     }
@@ -97,7 +100,9 @@ switch ($method) {
   case 'DELETE':
     if (isset($data['deviceIdDelete'])) {
       $deviceIdDelete = $data['deviceIdDelete'];
+      $deviceImgQr = $functions->getValue("computador", "imagenQr", "idComputador", $deviceIdDelete);
       $devices->deleteDevice($deviceIdDelete);
+      unlink("." . $deviceImgQr);
       exit();
     }
     break;

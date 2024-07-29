@@ -34,6 +34,29 @@ class Usuarios extends ConnPDO
     }
   }
 
+  function getDocUserAssoc2($doc)
+  {
+    $sqlDoc = 'SELECT * FROM usuario WHERE documento = ? AND (idCargo = 2 OR idCargo = 3)';
+    $stmtDoc = $this->getConn()->prepare($sqlDoc);
+    $stmtDoc->execute([$doc]);
+    $count = $stmtDoc->rowCount();
+    $row = $stmtDoc->fetch(PDO::FETCH_ASSOC);
+    if ($count > 0) {
+      $sql = 'SELECT u.idUsuario, u.documento, ud.nombre, ud.imagen, c.detalle AS cargo
+                    FROM usuario AS u
+                    INNER JOIN usuario_detalle AS ud ON u.idUsuario = ud.idUsuario
+                    INNER JOIN cargo AS c ON c.idCargo = u.idCargo
+                    WHERE documento = ?';
+      $stmt = $this->getConn()->prepare($sql);
+      $stmt->execute([$doc]);
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      echo json_encode(['success' => true, 'user' => $row]);
+    } else {
+      $icon = $this->functions->getIcon('Err');
+      echo json_encode(['success' => false, 'message' => "$icon ¡El usuario no es valido!"]);
+    }
+  }
+
   function getDocCount($doc)
   {
     $sqlCheck = ("SELECT documento FROM usuario WHERE documento=? ");
@@ -150,6 +173,17 @@ class Usuarios extends ConnPDO
     } else {
       $icon = $this->functions->getIcon('Err');
       echo json_encode(['success' => false, 'message' => "$icon Error al editar el usuario"]);
+    }
+  }
+
+  function updatePass($idUser, $pass)
+  {
+    $sql = "UPDATE usuario SET contrasena=?, nuevo='No' WHERE idUsuario=?";
+    $stmt = $this->getConn()->prepare($sql);
+    if ($stmt->execute([$pass, $idUser])) {
+      $_SESSION['success'] = true;
+    } else {
+      $_SESSION['success'] = false;
     }
   }
 

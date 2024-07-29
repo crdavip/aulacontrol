@@ -4,8 +4,8 @@ if ($userIdRole !== 1 && $userIdRole !== 2) {
     header("Location: ./");
     exit();
 }
-$titlePg = 'Equipos';
-$titlePgIcon = 'fa-solid fa-desktop icon';
+$titlePg = 'Mesa de Ayuda';
+$titlePgIcon = 'fa-solid fa-handshake-angle icon';
 $titlePgRight = '
     <div class="containerFilterPg">
         <label for="numberInputFilter"><i class="fa-solid fa-magnifying-glass"></i></label>
@@ -18,11 +18,7 @@ include ('./view/layout/header.php');
 
 if ($userIdRole === 1) {
     $titlePgRight .= '
-    <a id="assocDeviceBtn" data-id="'.$userId.'" class="btnUi btnUiAlt">
-        <i class="fa-solid fa-qrcode"></i>
-        <p>Vincular Equipo</p>
-    </a>
-    <a href="./registro-equipos" class="btnUi btnUiAlt">
+    <a href="./registro-mesadeayuda" class="btnUi btnUiAlt">
         <i class="fas fa-clipboard-list"></i>
         <p>Ver Registros</p>
     </a>
@@ -38,6 +34,6 @@ include_once ('./view/layout/titlePg.php');
 <div class="row"></div>
 
 <?php
-include_once ('./view/layout/equiposModal.php');
+include_once ('./view/layout/mesadeayudaModal.php');
 include ('./view/layout/footer.php');
 ?>

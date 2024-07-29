@@ -41,6 +41,8 @@ switch ($method) {
         } elseif (isset($_GET['idComputador'])) {
             $idDevice = $_GET['idComputador'];
             $registerDevices->getDeviceHistory($idDevice);
+        } elseif (isset($_GET['helpDevice'])) {
+            $registerDevices->getAllHelpDevicesHistory();
         } else {
             $registerDevices->getAllDevicesHistory();
         }
@@ -49,13 +51,22 @@ switch ($method) {
         if (isset($data['idUserAssoc'])) {
             $idUserAssoc = $data['idUserAssoc'];
             $idDevice = $data['idDevice'];
-            // ? MAS CAMPOS ? ##########################
 
             if ($functions->checkNotEmpty([$idUserAssoc, $idDevice])) {
                 $icon = $functions->getIcon('Err');
                 echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
             } else {
                 $registerDevices->addDeviceHistory($idUserAssoc, $idDevice);
+            }
+        } elseif (isset($data['idDeviceAssoc'])) {
+            $idDeviceAssoc = $data['idDeviceAssoc'];
+            $idUSer = $data['idUSer'];
+
+            if ($functions->checkNotEmpty([$idDeviceAssoc, $idUSer])) {
+                $icon = $functions->getIcon('Err');
+                echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+            } else {
+                $registerDevices->addDeviceHistoryAlt($idDeviceAssoc, $idUSer);
             }
         } else {
             $icon = $functions->getIcon('Err');

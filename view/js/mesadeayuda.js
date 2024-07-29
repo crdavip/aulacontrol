@@ -1,5 +1,4 @@
 const numberInputFilter = document.getElementById("numberInputFilter");
-const centerSelectFilter = document.getElementById("centerSelectFilter");
 const statusSelectFilter = document.getElementById("statusSelectFilter");
 
 loadSelectFilters(equiposAPI, "statusSelectFilter", ["estado"]);
@@ -13,63 +12,49 @@ let centersList;
 const selectListRooms = document.getElementById("idRoom");
 const selectCenterDevice = document.getElementById("centerDevice");
 
-const getAmbsForExport = async () => {
+const getAmbsForExport = async () =>{ 
   const dataAmbientesExport = await getData(ambientesAPI);
   let roomsListExport = await dataAmbientesExport;
 
-  let contentSelectTagRoomsExport = roomsListExport
-    .map((room) => {
-      return `<option value="${room.idAmbiente}">${room.numero}</option>`;
-    })
-    .join("");
+  let contentSelectTagRoomsExport = roomsListExport.map((room) => {
+    return `<option value="${room.idAmbiente}">${room.numero}</option>`;
+  }).join("");
 
-  roomPdf.innerHTML =
-    `<option value="">Seleccione un Ambiente</option>` +
-    contentSelectTagRoomsExport;
-  roomExcel.innerHTML =
-    `<option value="">Seleccione un Ambiente</option>` +
-    contentSelectTagRoomsExport;
-};
+  roomPdf.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRoomsExport;
+  roomExcel.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRoomsExport;
+}
 
 const getDataAmbs = async () => {
   const dataCentros = await getData(centrosAPI);
   const dataAmbientes = await getData(ambientesAPI);
   centersList = dataCentros.filter((item) => item.siglas !== "PORT");
-  roomsList = dataAmbientes.filter((item) => item.numero !== "Mesa Ayuda");
+  roomsList = dataAmbientes.filter((item) => item.numero == "Mesa Ayuda");
 
-  let contentSelectTagCenters = centersList
-    .map((center) => {
-      return `<option value="${center.idCentro}">${center.detalle}</option>`;
-    })
-    .join("");
-  selectCenterDevice.innerHTML =
-    `<option value="">Seleccione un Centro</option>` + contentSelectTagCenters;
+  let contentSelectTagCenters = centersList.map((center) => {
+    return `<option value="${center.idCentro}">${center.detalle}</option>`;
+  }).join("");
+  selectCenterDevice.innerHTML = `<option value="">Seleccione un Centro</option>` + contentSelectTagCenters;
   updateRoomsDropdown();
-};
+}
 
 const updateRoomsDropdown = () => {
   const selectedCenter = selectCenterDevice.value;
-  const filteredRooms = roomsList.filter(
-    (room) => room.idCentro == selectedCenter
-  );
-  let contentSelectTagRooms = filteredRooms
-    .map((room) => {
-      return `<option value="${room.idAmbiente}">${room.numero}</option>`;
-    })
-    .join("");
+  const filteredRooms = roomsList.filter(room => room.idCentro == selectedCenter);
+  let contentSelectTagRooms = filteredRooms.map((room) => {
+    return `<option value="${room.idAmbiente}">${room.numero}</option>`;
+  }).join("");
   renderRoomsInExport = contentSelectTagRooms;
-  selectListRooms.innerHTML =
-    `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
-};
+  selectListRooms.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
+}
 
 let devices = [];
 const loadRenderDevices = async () => {
-  const data = await getData(equiposAPI);
+  const data = await getData(`${equiposAPI}?helpDevices`);
   devices = data;
   renderDevices(devices);
   getDataAmbs();
   getAmbsForExport();
-};
+}
 
 window.addEventListener("DOMContentLoaded", loadRenderDevices);
 selectCenterDevice.addEventListener("change", updateRoomsDropdown);
@@ -78,7 +63,7 @@ const updateRenderDevices = async () => {
   await loadRenderDevices();
 };
 
-const createDeviceCard = (devices) => {
+const createDeviceCard  = (devices) => {
   const fragment = document.createDocumentFragment();
   devices.forEach((device) => {
     const cardDevice = document.createElement("div");
@@ -91,50 +76,44 @@ const createDeviceCard = (devices) => {
       cardMenu.innerHTML = '<i class="fa-solid fa-ellipsis"></i>';
       const cardMenuItems = document.createElement("div");
       cardMenuItems.classList.add("cardMenuItems");
+      const btnAssoc = document.createElement("a");
+      device.estado == "Disponible"
+        ? (btnAssoc.innerHTML = '<i class="fa-solid fa-qrcode"></i>Vincular')
+        : (btnAssoc.innerHTML =
+          '<i class="fa-solid fa-qrcode"></i>Desvincular');
       const btnEdit = document.createElement("a");
       btnEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>Editar';
       const btnDelete = document.createElement("a");
       btnDelete.innerHTML = '<i class="fa-solid fa-trash"></i>Eliminar';
+      cardMenuItems.appendChild(btnAssoc);
       cardMenuItems.appendChild(btnEdit);
       cardMenuItems.appendChild(btnDelete);
       cardTop.appendChild(cardMenuItems);
       cardTop.appendChild(cardMenu);
       dropDown(cardMenu, cardMenuItems);
+      btnAssoc.addEventListener("click", () => {
+        deviceAssoc(device);
+      });
       btnEdit.addEventListener("click", () => {
         const selectEditCenter = document.getElementById("centerDeviceEdit");
         const selectEditRoom = document.getElementById("deviceAmbEdit");
 
-        let roomFiltered = roomsList.find(
-          (room) => room.numero == device.ambiente
-        );
-        let centerFiltered = centersList.find(
-          (center) => center.idCentro === roomFiltered.idCentro
-        );
+        let roomFiltered = roomsList.find((room) => room.numero == device.ambiente);
+        let centerFiltered = centersList.find((center) => center.idCentro === roomFiltered.idCentro);
 
-        let contentSelectTagCenterFiltered = centersList.filter(
-          (center) => center.idCentro !== centerFiltered.idCentro
-        );
-        let contentSelectTagCenter = contentSelectTagCenterFiltered
-          .map((center) => {
-            return `<option value="${center.idCentro}">${center.detalle}</option>`;
-          })
-          .join("");
+        let contentSelectTagCenterFiltered = centersList.filter((center) => center.idCentro !== centerFiltered.idCentro);
+        let contentSelectTagCenter = contentSelectTagCenterFiltered.map((center) => {
+          return `<option value="${center.idCentro}">${center.detalle}</option>`;
+        }).join("");
 
-        selectEditCenter.innerHTML =
-          `<option value="${centerFiltered.idCentro}">${centerFiltered.detalle}</option>` +
-          contentSelectTagCenter;
+        selectEditCenter.innerHTML = `<option value="${centerFiltered.idCentro}">${centerFiltered.detalle}</option>` + contentSelectTagCenter;
 
         const selectedCenter = selectEditCenter.value;
-        const filteredRooms = roomsList.filter(
-          (room) =>
-            room.idCentro == selectedCenter && room.numero !== device.ambiente
-        );
+        const filteredRooms = roomsList.filter(room => room.idCentro == selectedCenter && room.numero !== device.ambiente);
         // const filteredRooms = roomsList.filter(room => room.idCentro == selectedCenter);
-        let contentSelectTagRooms = filteredRooms
-          .map((room) => {
-            return `<option value="${room.idAmbiente}">${room.numero}</option>`;
-          })
-          .join("");
+        let contentSelectTagRooms = filteredRooms.map((room) => {
+          return `<option value="${room.idAmbiente}">${room.numero}</option>`;
+        }).join("");
         selectEditRoom.innerHTML = `<option value="${roomFiltered.idAmbiente}">${roomFiltered.numero}</option>${contentSelectTagRooms}`;
 
         loadDataForm({
@@ -149,24 +128,16 @@ const createDeviceCard = (devices) => {
         const selectEditRoom = document.getElementById("deviceAmbEdit");
 
         const selectedCenter = selectEditCenter.value;
-        const filteredRooms = roomsList.filter(
-          (room) => room.idCentro == selectedCenter
-        );
+        const filteredRooms = roomsList.filter(room => room.idCentro == selectedCenter);
 
-        let contentSelectTagRooms = filteredRooms
-          .map((room) => {
-            return `<option value="${room.idAmbiente}">${room.numero}</option>`;
-          })
-          .join("");
+        let contentSelectTagRooms = filteredRooms.map((room) => {
+          return `<option value="${room.idAmbiente}">${room.numero}</option>`;
+        }).join("");
 
-        selectEditRoom.innerHTML =
-          `<option value="">Seleccione un Ambiente</option>` +
-          contentSelectTagRooms;
-      };
+        selectEditRoom.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
+      }
 
-      document
-        .getElementById("centerDeviceEdit")
-        .addEventListener("change", updateRoomsDropdownEdit);
+      document.getElementById("centerDeviceEdit").addEventListener("change", updateRoomsDropdownEdit);
       btnDelete.addEventListener("click", () => {
         loadDataForm({
           inputs: ["deviceIdDelete"],
@@ -184,8 +155,7 @@ const createDeviceCard = (devices) => {
     const cardBodyTxt = document.createElement("div");
     cardBodyTxt.classList.add("cardBodyTxt");
     cardBodyTxt.innerHTML = `<p>${device.estado}</p>
-                                <h3>REF ${device.ref}</h3>
-                                <span>Ambiente ${device.ambiente}</span>`;
+                                <h3>REF ${device.ref}</h3>`;
     if (device.estado == "Ocupado") {
       cardDataSheetNum.classList.add("cardRoomNumAlt");
       cardBodyTxt.classList.add("cardBodyTxtAlt");
@@ -256,42 +226,53 @@ sendForm(
   1500
 );
 
-ExportFormExcel("deviceExportFormExcel", equiposAPI);
+ExportFormExcel(
+  "deviceExportFormExcel",
+  equiposAPI,
+);
 
-ExportFormPdf("deviceExportFormPdf", equiposAPI);
+ExportFormPdf(
+  "deviceExportFormPdf",
+  equiposAPI,
+);
 
-const deviceAssocInfo = async (idUser) => {
-  const res = await fetch(usuariosAPI);
-  const data = await res.json();
-  const userData = data.filter((item) => item.idUsuario == idUser);
+const deviceAssocInfo = async (device) => {
   const deviceAssocInfo = document.querySelector(".deviceAssocInfo");
   deviceAssocInfo.innerHTML = "";
-  deviceAssocInfo.innerHTML += `<input type="hidden" name="userIdAssoc" id="userIdAssoc" value="${userData[0].idUsuario}">`;
+  deviceAssocInfo.innerHTML += `<input type="hidden" name="deviceIdAssoc" id="deviceIdAssoc" value="${device.idComputador}">`;
+  deviceAssocInfo.innerHTML += `<input type="hidden" name="deviceStatusAssoc" id="deviceStatusAssoc" value="${device.estado}">`;
   const deviceAssocTitle = document.createElement("h3");
-  deviceAssocTitle.innerHTML = `${userData[0].nombre}`;
+  deviceAssocTitle.innerHTML = `${device.marca} - ${device.ref}`;
   deviceAssocInfo.appendChild(deviceAssocTitle);
-  const assocInfo = document.createElement("p");
-  assocInfo.innerHTML = `CC ${userData[0].documento} - ${userData[0].cargo}`;
-  deviceAssocInfo.appendChild(assocInfo);
+  if (device.estado == "Disponible") {
+    const assocInfo = document.createElement("p");
+    (device.ambiente == "Mesa Ayuda") ? assocInfo.innerHTML = `${device.ambiente} - ${device.centro}` : assocInfo.innerHTML = `Ambiente ${device.ambiente} - ${device.centro}`;
+    deviceAssocInfo.appendChild(assocInfo);
+  } else {
+    const res = await fetch(`${regEquiposAPI}?idComputador=${device.idComputador}`);
+    const data = await res.json();
+    const roomAssocUser = document.createElement("p");
+    roomAssocUser.innerHTML = `Vinculada con <strong>${data.usuario}</strong>`;
+    deviceAssocInfo.appendChild(roomAssocUser);
+    const roomAssocStart = document.createElement("p");
+    roomAssocStart.classList.add("roomAssocStart");
+    roomAssocStart.innerHTML = `<strong>Inicio:</strong> ${data.inicio}`;
+    deviceAssocInfo.appendChild(roomAssocStart);
+  }
 };
 
-const assocDeviceBtn = document.getElementById("assocDeviceBtn");
-const assocIdUser = assocDeviceBtn.getAttribute("data-id");
-
-const deviceAssoc = async (idUser) => {
+const deviceAssoc = (device) => {
   openModal("deviceAssoc");
   const titleDeviceAssoc = document.getElementById("titleDeviceAssoc");
-  titleDeviceAssoc.innerHTML = `Vincular Equipo`;
-  deviceAssocInfo(idUser);
-  renderScanQR("device");
-  configScanQR(filterDevice);
+  device.estado == "Disponible"
+    ? (titleDeviceAssoc.innerHTML = `Vincular Equipo`)
+    : (titleDeviceAssoc.innerHTML = `Desvincular Equipo`);
+  deviceAssocInfo(device);
+  renderScanQR("user");
+  configScanQR(filterDoc);
 };
 
-assocDeviceBtn.addEventListener("click", () => {
-  deviceAssoc(assocIdUser);
-});
-
-const deviceAssocHistory = async (method, json, deviceData) => {
+const deviceAssocHistory = async (method, json, userData) => {
   const jsonData = JSON.stringify(json);
   const res = await fetch(regEquiposAPI, {
     method: method,
@@ -303,6 +284,15 @@ const deviceAssocHistory = async (method, json, deviceData) => {
   const data = await res.json();
   if (data.success == true) {
     updateRenderDevices();
+    renderSenaCard();
+    loadSenaCard(
+      "picSenaCard",
+      "roleSenaCard",
+      "nameUserSenaCard",
+      "docUserSenaCard",
+      "fichaSenaCard",
+      userData
+    );
     showMessage(
       "messageDeviceAssoc",
       "messageOK",
@@ -315,17 +305,26 @@ const deviceAssocHistory = async (method, json, deviceData) => {
   }
 };
 
-const filterDevice = async (ref) => {
-  const userIdAssoc = document.getElementById("userIdAssoc").value;
-  const res = await fetch(`${equiposAPI}?deviceAssoc=${ref}`);
+const filterDoc = async (doc) => {
+  const deviceIdAssoc = document.getElementById("deviceIdAssoc").value;
+  const deviceStatusAssoc = document.getElementById("deviceStatusAssoc").value;
+  const res = await fetch(`${usuariosAPI}?docUserAssoc2=${doc}`);
   const data = await res.json();
   if (data.success == true) {
-    const deviceData = data.device;
-    const dataAssoc = {
-      idDeviceAssoc: data.device.idComputador,
-      idUSer: userIdAssoc,
-    };
-    deviceAssocHistory("POST", dataAssoc, deviceData);
+    const userData = data.user;
+    if (deviceStatusAssoc == "Disponible") {
+      const dataAssoc = {
+        idUserAssoc: data.user.idUsuario,
+        idDevice: deviceIdAssoc,
+      };
+      deviceAssocHistory("POST", dataAssoc, userData);
+    } else {
+      const dataAssoc = {
+        idUserAssoc: data.user.idUsuario,
+        idDevice: deviceIdAssoc,
+      };
+      deviceAssocHistory("PUT", dataAssoc, userData);
+    }
   } else {
     showMessage("messageDeviceAssoc", "messageErr", data.message, "", 2000);
   }

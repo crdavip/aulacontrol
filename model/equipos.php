@@ -14,11 +14,52 @@ class Equipos extends ConnPDO
     $this->functions = new Funciones();
   }
 
+  function getRefDeviceAssoc($ref)
+  {
+    $sqlRef = 'SELECT * FROM computador WHERE ref = ?';
+    $stmtRef = $this->getConn()->prepare($sqlRef);
+    $stmtRef->execute([$ref]);
+    $count = $stmtRef->rowCount();
+    $row = $stmtRef->fetch(PDO::FETCH_ASSOC);
+    if ($count > 0) {
+      $sql = 'SELECT c.idComputador, c.ref, c.marca, c.idAmbiente, a.numero
+                    FROM computador AS c
+                    INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente
+                    WHERE ref = ?';
+      $stmt = $this->getConn()->prepare($sql);
+      $stmt->execute([$ref]);
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      echo json_encode(['success' => true, 'device' => $row]);
+    } else {
+      $icon = $this->functions->getIcon('Err');
+      echo json_encode(['success' => false, 'message' => "$icon ¡El equipo no es valido!"]);
+    }
+  }
+
   function getDevices()
   {
-    $sql = "SELECT c.idComputador, c.ref, c.marca, c.estado, a.numero AS ambiente FROM computador AS c INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente ORDER BY c.idAmbiente";
+    $sql = "SELECT c.idComputador, c.ref, c.marca, c.estado, a.numero AS ambiente, ce.siglas AS centro
+            FROM computador AS c
+            INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente
+            INNER JOIN centro AS ce ON ce.idCentro = a.idCentro
+            WHERE a.numero != 'Mesa Ayuda' AND ce.idCentro = ?
+            ORDER BY c.idComputador DESC";
     $stmt = $this->getConn()->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([$_SESSION['idCenter']]);
+    $devices = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($devices);
+  }
+
+  function getHelpDevices()
+  {
+    $sql = "SELECT c.idComputador, c.ref, c.marca, c.estado, a.numero AS ambiente, ce.siglas AS centro
+            FROM computador AS c
+            INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente
+            INNER JOIN centro AS ce ON ce.idCentro = a.idCentro
+            WHERE a.numero = 'Mesa Ayuda' AND ce.idCentro = ?
+            ORDER BY c.idComputador DESC";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$_SESSION['idCenter']]);
     $devices = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($devices);
   }
@@ -44,11 +85,11 @@ class Equipos extends ConnPDO
     }
   }
 
-  function updateDevice($reference, $brand, $stateDevice, $room, $id)
+  function updateDevice($reference, $brand, $room, $id)
   {
-    $sql = "UPDATE computador SET ref = ?, marca = ?, estado = ?, idAmbiente = ? WHERE idComputador = ?";
+    $sql = "UPDATE computador SET ref = ?, marca = ?, idAmbiente = ? WHERE idComputador = ?";
     $stmt = $this->getConn()->prepare($sql);
-    if ($stmt->execute([$reference, $brand, $stateDevice, $room, $id])) {
+    if ($stmt->execute([$reference, $brand, $room, $id])) {
       $icon = $this->functions->getIcon('OK');
       echo json_encode(['success' => true, 'message' => "$icon ¡Equipo Actualizado Exitosamente!"]);
     } else {

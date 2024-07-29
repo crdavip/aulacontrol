@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pass = $data['pass'];
 
     try {
-      $sql = "SELECT u.idUsuario, u.documento, u.contrasena, u.estado, ud.*, ce.detalle AS centro, c.idCargo, c.detalle AS cargo
+      $sql = "SELECT u.idUsuario, u.documento, u.contrasena, u.estado, u.nuevo, ud.*, ce.detalle AS centro, c.idCargo, c.detalle AS cargo
       FROM usuario AS u
       INNER JOIN usuario_detalle AS ud ON u.idUsuario = ud.idUsuario
       INNER JOIN centro AS ce ON ce.idCentro = ud.idCentro
@@ -38,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           if ($status == "Activo") {
             $_SESSION['userId'] = $row['idUsuario'];
             $_SESSION['document'] = $row['documento'];
+            $_SESSION['firstTime'] = $row['nuevo'];
             $_SESSION['email'] = $row['correo'];
             $_SESSION['name'] = $row['nombre'];
             $_SESSION['idRole'] = $row['idCargo'];
@@ -47,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['status'] = $row['estado'];
             $_SESSION['birth'] = $row['nacimiento'];
             $_SESSION['center'] = $row['centro'];
+            $_SESSION['idCenter'] = $row['idCentro'];
 
             echo json_encode(['successUser' => true, 'image' => $row['imagen']]);
           } else {

@@ -342,6 +342,7 @@ const equiposAPI = `./controller/equipos`;
 const regEquiposAPI = `./controller/registroEquipos`;
 const objetosAPI = `./controller/objetos`;
 const regObjetosAPI = `./controller/registroObjetos`;
+const datosAPI = `./controller/datos`
 const aprendicesAPI = `./controller/aprendices`;
 const asistenciaAPI = `./controller/asistencia`;
 const regAsistenciaAPI = `./controller/registroAsistencia`;
@@ -374,7 +375,7 @@ const getData = async (API) => {
 //Fin GetData
 
 //Inicio RenderScanQR
-const renderScanQR = () => {
+const renderScanQR = (type) => {
   const containerQr = document.querySelector(".containerQr");
   containerQr.innerHTML = "";
   const wrapperQr = document.createElement("div");
@@ -385,7 +386,7 @@ const renderScanQR = () => {
   wrapperQr.appendChild(wrapperScanQr);
   const titleScanQr = document.createElement("p");
   titleScanQr.classList.add("titleScanQr");
-  titleScanQr.innerHTML = "Escanear codigo QR del instructor";
+  (type == "user") ? titleScanQr.innerHTML = "Escanear Código QR del Usuario" : titleScanQr.innerHTML = "Escanear Código QR del Equipo";
   wrapperScanQr.appendChild(titleScanQr);
   const scanQrGif = document.createElement("img");
   scanQrGif.id = "scanQrGif";
@@ -415,8 +416,8 @@ const renderScanQR = () => {
 };
 //Fin RenderScanQR
 
-//Incio RenderInstructorSenaCard
-const instructorSenaCard = () => {
+//Incio RenderSenaCard
+const renderSenaCard = () => {
   const containerQr = document.querySelector(".containerQr");
   containerQr.innerHTML = "";
   const wrapperQr = document.createElement("div");
