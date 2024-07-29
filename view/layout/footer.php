@@ -11,42 +11,31 @@
     <div class="containerModal">
         <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
         <div class="containerModalBg"></div>
-        <form id="userProfileForm" action="" class="form" enctype="multipart/form-data">
-            <div class="inputGroup uploadProfileImg">
-                <input type="file" name="userImgProfile" id="userImgProfile" accept="image/jpeg, image/png" hidden>
-                <div class="userImgPreview" id="userImgPreview">
-                    <a class="userImgUpload" id="userImgUpload"><i class="fa-solid fa-camera"></i></a>
-                    <div class="userImgPicContent">
-                        <img class="userImgPic" id="userImgPic" src="<?php echo $userImg; ?>" alt="">
+        <div class="containerProfile">
+            <div class="wrapperQr">
+                <div class="wrapperSenaCard">
+                    <div class="headerSenaCard">
+                        <img class="logoSenaCard" src="./view/img/logoSena.png">
+                        <img class="picSenaCard" id="picSenaCard" src="<?= $userImg; ?>">
+                        <span class="roleSenaCard" id="roleSenaCard"><?= $userRole; ?></span>
+                    </div>
+                    <div class="bodySenaCard">
+                        <div class="nameSenaCard">
+                            <h3 id="nameUserSenaCard"><?= $userName; ?></h3>
+                        </div>
+                        <div class="dataSenaCard">
+                            <p>C.C. <span id="docUserSenaCard"><?= $userDoc; ?></span></p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <input type="hidden" name="userIdProfile" id="userIdProfile" value="<?php echo $userId; ?>">
-            <div class="inputGroup">
-                <input class="inputGroupInput" type="text" name="userNameProfile" id="userNameProfile"
-                    value="<?php echo $userName; ?>" autocomplete="off" required>
-                <label class="inputGroupLabel" for="userNameProfile"><i class="fa-solid fa-user"></i> Nombre</label>
-            </div>
-            <div class="inputGroup">
-                <input class="inputGroupInput" type="number" name="userDocProfile" id="userDocProfile"
-                    value="<?php echo $userDoc; ?>" autocomplete="off" required>
-                <label class="inputGroupLabel" for="userDocProfile"><i class="fa-solid fa-id-card"></i>
-                    Documento</label>
-            </div>
-            <div class="inputGroup">
-                <input class="inputGroupInput" type="email" name="userMailProfile" id="userMailProfile"
-                    value="<?php echo $userEmail; ?>" autocomplete="off" required>
-                <label class="inputGroupLabel" for="userMailProfile"><i class="fa-solid fa-envelope"></i> Correo</label>
-            </div>
-            <div class="buttonGroup">
-                <button class="btn btnAlt" onclick="openModal('userPassEdit'); closeModal('userProfile');"
-                    type="button"><i class="fa-solid fa-arrows-rotate"></i> Cambiar Contraseña</button>
-            </div>
-            <div class="buttonGroup">
-                <button class="btn" type="submit"><i class="fa-solid fa-save"></i> Guardar</button>
-            </div>
-        </form>
-        <p id="messageUserProfile" class="message"></p>
+        </div>
+        <div class="buttonGroup">
+            <button class="btn btnAlt" onclick="openModal('userPassEdit'); closeModal('userProfile');" type="button"><i class="fa-solid fa-arrows-rotate"></i> Cambiar Contraseña</button>
+        </div>
+        <div class="buttonGroup">
+            <button class="btn btnAlt" onclick="openModal('userViewQr'); closeModal('userProfile');" type="button"><i class="fa-solid fa-qrcode"></i> Ver Código QR</button>
+        </div>
     </div>
 </section>
 
@@ -62,32 +51,39 @@
         <form id="userPassEditForm" action="" class="form">
             <input type="hidden" name="userIdPassEdit" id="userIdPassEdit" value="<?php echo $userId; ?>">
             <div class="inputGroup">
-                <input class="inputGroupInput" type="password" name="userOldPass" id="userOldPass" autocomplete="off"
-                    required>
-                <label class="inputGroupLabel" for="userOldPass"><i class="fa-solid fa-lock"></i> Contraseña
-                    Actual</label>
+                <input class="inputGroupInput" type="password" name="userOldPass" id="userOldPass" autocomplete="off" required>
+                <label class="inputGroupLabel" for="userOldPass"><i class="fa-solid fa-lock"></i> Contraseña Actual</label>
                 <a class="showPass" onclick="showPass('userOldPass', this)"><i class="fa-solid fa-eye"></i></i></a>
             </div>
             <div class="inputGroup">
-                <input class="inputGroupInput" type="password" name="userPassProfile" id="userPassProfile"
-                    autocomplete="off" required>
+                <input class="inputGroupInput" type="password" name="userPassProfile" id="userPassProfile" autocomplete="off" required>
                 <label class="inputGroupLabel" for="userPassProfile"><i class="fa-solid fa-lock"></i> Nueva
                     Contraseña</label>
                 <a class="showPass" onclick="showPass('userPassProfile', this)"><i class="fa-solid fa-eye"></i></i></a>
             </div>
             <div class="inputGroup">
-                <input class="inputGroupInput" type="password" name="userPassProfileTwo" id="userPassProfileTwo"
-                    autocomplete="off" required>
+                <input class="inputGroupInput" type="password" name="userPassProfileTwo" id="userPassProfileTwo" autocomplete="off" required>
                 <label class="inputGroupLabel" for="userPassProfileTwo"><i class="fa-solid fa-lock"></i> Repetir
                     Contraseña</label>
-                <a class="showPass" onclick="showPass('userPassProfileTwo', this)"><i
-                        class="fa-solid fa-eye"></i></i></a>
+                <a class="showPass" onclick="showPass('userPassProfileTwo', this)"><i class="fa-solid fa-eye"></i></i></a>
             </div>
             <div class="buttonGroup">
                 <button class="btn" type="submit"><i class="fa-solid fa-save"></i> Guardar</button>
             </div>
         </form>
         <p id="messageUserPassEdit" class="message"></p>
+    </div>
+</section>
+
+<!-- Modal ViewQR -->
+<section class="modal" id="userViewQr">
+    <div class="containerModal">
+        <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
+        <div class="titlePgAlt">
+            <h1><?= $userName; ?></h1>
+            <span>CC <?= $userDoc; ?> - <?= $userRole; ?></span>
+        </div>
+        <img id="designViewImg" src="<?= $userImgQr; ?>" alt="QR">
     </div>
 </section>
 
