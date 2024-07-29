@@ -28,8 +28,11 @@ const getDataHistory = async (API) => {
   return data;
 }
 
+const sheet = localStorage.getItem('idSheet');
+const idSheetExport = document.getElementById("idSheetExport");
+idSheetExport.value = sheet;
+
 const initializeDataHistory = async () => {
-  const sheet = localStorage.getItem('idSheet');
   console.log("sheet in regs :", sheet);
   dataHistory = await getDataHistory(`${regAsistenciaAPI}.php?sheet=${sheet}`);
   console.log(dataHistory);
@@ -43,19 +46,14 @@ const initializeDataHistory = async () => {
 
 initializeDataHistory();
 
-// const sheet = localStorage.getItem('idSheet');
-// console.log("sheet in regs :", sheet)
-// dataHistory = getDataHistory(`${regAsistenciaAPI}.php?sheet=${sheet}`);
-// console.log(dataHistory);
-
 const numberInputFilter = document.getElementById("numberInputFilter");
 const dateInputFilter = document.getElementById("dateInputFilter");
 const pgNextBtn = document.getElementById("pgNext");
 const pgPrevBtn = document.getElementById("pgPrev");
 // const tableBody = document.getElementById("fullContainerResults");
 const tableBody = document.getElementById("tableBody");
-const roomPdf = document.getElementById("selectedRoomPdf");
-const roomExcel = document.getElementById("selectedRoomExcel");
+// const roomPdf = document.getElementById("selectedRoomPdf");
+// const roomExcel = document.getElementById("selectedRoomExcel");
 const roomUpdate = document.getElementById("selectedRoom");
 const searchAssistanceTraineesInput = document.getElementById("traineesAssistanceSearch");
 const resultsAssistanceSearchDiv = document.getElementById("resultsTraineesAssistanceSearch");
@@ -163,17 +161,10 @@ const getDataAmbs = async () => {
     return `<option value="${room.idAmbiente}">${room.numero}</option>`;
   }).join("");
 
-  roomPdf.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
-  roomExcel.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
+  // roomPdf.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
+  // roomExcel.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
   roomUpdate.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
-
-
 }
-// loadSelectFilters(centrosAPI, "centerSelectFilter", ["detalle"]);
-
-
-
-// RENDER APRENDICES
 
 const getHistory = async (history) => {
   tableBody.innerHTML = "";
@@ -197,7 +188,6 @@ const getHistory = async (history) => {
       <td data-title="Fecha">${row.fecha}</td>
       <td data-title="Ficha">${row.numeroFicha}</td>
       <td data-title="Accion" class="tdBool">
-        <button class="btnEditRegAssist" data-id-assist="${row.idAsistencia}"><i class="fa-solid fa-pen-to-square"></i></button>
         <button class="btnShowDetailsAssist" data-id-assist="${row.idAsistencia}">
           <i class="fa-solid fa-chevron-down"></i>
         </button>
@@ -247,8 +237,6 @@ const getHistory = async (history) => {
     });
   });
 };
-
-
 
 const renderHistory = (history) => {
   if (history.length > 0) {
@@ -317,8 +305,6 @@ const pgPrev = () => {
 pgNextBtn.addEventListener("click", pgNext);
 pgPrevBtn.addEventListener("click", pgPrev);
 
-
-
 //Filtrar Registros
 const filterHistory = async () => {
   const center = centerSelectFilter.value;
@@ -348,10 +334,10 @@ ExportFormExcel(
   regAsistenciaAPI,
 );
 
-ExportFormPdf(
-  "regAssistExportFormPdf",
-  regAsistenciaAPI,
-);
+// ExportFormPdf(
+//   "regAssistExportFormPdf",
+//   regAsistenciaAPI,
+// );
 
 sendForm(
   "regAssistEditForm",

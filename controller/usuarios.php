@@ -42,13 +42,22 @@ switch ($method) {
 
         } elseif (isset($_GET['queryAll'])) {
             $query = $_GET['queryAll'];
+            $centerDetail = $_SESSION['center'];
+            $center;
+            if ($centerDetail === "Centro del Diseño y Manufactura del Cuero") {
+                $center = 1;
+            } elseif ($centerDetail === "Centro Tecnológico del Mobiliario") {
+                $center = 2;
+            } elseif ($centerDetail === "Centro de Formación en Diseño Confección y Moda") {
+                $center = 3;
+            }
             // $idCenter = session
             if (!$query) {
                 $icon = $functions->getIcon('Err');
                 echo json_encode(['success' => false, 'message' => "$icon Navegación erronea."]);
                 exit;
             } else {
-                $users->getTraineesAvailables(1);
+                $users->getTraineesAvailables($center);
                 exit;
             }
         } elseif (isset($_GET['format'])) {

@@ -15,17 +15,16 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 switch ($method) {
   case 'GET':
-    if (isset($_GET['startDateExcel']) && isset($_GET['endDateExcel']) && isset($_GET['selectedRoomExcel'])) {
-      $idRoom = $_GET['selectedRoomExcel'];
+    if (isset($_GET['idSheetExport'])) {
+      $idInstructor = $_SESSION['userId'];
+      $idSheet = $_GET['idSheetExport'];
       $format = "excel";
-      $startDate = $_GET['startDateExcel'];
-      $endDate = $_GET['endDateExcel'];
 
-      if ($functions->checkNotEmpty([$idRoom, $startDate, $endDate])) {
+      if ($functions->checkNotEmpty([$idSheet, $idInstructor, $format])) {
         $icon = $functions->getIcon('Err');
         echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
       } else {
-        $exportController->export($startDate, $endDate, $idRoom, $format, "registroAmbientes");
+        $exportController->exportRegAsist($idInstructor, $idSheet, "registroAsistencia", $format);
       }
     } elseif (isset($_GET['startDatePdf']) && isset($_GET['endDatePdf']) && isset($_GET['selectedRoomPdf'])) {
       $idRoom = $_GET['selectedRoomPdf'];

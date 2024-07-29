@@ -104,6 +104,38 @@ class RegistroAsistencia extends ConnPDO
     echo json_encode($regsAssist, JSON_UNESCAPED_UNICODE);
   }
 
+  public function getGroupOfHistoryAssist($idSheet, $idInstructor) {
+    $sql = "SELECT 
+      a.*,
+      ra.idRegistro, 
+      f.ficha AS numeroFicha, 
+      f.aprendices AS totalAprendices, 
+      COUNT(ra.idUsuario) AS presentes, 
+      GROUP_CONCAT(
+          CONCAT(
+              ud.nombre, ' (', u.documento, ')'
+          ) SEPARATOR ', '
+      ) AS aprendices, 
+      am.numero AS ambiente,
+      i.nombre AS instructorNombre,
+      iu.documento AS instructorDocumento
+      FROM registro_asistencia ra 
+      JOIN asistencia a ON ra.idAsistencia = a.idAsistencia 
+      JOIN ficha f ON a.idFicha = f.idFicha 
+      JOIN usuario_detalle ud ON ra.idUsuario = ud.idUsuario 
+      JOIN usuario u ON ud.idUsuario = u.idUsuario 
+      JOIN ambiente am ON a.idAmbiente = am.idAmbiente 
+      LEFT JOIN usuario_detalle i ON a.idInstructor = i.idUsuario
+      LEFT JOIN usuario iu ON i.idUsuario = iu.idUsuario
+      WHERE a.idFicha = ? AND a.idInstructor = ? 
+      GROUP BY a.idAsistencia, f.ficha, f.aprendices, i.nombre, iu.documento
+    ";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$idSheet, $idInstructor]);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $rows;
+  }
+
   public function saveRegAssistance($ids, $idAsistencia)
   {
     $conn = $this->getConn();
@@ -132,9 +164,5 @@ class RegistroAsistencia extends ConnPDO
         ]
       ];
     }
-  }
-
-  public function updateRegAssistance () {
-
   }
 }
