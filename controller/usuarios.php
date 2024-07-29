@@ -144,6 +144,36 @@ switch ($method) {
                 }
                 exit();
             }
+        } elseif (isset($data['userIdPassEdit'])) {
+            $idUSer = $data['userIdPassEdit'];
+            $userOldPass = $data['userOldPass'];
+            $userPassProfile = $data['userPassProfile'];
+            $userPassProfileTwo = $data['userPassProfileTwo'];
+            if ($functions->checkNotEmpty([$idUSer, $userOldPass, $userPassProfile, $userPassProfileTwo])) {
+                $icon = $functions->getIcon('Err');
+                echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+                exit();
+            } elseif (!($functions->checkPassword($userPassProfile, $userPassProfileTwo))) {
+                $icon = $functions->getIcon('Err');
+                echo json_encode(['success' => false, 'message' => "$icon ¡Oh no! Las contraseñas no coinciden."]);
+            } else {
+                $passBD = $functions->getValue("usuario", "contrasena", "idUsuario", $idUSer);
+                $userOldPass = sha1($userOldPass);
+                if (!($functions->checkPassword($passBD, $userOldPass))) {
+                    $icon = $functions->getIcon('Err');
+                    echo json_encode(['success' => false, 'message' => "$icon ¡Contraseña actual incorrecta!."]);
+                } else {
+                    $users->updatePass($idUSer, sha1($userPassProfile));
+                    if ($_SESSION['success']) {
+                        $icon = $functions->getIcon('OK');
+                        echo json_encode(['success' => true, 'message' => "$icon ¡Usuario Editado Exitosamente!"]);
+                    } else {
+                        $icon = $functions->getIcon('Err');
+                        echo json_encode(['success' => false, 'message' => "$icon Error al editar el usuario"]);
+                    }
+                    exit();
+                }
+            }
         }
         break;
     case 'DELETE':

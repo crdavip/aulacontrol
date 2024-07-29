@@ -753,9 +753,8 @@ a {
 }
 
 #designViewImg {
-  width: auto;
-  height: 90%;
-  max-height: 600px;
+  width: 90%;
+  height: auto;
 }
 
 .inputGroup {
@@ -1160,6 +1159,24 @@ a {
     font-size: 2rem;
     font-weight: 300;
     color: var(--negro);
+  }
+}
+
+.titlePgAlt {
+  text-align: center;
+  padding: 0.5em 0;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--primario);
+
+  & h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--negro);
+    line-height: 2rem;
+  }
+
+  & span {
+    color: var(--primario);
   }
 }
 
@@ -1724,13 +1741,17 @@ a {
   font-weight: 700;
 }
 
-.containerQr {
+.containerQr, .containerProfile {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 1rem;
   width: 100%;
+}
+
+.containerProfile {
+  z-index: 1;
 }
 
 .wrapperQr {
