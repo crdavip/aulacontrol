@@ -13,7 +13,7 @@ class RegistroObservaciones extends ConnPDO
 
   function getAllObservationsHistory()
   {
-    $sql = "SELECT ro.idRegistro, ud.nombre AS usuario, ud.imagen, u.documento, o.idObjeto, o.descripcion, o.color, cent.siglas AS centro, ro.inicio, ro.fin, ro.idCentro FROM registro_objeto AS ro INNER JOIN objetos AS o ON o.idObjeto = ro.idObjeto INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN centro AS cent ON cent.idCentro = ro.idCentro ORDER BY ro.fin IS NULL DESC, ro.idRegistro DESC";
+    $sql = "SELECT ro.*, ud.nombre AS nombreUsuario, ud.imagen AS imgUsuario, u.documento AS docuUsuario, rd.nombre AS nombreRevisor, r.documento AS docRevisor, o.descripcion FROM registro_observaciones AS ro INNER JOIN observaciones AS o ON o.idObservacion = ro.idObservacion INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario LEFT JOIN usuario_detalle AS rd ON rd.idUsuario = ro.idRevisador LEFT JOIN usuario AS r ON r.idUsuario = ro.idRevisador";
 
     $stmt = $this->getConn()->prepare($sql);
     $stmt->execute();
@@ -52,39 +52,18 @@ class RegistroObservaciones extends ConnPDO
     }
   }
 
-  // function updateObjectHistory($idUser, $idObject)
-  // {
-  //   try {
-  //     $sqlGet = "SELECT * FROM registro_objeto
-  //                  WHERE fin IS NULL AND idObjeto = ?
-  //                  ORDER BY fin DESC LIMIT 1";
-  //     $stmtGet = $this->getConn()->prepare($sqlGet);
-  //     $stmtGet->execute([$idObject]);
-  //     $row = $stmtGet->fetch(PDO::FETCH_ASSOC);
+  function updateObservationHistory($idUser, $idObs)
+  {
+    try {
+      $sql = "UPDATE registro_observaciones SET fechaRevision = CURDATE(), estado = 1, idRevisador = ? WHERE idObservacion = ?";
+      $stmt = $this->getConn()->prepare($sql);
+      $stmt->execute([$idUser, $idObs]);
 
-  //     if ($row) {
-  //       $idHistory = $row['idRegistro'];
-  //       $sql = "UPDATE registro_objeto SET fin = current_timestamp() WHERE idRegistro = ?";
-  //       $stmt = $this->getConn()->prepare($sql);
-  //       if ($stmt->execute([$idHistory])) {
-  //         $sqlUpdate = "UPDATE objetos SET estado = 'Inactivo' WHERE idObjeto = ?";
-  //         $stmtUpdate = $this->getConn()->prepare($sqlUpdate);
-  //         $stmtUpdate->execute([$idObject]);
-
-  //         $icon = $this->functions->getIcon('OK');
-  //         echo json_encode(['success' => true, 'message' => "$icon ¡Registro de salida finalizado!"]);
-  //       } else {
-  //         $errorInfo = $stmt->errorInfo();
-  //         $icon = $this->functions->getIcon('Err');
-  //         echo json_encode(['success' => false, 'message' => "$icon ¡Oops! Parece que algo salió mal. Error: {$errorInfo[2]}"]);
-  //       }
-  //     } else {
-  //       $icon = $this->functions->getIcon('Err');
-  //       echo json_encode(['success' => false, 'message' => "$icon El objeto no tiene registros activos."]);
-  //     }
-  //   } catch (PDOException $e) {
-  //     $icon = $this->functions->getIcon('Err');
-  //     echo json_encode(['success' => false, 'message' => "$icon Error de base de datos: " . $e->getMessage()]);
-  //   }
-  // }
+      $icon = $this->functions->getIcon('OK');
+      echo json_encode(['success' => true, 'message' => "$icon Observacion marcada como revisada."]);
+    } catch (PDOException $e) {
+      $icon = $this->functions->getIcon('Err');
+      echo json_encode(['success' => false, 'message' => "$icon Error de base de datos: " . $e->getMessage()]);
+    }
+  }
 }

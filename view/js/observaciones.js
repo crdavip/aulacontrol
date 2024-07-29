@@ -14,9 +14,10 @@ const updateRenderObservations = async () => {
   await loadRenderObservations();
 };
 
-const createObservationCard = (users) => {
+const createObservationCard = (observations) => {
   const fragment = document.createDocumentFragment();
-  users.forEach((user) => {
+  const filteredObs = observations.filter((obs) => obs.estado == 0);
+  filteredObs.forEach((obs) => {
     const cardUser = document.createElement("div");
     cardUser.className = "card";
     const cardUserTop = document.createElement("div");
@@ -26,7 +27,7 @@ const createObservationCard = (users) => {
     const cardUserPic = document.createElement("div");
     cardUserPic.classList.add("cardPic");
     const img = document.createElement("img");
-    img.src = user.imagen;
+    img.src = obs.imagen;
     img.alt = "profile";
     cardUserPic.appendChild(img);
     const cardUserTxt = document.createElement("div");
@@ -35,9 +36,9 @@ const createObservationCard = (users) => {
     const cardUserTxtName = document.createElement("h3");
     const cardUserTxtCargo = document.createElement("span");
     cardUserTxtName.className = "cardUserH3";
-    cardUserTxtRol.textContent = user.detalle;
-    cardUserTxtName.textContent = user.nombre;
-    cardUserTxtCargo.textContent = user.documento;
+    cardUserTxtRol.textContent = obs.detalle;
+    cardUserTxtName.textContent = obs.nombre;
+    cardUserTxtCargo.textContent = obs.documento;
     cardUserTxt.appendChild(cardUserTxtRol);
     cardUserTxt.appendChild(cardUserTxtName);
     cardUserTxt.appendChild(cardUserTxtCargo);
@@ -46,15 +47,25 @@ const createObservationCard = (users) => {
     const cardUserObsTxtType = document.createElement("p");
     const cardUserObsTxtDesc = document.createElement("span");
     const cardUserObsTxtPosted = document.createElement("h4");
-    cardUserObsTxtType.textContent = `Tipo de Asunto: ${user.tipoAsunto}`;
-    cardUserObsTxtDesc.textContent = `Descripción: ${user.descripcion}`;
-    cardUserObsTxtPosted.textContent = `Publicado el  ${user.fechaPublicacion}`;
+    cardUserObsTxtType.textContent = `Tipo de Asunto: ${obs.tipoAsunto}`;
+    cardUserObsTxtDesc.textContent = `Descripción: ${obs.descripcion}`;
+    cardUserObsTxtPosted.textContent = `Publicado el  ${obs.fechaPublicacion}`;
     cardUserObservation.appendChild(cardUserObsTxtType);
     cardUserObservation.appendChild(cardUserObsTxtDesc);
     cardUserObservation.appendChild(cardUserObsTxtPosted);
+    // Btn Revision
+    const cardUserObservationDivBtn = document.createElement("div");
+    cardUserObservationDivBtn.classList.add("cardBodyTxt");
+    cardUserObservationDivBtn.innerHTML = `
+    <a class="btnExitMarkObject" onclick="openModal('markObsChecked')" data-id-observation="${obs.idObservacion}"><i class="fa-regular fa-circle-check"></i> Marcar como revisado</a>`;
+
+    const observationId = document.getElementById("observationId");
+    observationId.value = obs.idObservacion;
+
     cardUserBody.appendChild(cardUserPic);
     cardUserBody.appendChild(cardUserTxt);
     cardUserBody.appendChild(cardUserObservation);
+    cardUserBody.appendChild(cardUserObservationDivBtn);
     cardUser.appendChild(cardUserTop);
     cardUser.appendChild(cardUserBody);
     fragment.appendChild(cardUser);
@@ -80,5 +91,15 @@ sendForm(
   "messageCreate",
   updateRenderObservations,
   "observationCreate",
+  1500
+);
+
+sendForm(
+  "markObsCheckedForm",
+  regObservacionesAPI,
+  "PUT",
+  "messageObsChecked",
+  updateRenderObservations,
+  "markObsChecked",
   1500
 );

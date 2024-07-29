@@ -132,6 +132,9 @@
     case 'Observaciones':
         echo '<script src="./view/js/observaciones.js" type="module"></script>';
         break;
+    case 'Registro de Observaciones':
+        echo '<script src="./view/js/registroObservaciones.js" type="module"></script>';
+        break;
 } ?>
 
 </body>
