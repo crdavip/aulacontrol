@@ -1,5 +1,4 @@
 const numberInputFilter = document.getElementById("numberInputFilter");
-const centerSelectFilter = document.getElementById("centerSelectFilter");
 const statusSelectFilter = document.getElementById("statusSelectFilter");
 
 loadSelectFilters(equiposAPI, "statusSelectFilter", ["estado"]);
@@ -100,7 +99,6 @@ const createDeviceCard  = (devices) => {
         const selectEditRoom = document.getElementById("deviceAmbEdit");
 
         let roomFiltered = roomsList.find((room) => room.numero == device.ambiente);
-        console.log(roomsList);
         let centerFiltered = centersList.find((center) => center.idCentro === roomFiltered.idCentro);
 
         let contentSelectTagCenterFiltered = centersList.filter((center) => center.idCentro !== centerFiltered.idCentro);
@@ -116,8 +114,6 @@ const createDeviceCard  = (devices) => {
         let contentSelectTagRooms = filteredRooms.map((room) => {
           return `<option value="${room.idAmbiente}">${room.numero}</option>`;
         }).join("");
-        console.log(roomFiltered);
-        console.log(contentSelectTagRooms);
         selectEditRoom.innerHTML = `<option value="${roomFiltered.idAmbiente}">${roomFiltered.numero}</option>${contentSelectTagRooms}`;
 
         loadDataForm({
@@ -187,7 +183,6 @@ const filterDevices = () => {
   const status = statusSelectFilter.value;
   const number = numberInputFilter.value;
   let newdevices = devices;
-  console.log(newdevices);
   if (status !== "all") {
     newdevices = newdevices.filter((device) => device.estado == status);
   }
@@ -256,7 +251,6 @@ const deviceAssocInfo = async (device) => {
   } else {
     const res = await fetch(`${regEquiposAPI}?idComputador=${device.idComputador}`);
     const data = await res.json();
-    console.log(data);
     const roomAssocUser = document.createElement("p");
     roomAssocUser.innerHTML = `Vinculada con <strong>${data.usuario}</strong>`;
     deviceAssocInfo.appendChild(roomAssocUser);
@@ -274,7 +268,7 @@ const deviceAssoc = (device) => {
     ? (titleDeviceAssoc.innerHTML = `Vincular Equipo`)
     : (titleDeviceAssoc.innerHTML = `Desvincular Equipo`);
   deviceAssocInfo(device);
-  renderScanQR();
+  renderScanQR("user");
   configScanQR(filterDoc);
 };
 
@@ -316,7 +310,6 @@ const filterDoc = async (doc) => {
   const deviceStatusAssoc = document.getElementById("deviceStatusAssoc").value;
   const res = await fetch(`${usuariosAPI}?docUserAssoc2=${doc}`);
   const data = await res.json();
-  console.log(data);
   if (data.success == true) {
     const userData = data.user;
     if (deviceStatusAssoc == "Disponible") {

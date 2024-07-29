@@ -18,7 +18,7 @@ include ('./view/layout/header.php');
 
 if ($userIdRole === 1) {
     $titlePgRight .= '
-    <a href="./registro-equipos" class="btnUi btnUiAlt">
+    <a href="./registro-mesadeayuda" class="btnUi btnUiAlt">
         <i class="fas fa-clipboard-list"></i>
         <p>Ver Registros</p>
     </a>

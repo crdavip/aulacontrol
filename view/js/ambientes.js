@@ -194,7 +194,7 @@ const roomAssoc = (room) => {
     ? (titleRoomAssoc.innerHTML = `Vincular Ambiente`)
     : (titleRoomAssoc.innerHTML = `Desvincular Ambiente`);
   roomAssocInfo(room);
-  renderScanQR();
+  renderScanQR("user");
   configScanQR(filterDoc);
 };
 
