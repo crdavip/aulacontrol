@@ -303,7 +303,7 @@ const getDataOfSheetList = async () => {
 searchListTraineesInput.addEventListener('keyup', async function () {
   const doc = searchListTraineesInput.value;
   if (doc.length > 0) {
-    const response = await fetch(`${aprendicesAPI}.php?queryList=${idSheetAssistance}&searchDoc=${doc}`);
+    const response = await fetch(`${aprendicesAPI}.php?queryList=${idSheetList}&searchDoc=${doc}`);
     const results = await response.json();
     resultsListSearchDiv.innerHTML = '';
     results.forEach(result => {

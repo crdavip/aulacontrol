@@ -2004,6 +2004,17 @@ td img {
 /* ** DANIEL STYLES ** */
 /** ######################################################### */
 
+.descCardBody{
+  font-weight: 500 !important;
+  font-size: 16px;
+}
+
+.docCustomCardObs {
+  font-weight: 500 !important;
+  font-size: 18px;
+}
+
+
 .temptFlexContainer {
   display: flex;
   justify-content: center;
@@ -2272,6 +2283,72 @@ td img {
   font-size: 14px;
   color: #777;
   line-height: 1.4;
+}
+
+.containerStatistics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* .containerStatistics{
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 130px;
+} */
+
+.cardStatistics {
+  width: 396px;
+  height: 184px;
+  background-color: var(--extra-light-green);
+  border-radius: 8px;
+  box-shadow: 0 0 4px 2px #b9b9b9ee;
+  padding: 16px 20px 26px 20px;
+}
+
+.cardStatisticsHeader{
+  width: 100%;
+  display: flex;
+  padding-left: 5px;
+}
+
+.statisticTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gris-oscuro);
+  letter-spacing: 0.1;
+}
+
+
+.cardStatisticBody {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+}
+
+.cardStatisticBody div {
+  border-radius: 16px;
+  background-color: var(--primario);
+}
+
+.cardStatisticBody div i {
+  font-size: 48px;
+  color: var(--ligh-green);
+  padding: 10px 12px;
+}
+
+.statisticValue {
+  color: var(--primario);
+  font-size: 26px;
 }
 
 

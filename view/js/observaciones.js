@@ -44,6 +44,7 @@ const createObservationCard = (observations) => {
     const cardUserTxtRol = document.createElement("p");
     const cardUserTxtName = document.createElement("h3");
     const cardUserTxtCargo = document.createElement("span");
+    cardUserTxtCargo.classList.add("docCustomCardObs");
     cardUserTxtName.className = "cardUserH3";
     cardUserTxtRol.textContent = obs.detalle;
     cardUserTxtName.textContent = obs.nombre;
@@ -55,7 +56,8 @@ const createObservationCard = (observations) => {
     cardUserObservation.classList.add("cardBodyTxt");
     const cardUserObsTxtType = document.createElement("p");
     const cardUserObsTxtDesc = document.createElement("span");
-    const cardUserObsTxtPosted = document.createElement("h4");
+    cardUserObsTxtDesc.classList.add("descCardBody");
+    const cardUserObsTxtPosted = document.createElement("h5");
     cardUserObsTxtType.textContent = `Tipo de Asunto: ${obs.tipoAsunto}`;
     cardUserObsTxtDesc.textContent = `Descripción: ${obs.descripcion}`;
     cardUserObsTxtPosted.textContent = `Publicado el  ${obs.fechaPublicacion}`;

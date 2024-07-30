@@ -51,9 +51,60 @@ include_once ('./view/layout/header.php');
             incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
         </div>
       </div>
-
     </div>
   </main>
+  <div class="containerStatistics">
+    <div class="cardStatistics">
+      <div class="cardStatisticsHeader">
+        <h4 class="statisticTitle">Estudiantes</h4>
+      </div>
+      <div class="cardStatisticBody">
+        <p class="statisticText">¡Ahora <strong class="statisticValue">200</strong> aprendices somos parte del CDMC
+          actualmente!</p>
+        <div>
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+      </div>
+    </div>
+    <div class="cardStatistics">
+      <div class="cardStatisticsHeader">
+        <h4 class="statisticTitle">Instructores</h4>
+      </div>
+      <div class="cardStatisticBody">
+        <p class="statisticText">En nuestro centro nos apoyan <strong class="statisticValue">34</strong> instructores
+          con mucho conocimiento por entregar</p>
+        <div>
+          <i class="fa-solid fa-user-tie"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="containerStatistics">
+  <div class="cardStatistics">
+    <div class="cardStatisticsHeader">
+      <h4 class="statisticTitle">Equipos</h4>
+    </div>
+    <div class="cardStatisticBody">
+      <p class="statisticText">Nuestro centro cuenta con <strong class="statisticValue">700</strong> equipos
+        tecnológicos al servicio de los aprendices!</p>
+      <div>
+        <i class="fa-solid fa-display"></i>
+      </div>
+    </div>
+  </div>
+  <div class="cardStatistics">
+    <div class="cardStatisticsHeader">
+      <h4 class="statisticTitle">Observaciones</h4>
+    </div>
+    <div class="cardStatisticBody">
+      <p class="statisticText">Se han creado <strong class="statisticValue">34</strong> observaciones</p>
+      <div>
+        <i class="fa-solid fa-binoculars"></i>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 
 <?php include ('./view/layout/footer.php'); ?>
