@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $pdo->prepare($sql);
         $stmt = $stmt->execute([$token, $id]);
 
-        $url = 'http://localhost/ucloth/resetpass?id=' . $id . '&token=' . $token;
+        $url = 'http://localhost/aulacontrol/resetpass?id=' . $id . '&token=' . $token;
         $subject = 'Recupera tu contraseña';
         $content            = "
         <!DOCTYPE html>
@@ -99,13 +99,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <head>
             <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap' rel='stylesheet'>
             <style>
-                .container-f {width: 100%;font-family: 'Poppins', sans-serif !important;background-color: #04bf9d!important;background-image: url('https://cristiandavid.com.co/ucloth/bg_pattern.png');background-repeat: repeat-x;background-size: 25%;padding: 30px 0;text-align: center;}
+                .container-f {width: 100%;font-family: 'Poppins', sans-serif !important;background-color: #5eb319!important;padding: 30px 0;text-align: center;}
                 .container-c {max-width: 340px;width: 90%;margin: 0 auto;padding: 20px;background-color: #ffffff;border-radius: 10px;text-align: center;margin-bottom: 10px;}
-                h2 {font-size: 24px;font-weight: 500;color: #04bf9d;border-bottom: 2px solid #04bf9d;}
+                .logo {display: flex;align-items: center;justify-content: center;}
+                .logoSena {display: block;width: auto;height: 3rem;}
+                .separator {width: 2px;height: 3rem;background: #5eb319;margin: 0 1rem;}
+                .logoAulaControl {display: block;width: auto;height: 2.5rem;}
+                h2 {font-size: 24px;font-weight: 500;color: #5eb319;border-bottom: 2px solid #5eb319;}
                 p {font-size: 16px;line-height: 20px;color: #17181c;margin-bottom: 10px;}
-                .btn {display: inline-block;padding: 10px 20px;background-color: #0388a6;color: #ffffff!important;text-decoration: none;border-radius: 5px;}
-                .btn:hover {background-color: #346377;}
-                .note {font-size: 12px;line-height: 14px;color: #346377;}
+                .btn {display: inline-block;padding: 10px 20px;background-color: #5eb319;color: #ffffff!important;text-decoration: none;border-radius: 5px;}
+                .btn:hover {background-color: #425e2c;}
+                .note {font-size: 12px;line-height: 14px;color: #425e2c;}
                 span {font-size: 12px;color: #ffffff;}
                 span a {font-size: 12px;font-weight: 700;text-decoration: none;color: #ffffff!important;}
             </style>
@@ -113,8 +117,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <body>
             <div class='container-f'>
                 <div class='container-c'>
-                    <div>
-                        <img src='https://cristiandavid.com.co/ucloth/logo_full.png' alt='logo' style='width: 124px; margin: 0 auto;'>
+                    <div class='logo'>
+                        <img class='logoSena' src='https://cristiandavid.com.co/aulacontrol/logoSena.png' alt='logoSena'>
+                        <div class='separator'></div>
+                        <img class='logoAulaControl' src='https://cristiandavid.com.co/aulacontrol/logo.png' alt='logoAulaControl'>
                     </div>
                     <h2>¡Hola, $name!</h2>
                     <p>Parece que has olvidado tu contraseña. Si es así, haz clic en el siguiente botón para restablecer tu contraseña:</p>
