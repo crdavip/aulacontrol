@@ -125,6 +125,12 @@
     case 'Registro de Asistencias':
         echo '<script src="./view/js/registroAsistencia.js"></script>';
         break;
+    case 'Observaciones':
+        echo '<script src="./view/js/observaciones.js" type="module"></script>';
+        break;
+    case 'Registro de Observaciones':
+        echo '<script src="./view/js/registroObservaciones.js" type="module"></script>';
+        break;
 } ?>
 
 </body>

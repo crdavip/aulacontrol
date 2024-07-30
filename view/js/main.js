@@ -346,6 +346,8 @@ const datosAPI = `./controller/datos`
 const aprendicesAPI = `./controller/aprendices`;
 const asistenciaAPI = `./controller/asistencia`;
 const regAsistenciaAPI = `./controller/registroAsistencia`;
+const observacionesAPI = `./controller/observaciones`;
+const regObservacionesAPI = `./controller/registroObservaciones`;
 //Fin APIList
 
 //Inicio LoadDataFilters
