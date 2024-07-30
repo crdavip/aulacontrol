@@ -981,8 +981,8 @@ a {
 }
 
 .messageErr {
-  border: 2px solid var(--segundario);
-  color: var(--segundario);
+  border: 2px solid var(--color-error);
+  color: var(--color-error);
 }
 
 .messageAlert {

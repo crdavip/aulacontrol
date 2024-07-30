@@ -1,5 +1,11 @@
 <?php
-require_once('../model/sessions.php');
+
+$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+$refererFilename = basename(parse_url($referer, PHP_URL_PATH));
+
+if ($refererFilename !== 'resetpass') {
+    require_once('../model/sessions.php');
+}
 require_once('../model/usuarios.php');
 require_once('../model/usuariosDetalles.php');
 require_once('../controller/qrcode.php');
@@ -39,7 +45,6 @@ switch ($method) {
                 $users->getUsersForSearchingAdd($query);
                 exit;
             }
-
         } elseif (isset($_GET['queryAll'])) {
             $query = $_GET['queryAll'];
             $centerDetail = $_SESSION['center'];
@@ -173,6 +178,28 @@ switch ($method) {
                     }
                     exit();
                 }
+            }
+        } elseif (isset($data['userPassId'])) {
+            $idUSer = $data['userPassId'];
+            $passEdit = $data['passEdit'];
+            $passEditTwo = $data['passEditTwo'];
+            if ($functions->checkNotEmpty([$idUSer, $passEdit, $passEditTwo])) {
+                $icon = $functions->getIcon('Err');
+                echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+                exit();
+            } elseif (!($functions->checkPassword($passEdit, $passEditTwo))) {
+                $icon = $functions->getIcon('Err');
+                echo json_encode(['success' => false, 'message' => "$icon ¡Oh no! Las contraseñas no coinciden."]);
+            } else {
+                $users->updatePass($idUSer, sha1($passEdit));
+                if ($_SESSION['success']) {
+                    $icon = $functions->getIcon('OK');
+                    echo json_encode(['success' => true, 'message' => "$icon ¡Usuario Editado Exitosamente!"]);
+                } else {
+                    $icon = $functions->getIcon('Err');
+                    echo json_encode(['success' => false, 'message' => "$icon Error al editar el usuario"]);
+                }
+                exit();
             }
         }
         break;
