@@ -72,9 +72,10 @@ class Usuarios extends ConnPDO
           INNER JOIN usuario_detalle AS ud ON u.idUsuario = ud.idUsuario
           INNER JOIN centro AS c ON ud.idCentro = c.idCentro
           INNER JOIN cargo AS rol ON u.idCargo = rol.idCargo
+          WHERE c.idCentro = ?
           ORDER BY u.idUsuario DESC";
     $stmt = $this->getConn()->prepare($sql);
-    $stmt->execute([]);
+    $stmt->execute([$_SESSION['idCenter']]);
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($users);
   }

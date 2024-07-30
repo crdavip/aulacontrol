@@ -1,10 +1,7 @@
 const docInputFilter = document.getElementById("docInputFilter");
-const centerSelectFilter = document.getElementById("centerSelectFilter");
 const roleSelectFilter = document.getElementById("roleSelectFilter");
 
-loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
 loadSelectFilters(cargosAPI, "roleSelectFilter", ["detalle"]);
-
 
 let users = [];
 const loadRenderUsers = async () => {
@@ -72,7 +69,7 @@ const createUserCard = (users) => {
     cardUserTxtName.className = "cardUserH3";
     cardUserTxtRol.textContent = user.cargo;
     cardUserTxtName.textContent = user.nombre;
-    cardUserTxtCargo.textContent = user.documento;
+    cardUserTxtCargo.textContent = `CC ${user.documento}`;
     cardUserTxt.appendChild(cardUserTxtRol);
     cardUserTxt.appendChild(cardUserTxtName);
     cardUserTxt.appendChild(cardUserTxtCargo);
@@ -97,14 +94,9 @@ const renderUsers = async (data) => {
 };
 
 const filterUsers = () => {
-  const center = centerSelectFilter.value;
   const role = roleSelectFilter.value;
   const doc = docInputFilter.value;
   let newUsers = users;
-  console.log(newUsers);
-  if (center !== "all") {
-    newUsers = newUsers.filter((user) => user.siglas == center);
-  }
   if (role !== "all") {
     newUsers = newUsers.filter((user) => user.cargo == role);
   }
@@ -115,7 +107,6 @@ const filterUsers = () => {
   }
   renderUsers(newUsers);
 };
-centerSelectFilter.addEventListener("change", filterUsers);
 roleSelectFilter.addEventListener("change", filterUsers);
 docInputFilter.addEventListener("keyup", filterUsers);
 
