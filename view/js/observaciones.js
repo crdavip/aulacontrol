@@ -48,7 +48,7 @@ const createObservationCard = (observations) => {
     cardUserTxtName.className = "cardUserH3";
     cardUserTxtRol.textContent = obs.detalle;
     cardUserTxtName.textContent = obs.nombre;
-    cardUserTxtCargo.textContent = obs.documento;
+    cardUserTxtCargo.textContent = `C.C. ${obs.documento}`;
     cardUserTxt.appendChild(cardUserTxtRol);
     cardUserTxt.appendChild(cardUserTxtName);
     cardUserTxt.appendChild(cardUserTxtCargo);

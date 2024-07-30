@@ -15,9 +15,17 @@ class Observaciones extends ConnPDO
 
   function getObservations()
   {
-    $sql = "SELECT o.*, u.documento, c.detalle, ud.imagen, ud.idCentro, ud.nombre, ro.fechaPublicacion, ro.estado, c.detalle AS detalleCargo FROM observaciones AS o INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN cargo AS c ON u.idCargo = c.idCargo INNER JOIN registro_observaciones AS ro ON ro.idObservacion = o.idObservacion";
+    $sql = "SELECT o.*, u.documento, c.detalle, ud.imagen, ud.idCentro, ud.nombre, ro.fechaPublicacion, ro.estado, c.detalle AS detalleCargo
+            FROM observaciones AS o 
+            INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario 
+            INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario 
+            INNER JOIN cargo AS c ON u.idCargo = c.idCargo 
+            INNER JOIN registro_observaciones AS ro ON ro.idObservacion = o.idObservacion
+            INNER JOIN centro AS ce ON ce.idCentro = ud.idCentro
+            WHERE ce.idCentro = ?
+            ORDER BY o.idObservacion DESC";
     $stmt = $this->getConn()->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([$_SESSION['idCenter']]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($rows);
   }

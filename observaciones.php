@@ -13,7 +13,7 @@ if ($userIdRole === 1 || $userIdRole === 2) {
         </a>
         <a onclick="openModal(`observationCreate`)" class="btnUi">
             <i class="fa-solid fa-square-plus"></i>
-            <p>Nueva Observacion</p>
+            <p>Nueva Observación</p>
         </a>';
 } else {
     $titlePgRight = '

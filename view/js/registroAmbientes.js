@@ -21,9 +21,6 @@ const getDataAmbs = async () => {
   roomExcel.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
 }
 
-
-loadSelectFilters(centrosAPI, "centerSelectFilter", ["detalle"]);
-
 let dataHistory = await getDataHistory(regAmbientesAPI);
 
 let pgFrom = 0;
@@ -137,14 +134,8 @@ pagination(dataHistory);
 
 //Filtrar Registros
 const filterHistory = async () => {
-  const center = centerSelectFilter.value;
   const number = numberInputFilter.value;
   const date = dateInputFilter.value;
-  if (center !== "all") {
-    dataHistory = dataHistory.filter((row) => row.centro == center);
-  } else {
-    dataHistory = await getDataHistory(regAmbientesAPI);
-  }
   if (number !== "") {
     dataHistory = dataHistory.filter((row) =>
       `${row.numero.toLowerCase()}`.includes(`${number.toLowerCase()}`)
@@ -155,7 +146,6 @@ const filterHistory = async () => {
   }
   pagination(dataHistory);
 };
-centerSelectFilter.addEventListener("change", filterHistory);
 numberInputFilter.addEventListener("keyup", filterHistory);
 dateInputFilter.addEventListener("change", filterHistory);
 

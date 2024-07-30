@@ -1,16 +1,18 @@
 <?php
-session_start();
 require_once('./model/db.php');
 
 $connPDO = new ConnPDO;
 $pdo = $connPDO->getConn();
 
-$ID = $_GET['id'] ?? '';
+$idUser = $_GET['id'] ?? '';
 $token = $_GET['token'] ?? '';
 
-$sql = "SELECT USUARIO_ID, NOMBRE, IMAGEN, TOKEN FROM usuario WHERE USUARIO_ID=? AND TOKEN LIKE ? AND LOSTPASS=1 LIMIT 1";
+$sql = "SELECT u.idUsuario, ud.nombre, u.token, ud.imagen 
+        FROM usuario AS u
+        INNER JOIN usuario_detalle AS ud ON ud.idUsuario = u.idUsuario
+        WHERE u.idUsuario=? AND u.token LIKE ? AND u.olvideContra=1 LIMIT 1";
 $stmt = $pdo->prepare($sql);
-$stmt->execute([$ID, $token]);
+$stmt->execute([$idUser, $token]);
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$row) {
@@ -18,8 +20,8 @@ if (!$row) {
     exit();
 }
 
-$NAMES = $row['NOMBRE'];
-$IMG = $row['IMAGEN'];
+$userName = $row['nombre'];
+$userImg = $row['imagen'];
 ?>
 
 <!DOCTYPE html>
@@ -55,21 +57,21 @@ $IMG = $row['IMAGEN'];
                     <img class="favWall" src="./view/img/fav.svg" alt="">
                 </div>
                 <div class="welcomeTxt">
-                    <h2>¡Hola, <?php echo $NAMES; ?>!</h2>
+                    <h2>¡Hola, <?php echo $userName; ?>!</h2>
                 </div>
             </div>
             <div class="loginForm">
                 <div class="contentForm" id="contentLogin">
                     <div class="userImgPreview">
                         <div class="userImgPicContent">
-                            <img class="userImgPic" id="userImgPic" src="<?php echo $IMG; ?>" alt="">
+                            <img class="userImgPic" id="userImgPic" src="<?php echo $userImg; ?>" alt="">
                         </div>
                     </div>
                     <div class="loginTxt">
                         <p class="loginP">Crea una nueva contraseña</p>
                     </div>
                     <form id="usersPassEditForm" action="" class="usersForm">
-                        <input type="hidden" name="userPassId" id="userPassId" value="<?php echo $ID; ?>">
+                        <input type="hidden" name="userPassId" id="userPassId" value="<?php echo $idUser; ?>">
                         <div class="inputGroup">
                             <input class="inputGroupInput" type="password" name="passEdit" id="passEdit" autocomplete="off" required>
                             <label class="inputGroupLabel" for="passEdit"><i class="fa-solid fa-lock"></i> Nueva Contraseña</label>

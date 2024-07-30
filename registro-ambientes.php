@@ -10,9 +10,6 @@ $titlePgRight = '
     <div class="containerFilterPg">
         <label for="numberInputFilter"><i class="fa-solid fa-magnifying-glass"></i></label>
         <input type="text" class="filterSearchPg" name="numberInputFilter" id="numberInputFilter" placeholder="Buscar:" autocomplete="off">
-        <select class="filterSelectPg" id="centerSelectFilter">
-            <option value="all">Centro</option>
-        </select>
         <input type="date" class="filterDatePg" name="dateInputFilter" id="dateInputFilter">
     </div>';
 include('./view/layout/header.php');
@@ -20,10 +17,10 @@ include('./view/layout/header.php');
 if ($userIdRole === 1) {
     $titlePgRight .= '
         <a onclick="openModal(`roomExportExcel`)" class="btnUi btnUiAlt">
-            <i class="fa-solid fa-print"></i>
+            <i class="fa-solid fa-file-excel"></i>
             <p>Exportar Excel</p>
         </a>
-        <a onclick="openModal(`roomExportPdf`)" class="btnUi">
+        <a onclick="openModal(`roomExportPdf`)" class="btnUi btnUiAlt">
             <i class="fa-solid fa-file-pdf"></i>
             <p>Exportar PDF</p>
         </a>';

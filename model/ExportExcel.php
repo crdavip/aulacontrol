@@ -32,6 +32,10 @@ class ExcelExporter
 
     public function addData($data)
     {
+        if (empty($data)) {
+            return;
+        }
+
         $rowNum = 4;
         foreach ($data as $row) {
             $col = 'B';
@@ -110,11 +114,21 @@ class ExcelExporter
 
     public function output($filename)
     {
-        $writer = new Xlsx($this->spreadsheet);
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="' . $filename . '"');
-        header('Cache-Control: max-age=0');
-        $writer->save('php://output');
+        // Verifica si la hoja contiene datos válidos
+        $dataValid = $this->sheet->getCell('B4')->getValue() !== 'No hay datos disponibles';
+
+        if ($dataValid) {
+            $writer = new Xlsx($this->spreadsheet);
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+        } else {
+            // Manejo de errores si los datos no son válidos
+            header('Content-Type: text/plain');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            echo 'No hay datos disponibles';
+        }
         exit;
     }
 }

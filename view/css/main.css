@@ -985,8 +985,8 @@ a {
 }
 
 .messageErr {
-  border: 2px solid var(--segundario);
-  color: var(--segundario);
+  border: 2px solid var(--color-error);
+  color: var(--color-error);
 }
 
 .messageAlert {
@@ -2063,8 +2063,8 @@ td img {
 
 .btnEntranceMarkPosition {
   position: absolute;
-  top: 72px;
-  left: 258px;
+  bottom: .5rem;
+  right: .5rem;
 }
 
 .btnExitMarkObject:hover {

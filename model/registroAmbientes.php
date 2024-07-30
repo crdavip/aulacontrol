@@ -20,9 +20,10 @@ class RegistroAmbientes extends ConnPDO
             INNER JOIN usuario AS u ON u.idUsuario = ra.idInstructor
             INNER JOIN ambiente AS a ON a.idAmbiente = ra.idAmbiente
             INNER JOIN centro AS c ON c.idCentro = a.idCentro
+            WHERE c.idCentro = ?
             ORDER BY idRegistro DESC";
     $stmt = $this->getConn()->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([$_SESSION['idCenter']]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($rows, JSON_UNESCAPED_UNICODE);
   }

@@ -24,7 +24,7 @@ class Mailer
             $phpmailer->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
             //Recipients
-            $phpmailer->setFrom('no-reply@cristiandavid.com.co', 'Ucloth');
+            $phpmailer->setFrom('no-reply@cristiandavid.com.co', 'AulaControl');
             $phpmailer->addAddress($mail);                                   //Add a recipient
 
             //Content
