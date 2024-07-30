@@ -69,7 +69,7 @@ const createUserCard = (users) => {
     cardUserTxtName.className = "cardUserH3";
     cardUserTxtRol.textContent = user.cargo;
     cardUserTxtName.textContent = user.nombre;
-    cardUserTxtCargo.textContent = `CC ${user.documento}`;
+    cardUserTxtCargo.textContent = `C.C. ${user.documento}`;
     cardUserTxt.appendChild(cardUserTxtRol);
     cardUserTxt.appendChild(cardUserTxtName);
     cardUserTxt.appendChild(cardUserTxtCargo);
