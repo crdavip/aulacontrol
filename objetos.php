@@ -1,9 +1,10 @@
 <?php
 require_once ('./model/sessions.php');
-if ($userIdRole !== 1 && $userIdRole !== 2) {
-    header("Location: ./");
-    exit();
-}
+header("Location: ./");
+// if ($userIdRole !== 1 && $userIdRole !== 2) {
+//     header("Location: ./");
+//     exit();
+// }
 $titlePg = 'Objetos';
 $titlePgIcon = 'fa-solid fa-cubes icon';
 $titlePgRight = '
@@ -16,10 +17,10 @@ include ('./view/layout/header.php');
 if ($userIdRole === 1) {
     $titlePgRight .= '
     <a id="btnExportExcelObjects" onclick="" class="btnUi btnUiAlt">
-        <i class="fa-solid fa-print"></i>
+        <i class="fa-solid fa-file-excel"></i>
         <p>Exportar Excel</p>
     </a>
-    <a id="btnExportPdfObjects" onclick="" class="btnUi">
+    <a id="btnExportPdfObjects" onclick="" class="btnUi btnUiAlt">
         <i class="fa-solid fa-file-pdf"></i>
         <p>Exportar PDF</p>
     </a>
@@ -27,7 +28,7 @@ if ($userIdRole === 1) {
         <i class="fas fa-clipboard-list"></i>
         <p>Ver Registros</p>
     </a>
-    <a onclick="openModal(`createObject`)" id="createObjectBtn" class="btnUi btnUiAlt">
+    <a onclick="openModal(`createObject`)" id="createObjectBtn" class="btnUi">
         <i class="fa-solid fa-square-plus"></i>
         <p>Nuevo objeto</p>
     </a>';

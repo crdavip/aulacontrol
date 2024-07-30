@@ -94,14 +94,14 @@ if (!isset($userId)) {
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if ($userIdRole == 1) { ?>
-                        <li class="navLink">
+                    <!-- <?php if ($userIdRole == 1) { ?> -->
+                        <!-- <li class="navLink">
                             <a href="./objetos">
                                 <i class="fa-solid fa-cubes icon"></i>
                                 <span class="text navText">Objetos</span>
                             </a>
-                        </li>
-                    <?php } ?>
+                        </li> -->
+                    <!-- <?php } ?> -->
                         <li class="navLink">
                             <a href="./observaciones">
                                 <i class="fa-solid fa-binoculars icon"></i>
