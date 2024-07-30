@@ -1,8 +1,6 @@
 const numberInputFilter = document.getElementById("numberInputFilter");
-const centerSelectFilter = document.getElementById("centerSelectFilter");
 const statusSelectFilter = document.getElementById("statusSelectFilter");
 
-loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
 loadSelectFilters(ambientesAPI, "statusSelectFilter", ["estado"]);
 
 let rooms = [];
@@ -72,10 +70,7 @@ const createRoomCard = (rooms) => {
     const cardBodyTxt = document.createElement("div");
     cardBodyTxt.classList.add("cardBodyTxt");
     cardBodyTxt.innerHTML = `<p>${room.estado}</p>
-                            <h3>${room.centro}</h3>
-                            <span>${room.afluencia} ${
-      room.afluencia == 1 ? "Persona" : "Personas"
-    }</span>`;
+                            <h3>${room.centro}</h3>`;
     if (room.estado == "Ocupada") {
       cardRoomNum.classList.add("cardRoomNumAlt");
       cardBodyTxt.classList.add("cardBodyTxtAlt");
@@ -100,13 +95,9 @@ const renderRooms = async (data) => {
 };
 
 const filterRooms = () => {
-  const center = centerSelectFilter.value;
   const status = statusSelectFilter.value;
   const number = numberInputFilter.value;
-  let newRooms = rooms;
-  if (center !== "all") {
-    newRooms = newRooms.filter((room) => room.centro == center);
-  }
+  let newRooms = rooms.filter((room) => room.numero !== "Mesa Ayuda");
   if (status !== "all") {
     newRooms = newRooms.filter((room) => room.estado == status);
   }
@@ -117,7 +108,6 @@ const filterRooms = () => {
   }
   renderRooms(newRooms);
 };
-centerSelectFilter.addEventListener("change", filterRooms);
 statusSelectFilter.addEventListener("change", filterRooms);
 numberInputFilter.addEventListener("keyup", filterRooms);
 

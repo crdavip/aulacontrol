@@ -17,13 +17,14 @@ include('./view/layout/header.php');
 if ($userIdRole === 1) {
     $titlePgRight .= '
         <a onclick="openModal(`regDeviceExportExcel`)" class="btnUi btnUiAlt">
-            <i class="fa-solid fa-print"></i>
+            <i class="fa-solid fa-file-excel"></i>
             <p>Exportar Excel</p>
         </a>
-        <a onclick="openModal(`regDeviceExportPdf`)" class="btnUi">
+        <a onclick="openModal(`regDeviceExportPdf`)" class="btnUi btnUiAlt">
             <i class="fa-solid fa-file-pdf"></i>
             <p>Exportar PDF</p>
-        </a>';
+        </a>
+        ';
 }
 
 include_once('./view/layout/titlePg.php');

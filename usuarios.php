@@ -9,10 +9,7 @@ $titlePgIcon = 'fa-user icon';
 $titlePgRight = '
     <div class="containerFilterPg">
         <label for="docInputFilter"><i class="fa-solid fa-magnifying-glass"></i></label>
-        <input type="text" class="filterSearchPg" name="docInputFilter" id="docInputFilter" placeholder="Buscar:" autocomplete="off">
-        <select class="filterSelectPg" id="centerSelectFilter">
-            <option value="all">Centro</option>
-        </select>
+        <input type="text" class="filterSearchPg" name="docInputFilter" id="docInputFilter" placeholder="Buscar Doc:" autocomplete="off">
         <select class="filterSelectPg" id="roleSelectFilter">
             <option value="all">Cargo</option>
         </select>
@@ -20,22 +17,23 @@ $titlePgRight = '
 include('./view/layout/header.php');
 if ($userIdRole === 1) {
     $titlePgRight .= '
-        <a onclick="openModal(`userImport`)" class="btnUi btnUiAlt">
-            <i class="fa-solid fa-file-csv"></i>
-            <p>Importar CSV</p>
-        </a>
         <a id="btnExportExcel" onclick="" class="btnUi btnUiAlt">
-            <i class="fa-solid fa-print"></i>
+            <i class="fa-solid fa-file-excel"></i>
             <p>Exportar Excel</p>
         </a>
-        <a id="btnExportPdf" onclick="" class="btnUi">
+        <a id="btnExportPdf" onclick="" class="btnUi btnUiAlt">
             <i class="fa-solid fa-file-pdf"></i>
             <p>Exportar PDF</p>
         </a>
+        <a onclick="openModal(`userImport`)" class="btnUi">
+            <i class="fa-solid fa-file-csv"></i>
+            <p>Importar CSV</p>
+        </a>
         <a onclick="openModal(`userCreate`)" class="btnUi">
-            <i class="fa-solid fa-user-plus"></i>
-            <p>Nuevo Usuario</p>
-        </a>';
+        <i class="fa-solid fa-user-plus"></i>
+        <p>Nuevo Usuario</p>
+        </a>
+        ';
 }
 
 include_once('./view/layout/titlePg.php');

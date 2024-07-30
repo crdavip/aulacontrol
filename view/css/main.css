@@ -2048,8 +2048,8 @@ td img {
 
 .btnEntranceMarkPosition {
   position: absolute;
-  top: 72px;
-  left: 258px;
+  bottom: .5rem;
+  right: .5rem;
 }
 
 .btnExitMarkObject:hover {

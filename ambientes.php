@@ -9,10 +9,7 @@ $titlePgIcon = 'fa-kaaba icon';
 $titlePgRight = '
     <div class="containerFilterPg">
         <label for="numberInputFilter"><i class="fa-solid fa-magnifying-glass"></i></label>
-        <input type="text" class="filterSearchPg" name="numberInputFilter" id="numberInputFilter" placeholder="Buscar:" autocomplete="off">
-        <select class="filterSelectPg" id="centerSelectFilter">
-            <option value="all">Centro</option>
-        </select>
+        <input type="text" class="filterSearchPg" name="numberInputFilter" id="numberInputFilter" placeholder="Buscar Num:" autocomplete="off">
         <select class="filterSelectPg" id="statusSelectFilter">
             <option value="all">Estado</option>
         </select>

@@ -20,7 +20,6 @@ const loadRenderObjects = async () => {
   objects = objects.filter((object, index, self) =>
     index === self.findIndex((o) => o.idObjeto === object.idObjeto)
   );
-  console.log(objects);
   renderObjects(objects);
   getDataCenters();
 }
@@ -185,7 +184,6 @@ sendForm(
 // );
 
 document.getElementById('btnExportPdfObjects').addEventListener('click', () => {
-  console.log("guncionaaa")
   exportToPdf(objetosAPI);
 });
 

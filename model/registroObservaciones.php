@@ -13,10 +13,19 @@ class RegistroObservaciones extends ConnPDO
 
   function getAllObservationsHistory()
   {
-    $sql = "SELECT ro.*, o.*, ud.nombre AS nombreUsuario, ud.imagen AS imgUsuario, u.documento AS docuUsuario, rd.nombre AS nombreRevisor, r.documento AS docRevisor, o.descripcion FROM registro_observaciones AS ro INNER JOIN observaciones AS o ON o.idObservacion = ro.idObservacion INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario LEFT JOIN usuario_detalle AS rd ON rd.idUsuario = ro.idRevisador LEFT JOIN usuario AS r ON r.idUsuario = ro.idRevisador";
+    $sql = "SELECT ro.*, o.*, ud.nombre AS nombreUsuario, ud.imagen AS imgUsuario, u.documento AS docuUsuario, rd.nombre AS nombreRevisor, r.documento AS docRevisor, o.descripcion
+            FROM registro_observaciones AS ro
+            INNER JOIN observaciones AS o ON o.idObservacion = ro.idObservacion
+            INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario
+            INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario
+            LEFT JOIN usuario_detalle AS rd ON rd.idUsuario = ro.idRevisador
+            LEFT JOIN usuario AS r ON r.idUsuario = ro.idRevisador
+            INNER JOIN centro AS ce ON ce.idCentro = ud.idCentro
+            WHERE ce.idCentro = ?
+            ORDER BY ro.idRegistro DESC";
 
     $stmt = $this->getConn()->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([$_SESSION['idCenter']]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($rows, JSON_UNESCAPED_UNICODE);
   }

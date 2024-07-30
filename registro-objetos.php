@@ -1,9 +1,10 @@
 <?php
+header("Location: ./");
 require_once ('./model/sessions.php');
-if ($userIdRole !== 1 && $userIdRole !== 2) {
-  header("Location: ./");
-  exit();
-}
+// if ($userIdRole !== 1 && $userIdRole !== 2) {
+//   header("Location: ./");
+//   exit();
+// }
 $titlePg = 'Registro de Objetos';
 $titlePgIcon = 'fa-clipboard-list icon';
 $titlePgRight = '
@@ -17,10 +18,10 @@ include ('./view/layout/header.php');
 if ($userIdRole === 1) {
   $titlePgRight .= '
   <a onclick="openModal(`regObjectExportExcel`)" class="btnUi btnUiAlt">
-          <i class="fa-solid fa-print"></i>
+          <i class="fa-solid fa-file-excel"></i>
           <p>Exportar Excel</p>
       </a>
-      <a onclick="openModal(`regObjectExportPdf`)" class="btnUi">
+      <a onclick="openModal(`regObjectExportPdf`)" class="btnUi btnUiAlt">
           <i class="fa-solid fa-file-pdf"></i>
           <p>Exportar PDF</p>
       </a>';
