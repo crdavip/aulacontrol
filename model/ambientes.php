@@ -18,9 +18,10 @@ class Ambientes extends ConnPDO
     $sql = "SELECT a.idAmbiente, a.numero, a.estado, a.afluencia, c.idCentro, c.siglas AS centro
             FROM ambiente AS a
             INNER JOIN centro as c ON c.idCentro = a.idCentro
-            ORDER BY a.numero ASC";
+            WHERE c.idCentro = ?
+            ORDER BY a.numero DESC";
     $stmt = $this->getConn()->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([$_SESSION['idCenter']]);
     $classRoom = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($classRoom);
   }
