@@ -18,6 +18,18 @@ switch ($method) {
     if (isset($_GET['id'])) {
       $idObservation = $_GET['id'];
       $observations->getObservationsUser($idUser);
+    } elseif (isset($_GET['getCount'])) {
+      $getCount = $_GET['getCount'];
+
+      if ($getCount == "allObs") {
+        $observations->getCountObservations();
+        exit;
+      } else {
+        $icon = $functions->getIcon('Err');
+        echo json_encode(['success' => false, 'message' => "$icon Parece que ocurrió un error."]);
+        exit;
+      }
+
     } else {
       $user = $_SESSION['userId'];
       if ($user == 1 || $user == 2) {

@@ -92,6 +92,9 @@
 <script src="./view/js/main.js"></script>
 <script src="./view/js/perfil.js"></script>
 <?php switch ($titlePg) {
+    case 'Panel':
+        echo '<script src="./view/js/home.js" type="module"></script>';
+        break;
     case 'Ambientes':
         echo '<script src="./view/js/ambientes.js"></script>';
         break;

@@ -1,9 +1,9 @@
 <?php
-require_once('../model/sessions.php');
-require_once('../model/usuarios.php');
-require_once('../model/usuariosDetalles.php');
-require_once('../controller/qrcode.php');
-require_once('./ExportController.php');
+require_once ('../model/sessions.php');
+require_once ('../model/usuarios.php');
+require_once ('../model/usuariosDetalles.php');
+require_once ('../controller/qrcode.php');
+require_once ('./ExportController.php');
 
 $users = new Usuarios();
 $userDetails = new UsuariosDetalles();
@@ -28,6 +28,34 @@ switch ($method) {
             }
 
             // Busqueda .-----------
+        } elseif (isset($_GET['getByRole'])) {
+
+            try {
+                $center = $_SESSION['idCenter'];
+                $type = $_GET['getByRole'];
+                if ($functions->checkNotEmpty([$center])) {
+                    $icon = $functions->getIcon('Err');
+                    echo json_encode(['success' => false, 'message' => "$icon No se permiten campos vacíos."]);
+                    exit;
+                }
+                if ($type == "students") {
+                    // print_r($type);
+                    $users->getByRole("Aprendiz", $center);
+                    exit;
+                } elseif ($type == "instructors") {
+                    $users->getByRole("Instructor", $center);
+                    exit;
+                } else {
+                    $icon = $functions->getIcon('Err');
+                    echo json_encode(['success' => false, 'message' => "$icon Parece que ocurrió un error."]);
+                    exit;
+                }
+            } catch (Exception $e) {
+                $icon = $functions->getIcon('Err');
+                echo json_encode(['success' => false, 'message' => "$icon Parece que ocurrio un error." . $e]);
+                exit;
+            }
+
         } elseif (isset($_GET['queryAdd'])) {
             $query = $_GET['queryAdd'];
             // $idCenter = session

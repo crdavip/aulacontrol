@@ -59,8 +59,7 @@ include_once ('./view/layout/header.php');
         <h4 class="statisticTitle">Estudiantes</h4>
       </div>
       <div class="cardStatisticBody">
-        <p class="statisticText">¡Ahora <strong class="statisticValue">200</strong> aprendices somos parte del CDMC
-          actualmente!</p>
+        <p class="statisticText">¡Ahora somos <strong id="strongStudents" class="statisticValue"></strong> aprendices que hacen parte del CDMC!</p>
         <div>
           <i class="fa-solid fa-graduation-cap"></i>
         </div>
@@ -71,7 +70,7 @@ include_once ('./view/layout/header.php');
         <h4 class="statisticTitle">Instructores</h4>
       </div>
       <div class="cardStatisticBody">
-        <p class="statisticText">En nuestro centro nos apoyan <strong class="statisticValue">34</strong> instructores
+        <p class="statisticText">En nuestro centro nos apoyan <strong id="strongInstructor" class="statisticValue">34</strong> instructores
           con mucho conocimiento por entregar</p>
         <div>
           <i class="fa-solid fa-user-tie"></i>
@@ -86,8 +85,8 @@ include_once ('./view/layout/header.php');
       <h4 class="statisticTitle">Equipos</h4>
     </div>
     <div class="cardStatisticBody">
-      <p class="statisticText">Nuestro centro cuenta con <strong class="statisticValue">700</strong> equipos
-        tecnológicos al servicio de los aprendices!</p>
+      <p class="statisticText">Nuestro centro cuenta con <strong id="strongDevices" class="statisticValue"></strong> equipos
+        tecnológicos disponibles para el diario aprendizaje!</p>
       <div>
         <i class="fa-solid fa-display"></i>
       </div>
@@ -98,7 +97,7 @@ include_once ('./view/layout/header.php');
       <h4 class="statisticTitle">Observaciones</h4>
     </div>
     <div class="cardStatisticBody">
-      <p class="statisticText">Se han creado <strong class="statisticValue">34</strong> observaciones</p>
+      <p class="statisticText">Se han creado <strong id="strongObs" class="statisticValue">34</strong> observaciones</p>
       <div>
         <i class="fa-solid fa-binoculars"></i>
       </div>

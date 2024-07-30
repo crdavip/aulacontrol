@@ -1,5 +1,5 @@
 <?php
-require_once('../controller/funciones.php');
+require_once ('../controller/funciones.php');
 
 class Usuarios extends ConnPDO
 {
@@ -79,7 +79,25 @@ class Usuarios extends ConnPDO
     echo json_encode($users);
   }
 
-  function getUsersForSearching($doc) {
+  function getByRole($role, $center)
+  {
+    $sql = "SELECT COUNT(*) AS cantidad_usuarios
+      FROM usuario AS u
+      INNER JOIN usuario_detalle AS ud ON u.idUsuario = ud.idUsuario
+      INNER JOIN centro AS c ON ud.idCentro = c.idCentro
+      INNER JOIN cargo AS rol ON u.idCargo = rol.idCargo
+      WHERE c.idCentro = ? 
+      AND rol.detalle = ?
+      AND u.estado = 'Activo'
+    ";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$center, $role]);
+    $count = $stmt->fetch(PDO::FETCH_ASSOC);
+    echo json_encode($count);
+  }
+
+  function getUsersForSearching($doc)
+  {
     $sql = "SELECT u.documento, u.idUsuario, u.estado, ud.imagen, ud.nombre FROM usuario AS u INNER JOIN usuario_detalle AS ud ON ud.idUsuario = u.idUsuario WHERE documento LIKE ?";
     $stmt = $this->getConn()->prepare($sql);
     $stmt->execute(["$doc%"]);
@@ -88,7 +106,8 @@ class Usuarios extends ConnPDO
   }
 
   // Al momento de utilizar el sistema para todo el complejo se requiere mostrar solo los usuarios que pertenezcan al mismo centro del instructor.
-  function getUsersForSearchingAdd($doc) {
+  function getUsersForSearchingAdd($doc)
+  {
     $sql = "SELECT u.documento, u.idUsuario, u.estado, ud.imagen, ud.nombre
             FROM usuario AS u
             INNER JOIN usuario_detalle AS ud ON ud.idUsuario = u.idUsuario
@@ -104,7 +123,8 @@ class Usuarios extends ConnPDO
     echo json_encode($users);
   }
 
-  function getTraineesAvailables($center){
+  function getTraineesAvailables($center)
+  {
     $sql = "SELECT u.documento, u.idUsuario, u.estado, ud.imagen, ud.nombre
             FROM usuario AS u
             INNER JOIN usuario_detalle AS ud ON ud.idUsuario = u.idUsuario
@@ -121,7 +141,8 @@ class Usuarios extends ConnPDO
     echo json_encode($users);
   }
 
-  function getUsersExport() {
+  function getUsersExport()
+  {
     $sql = "SELECT u.idUsuario, u.documento, u.estado, ud.nombre, ud.imagen, ud.idCentro, ud.correo, c.siglas, rol.idCargo, rol.detalle AS cargo
           FROM usuario AS u
           INNER JOIN usuario_detalle AS ud ON u.idUsuario = ud.idUsuario

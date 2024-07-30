@@ -1,9 +1,9 @@
 <?php
-require_once('../model/sessions.php');
-require_once('../model/equipos.php');
-require_once('./funciones.php');
-require_once('../controller/qrcode.php');
-require_once('./ExportController.php');
+require_once ('../model/sessions.php');
+require_once ('../model/equipos.php');
+require_once ('./funciones.php');
+require_once ('../controller/qrcode.php');
+require_once ('./ExportController.php');
 
 $functions = new Funciones();
 $devices = new Equipos();
@@ -34,6 +34,18 @@ switch ($method) {
       } else {
         $exportController->simpleExport($format, "equipos", $idRoom);
       }
+    } elseif (isset($_GET['getCount'])) {
+      $getCount = $_GET['getCount'];
+
+      if ($getCount == "allDevices") {
+        $devices->getCountDevices();
+        exit;
+      } else {
+        $icon = $functions->getIcon('Err');
+        echo json_encode(['success' => false, 'message' => "$icon Parece que ocurrió un error."]);
+        exit;
+      }
+
     } elseif (isset($_GET['columns'])) {
       $columns = json_decode($_GET['columns']);
       echo json_encode($functions->getColumns('computador', $columns), JSON_UNESCAPED_UNICODE);
