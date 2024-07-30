@@ -292,15 +292,34 @@ const ExportFormExcel = async (formId, urlAPI) => {
     const params = new URLSearchParams(Object.fromEntries(formData)).toString();
     const url = `${urlAPI}?${params}`;
 
-    const response = await fetch(url);
-    const blob = await response.blob();
-
-    const link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.download = 'reporte.xlsx';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      const response = await fetch(url);
+      if (response.redirected) {
+        console.log('Redirected to:', response.url);
+        window.location.href = response.url;
+        return;
+      }
+      if (!response.ok) {
+        console.log('Response not OK:', response.statusText);
+        window.location.href = '../../not-found.php';
+        return;
+      }
+      const blob = await response.blob();
+      if (blob.size === 0) {
+        console.log('Blob is empty, redirecting to not found page.');
+        window.location.href = '../../not-found.php';
+        return;
+      }
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = 'reporte.xlsx';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error al exportar a Excel:', error);
+      window.location.href = '../../not-found.php';
+    }
   });
 };
 // Fin ExportFormExcel
@@ -318,15 +337,28 @@ const exportToExcel = async (urlAPI) => {
   const params = new URLSearchParams({ format: 'excel' }).toString();
   const url = `${urlAPI}?${params}`;
 
-  const response = await fetch(url);
-  const blob = await response.blob();
+  try {
+    const response = await fetch(url);
 
-  const link = document.createElement('a');
-  link.href = window.URL.createObjectURL(blob);
-  link.download = 'reporte.xlsx';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+    if (response.redirected) {
+      window.location.href = response.url;
+      return;
+    }
+    const blob = await response.blob();
+    if (blob.size === 0) {
+      window.location.href = '../../not-found.php';
+      return;
+    }
+
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'reporte.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (error) {
+    console.error('Error al exportar a Excel:', error);
+  }
 };
 
 //Inicio APIList

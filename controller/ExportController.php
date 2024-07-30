@@ -33,6 +33,7 @@ class ExportController
             exit;
         } else {
             $classInstance = $this->classSelector($report);
+            print ($this->results);
             $this->results = $classInstance->getGroupOfHistory($selectedItem, $startDatetime, $endDatetime);
         }
 
@@ -45,7 +46,8 @@ class ExportController
         }
     }
 
-    public function exportRegAsist($idInstructor, $idSheet, $report, $format) {
+    public function exportRegAsist($idInstructor, $idSheet, $report, $format)
+    {
         $classInstance = new RegistroAsistencia();
         $this->results = $classInstance->getGroupOfHistoryAssist($idSheet, $idInstructor);
         if ($this->results == null) {
@@ -116,13 +118,16 @@ class ExportController
 
                 $this->headers = ['Registro', 'Entrada', 'Salida', 'Llaves', 'Televisor', 'Aire', 'Instructor'];
                 foreach ($this->results as $row) {
+                    $keys = $row['llaves'] ? 'SI' : 'NO';
+                    $tv = $row['controlTv'] ? 'SI' : 'NO';
+                    $air = $row['controlAire'] ? 'SI' : 'NO';
                     $this->data[] = [
                         $row['idRegistro'],
                         $row['inicio'],
                         $row['fin'],
-                        $row['llaves'],
-                        $row['controlTv'],
-                        $row['controlAire'],
+                        $keys,
+                        $tv,
+                        $air,
                         $row['instructor']
                     ];
                 }
@@ -249,6 +254,12 @@ class ExportController
             $pdfInstance->output('reporte.pdf', 'I');
 
         } elseif ($format === "excel") {
+
+            if (empty($this->data)) {
+                header('Location: ../not-found.php');
+                exit;
+            }
+
             $exporter = new ExcelExporter();
             $exporter->setHeaders($this->headers);
             $exporter->addData($this->data);

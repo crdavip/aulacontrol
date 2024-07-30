@@ -55,7 +55,7 @@ class ExportPDF
         // Colors, line width and bold font
         $this->pdf->SetFillColor(22, 181, 54);
         $this->pdf->SetTextColor(255);
-        $this->pdf->SetDrawColor(128, 0, 0);
+        $this->pdf->SetDrawColor(0, 0, 0);
         $this->pdf->SetLineWidth(0.3);
         $this->pdf->SetFont('helvetica', 'B', 10.5);
 
