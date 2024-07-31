@@ -151,7 +151,6 @@ class RegistroAsistencia extends ConnPDO
       $stmtInsert = $conn->prepare($sqlInsert);
       $stmtInsert->execute($params);
       $conn->commit();
-      // echo json_encode(['success' => true, 'message' => "$icon ¡Asistencia Registrada éxitosamente!"]);
       return [
         'insertion' => 'completa'
       ];

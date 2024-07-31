@@ -39,12 +39,19 @@ class Observaciones extends ConnPDO
     echo json_encode($rows);
   }
 
+  public function getCountObservations(){
+    $sql = "SELECT COUNT(*) AS observations FROM observaciones";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute();
+    $obs = $stmt->fetch(PDO::FETCH_ASSOC);
+    echo json_encode($obs);
+  }
+
   function createObservation($descripcion, $idUser, $type)
   {
     $sqlObs = "INSERT INTO observaciones (descripcion, idUsuario, tipoAsunto) VALUES (?, ?, ?)";
     $stmtObs = $this->getConn()->prepare($sqlObs);
     $stmtObs->execute([$descripcion, $idUser, $type]);
-    // $existingObject = $stmtObs->fetch(PDO::FETCH_ASSOC);
     $ultimaId = $this->getConn()->lastInsertId();
     if ($ultimaId) {
       return $ultimaId;
@@ -66,18 +73,6 @@ class Observaciones extends ConnPDO
       echo json_encode(['success' => false, 'message' => "$icon Error al actualizar el objeto"]);
     }
   }
-
-  // function updateStateObject($state, $id) {
-  //   $sql = "UPDATE objetos SET estado = ? WHERE idObjeto = ?";
-  //   $stmt = $this->getConn()->prepare($sql);
-  //   if ($stmt->execute([$state, $id])) {
-  //     $icon = $this->functions->getIcon('OK');
-  //     echo json_encode(['success' => true, 'message' => "$icon ¡Objeto Actualizado Exitosamente!"]);
-  //   } else {
-  //     $icon = $this->functions->getIcon('Err');
-  //     echo json_encode(['success' => false, 'message' => "$icon Error al actualizar el objeto"]);
-  //   }
-  // }
 
   function deleteObject($id)
   {
