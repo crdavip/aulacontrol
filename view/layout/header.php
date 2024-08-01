@@ -78,7 +78,7 @@ if (!isset($userId)) {
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if ($userIdRole == 1 || $userIdRole == 2) { ?>
+                    <?php if ($userIdRole == 1 || $userIdRole == 2 || $userIdRole == 3) { ?>
                         <li class="navLink">
                             <a href="./equipos">
                                 <i class="fa-solid fa-desktop icon"></i>
