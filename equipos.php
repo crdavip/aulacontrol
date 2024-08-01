@@ -23,17 +23,21 @@ $titlePgRight .= '
     </a>
 ';
 
-if ($userIdRole === 1) {
+if ($userIdRole === 1 || $userIdRole === 2) {
     $titlePgRight .= '
     <a href="./registro-equipos" class="btnUi btnUiAlt">
         <i class="fas fa-clipboard-list"></i>
         <p>Ver Registros</p>
-    </a>
+    </a>';
+}
+if ($userIdRole === 1) {
+    $titlePgRight .= '
     <a onclick="openModal(`createDevice`)" id="createDeviceBtn" class="btnUi">
         <i class="fa-solid fa-square-plus"></i>
         <p>Nuevo Equipo</p>
     </a>';
 }
+
 
 include_once ('./view/layout/titlePg.php');
 ?>

@@ -14,10 +14,10 @@ $titlePgRight = '
     </div>';
 include('./view/layout/header.php');
 
-if ($userIdRole === 1) {
+if ($userIdRole === 1 || $userIdRole === 2) {
     $titlePgRight .= '
     <a onclick="openModal(`regAssistExportExcel`)" class="btnUi btnUiAlt">
-            <i class="fa-solid fa-print"></i>
+            <i class="fa-solid fa-file-excel"></i>
             <p>Exportar Excel</p>
     </a>';
 }
