@@ -86,7 +86,7 @@ if (!isset($userId)) {
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if ($userIdRole == 1) { ?>
+                    <?php if ($userIdRole == 1 || $userIdRole == 4) { ?>
                         <li class="navLink">
                             <a href="./mesadeayuda">
                                 <i class="fa-solid fa-handshake-angle icon"></i>
