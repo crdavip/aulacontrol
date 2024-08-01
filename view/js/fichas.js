@@ -1,5 +1,4 @@
 const numberInputFilter = document.getElementById("numberInputFilter");
-const centerSelectFilter = document.getElementById("centerSelectFilter");
 const room = document.getElementById("selectedRoom");
 const btnNavigateRegAssist = document.getElementById("btnNavigateRegAssist");
 
@@ -27,8 +26,6 @@ let idSheetAdd;
 // For Removing Trainee
 const inputRemoveIdTrainee = document.getElementById("dataSheetIdRemoveTrainee");
 const inputRemoveIdSheet = document.getElementById("dataSheetIdRemoveSheet");
-
-loadSelectFilters(centrosAPI, "centerSelectFilter", ["siglas"]);
 
 const getDataAmbs = async () => {
   const dataAmbientes = await getData(ambientesAPI);
@@ -79,13 +76,13 @@ const renderTrainees = (divOfRender, selectedTrainees, filteredTrainees, allTrai
     div.classList.add("divCardSearchTrainee");
     div.innerHTML = `
       <div>
-        <img src="${trainee.imagen}" width="50" height="50" alt="">
+        <img class="imgTrainee" src="${trainee.imagen}" alt="">
         <div>
-          <span>${trainee.nombre}</span>
+          <span class="nameTrainee">${trainee.nombre}</span>
           <span>${trainee.documento}</span>
         </div>
       </div>
-      <button onclick="toggleSelection(${trainee.idUsuario}, '${render}')" class="btn btnAlt">
+      <button onclick="toggleSelection(${trainee.idUsuario}, '${render}')" class="btnEdit">
         <i class="fa-solid ${selectedTrainees.has(trainee.idUsuario) ? 'fa-minus' : 'fa-plus'}"></i>
       </button>
     `;
@@ -99,13 +96,13 @@ const renderTrainees = (divOfRender, selectedTrainees, filteredTrainees, allTrai
       div.classList.add("divCardSearchTrainee");
       div.innerHTML = `
         <div>
-          <img src="${trainee.imagen}" width="50" height="50" alt="">
+          <img class="imgTrainee" src="${trainee.imagen}" alt="">
           <div>
-            <span>${trainee.nombre}</span>
+            <span class="nameTrainee">${trainee.nombre}</span>
             <span>${trainee.documento}</span>
           </div>
         </div>
-        <button onclick="toggleSelection(${trainee.idUsuario}, '${render}')">
+        <button onclick="toggleSelection(${trainee.idUsuario}, '${render}')" class="btnDelete">
           <i class="fa-solid fa-minus"></i>
         </button>
       `;
@@ -170,7 +167,7 @@ const createDataSheetCard = (dataSheets) => {
         '<i class="fa-solid fa-user-graduate"></i>Aprendices';
       const btnAssistance = document.createElement("a");
       btnAssistance.innerHTML =
-        '<i class="fa-regular fa-address-book"></i>Asistencia';
+        '<i class="fa-solid fa-address-book"></i>Asistencia';
       const btnEdit = document.createElement("a");
       btnEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>Editar';
       const btnDelete = document.createElement("a");
@@ -250,22 +247,15 @@ const renderDataSheets = (data) => {
 };
 
 const filterDataSheets = () => {
-  const center = centerSelectFilter.value;
   const number = numberInputFilter.value;
   let newDataSheets = dataSheets;
-  if (center !== "all") {
-    newDataSheets = newDataSheets.filter(
-      (dataSheet) => dataSheet.centro == center
-    );
-  }
   if (number !== "") {
     newDataSheets = newDataSheets.filter((dataSheet) =>
-      `${dataSheet.ficha}`.has(`${number}`)
-    );
+      `${dataSheet.ficha}`.includes(`${number}`)
+  );
   }
   renderDataSheets(newDataSheets);
 };
-centerSelectFilter.addEventListener("change", filterDataSheets);
 numberInputFilter.addEventListener("keyup", filterDataSheets);
 
 loadSelectFilters(centrosAPI, "dataSheetCenter", ["idCentro", "detalle"]);
@@ -283,13 +273,13 @@ const getDataOfSheetList = async () => {
       div.classList.add("divCardSearchTrainee")
       div.innerHTML = `
           <div>
-            <img src=${result.imagen} with="50" heigh="50"  alt="">
+            <img class="imgTrainee" src=${result.imagen} with="50" heigh="50"  alt="">
             <div>
-              <span>${result.nombre}</span>
+              <span class="nameTrainee">${result.nombre}</span>
               <span>${result.documento}</span>
             </div>
           </div>
-          <button id="btnOpenModalRemove" onclick="openRemoveModal(this)" data-id-trainee="${result.idAprendices}" data-id-sheet="${result.idFicha}" class="btn btnAlt"><i class="fa-regular fa-trash-can"></i></button>
+          <button id="btnOpenModalRemove" onclick="openRemoveModal(this)" data-id-trainee="${result.idAprendices}" data-id-sheet="${result.idFicha}" class="btnDelete"><i class="fa-regular fa-trash-can"></i></button>
             `;
       resultsListSearchDiv.appendChild(div);
     });
@@ -311,7 +301,7 @@ searchListTraineesInput.addEventListener('keyup', async function () {
       div.classList.add("divCardSearchTrainee");
       div.innerHTML = `
         <div>
-          <img src=${result.imagen} with="50" heigh="50"  alt="">
+          <img class="imgTrainee" src=${result.imagen} alt="">
           <div>
             <span>${result.nombre}</span>
             <span>${result.documento}</span>

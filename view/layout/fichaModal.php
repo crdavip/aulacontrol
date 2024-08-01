@@ -92,17 +92,20 @@
     <div class="containerModal">
         <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
         <div class="titlePg">
-            <i class="fa-solid fa-clipboard-list"></i>
+            <i class="fa-solid fa-address-book"></i>
             <h1>Asistencia</h1>
         </div>
-        <!-- <input type="hidden" id="inputIdSheetAssistance"> -->
-        <div class="wrapper-container">
-            <input type="number" id="traineesAssistanceSearch" placeholder="Buscar por documento">
+        <div class="form">
+            <div class="inputGroup">
+                    <input class="inputGroupInput" type="number" name="traineesAssistanceSearch" id="traineesAssistanceSearch"
+                        autocomplete="off" required>
+                    <label class="inputGroupLabel" for="traineesAssistanceSearch"><i class="fa-solid fa-magnifying-glass"></i> Buscar por documento</label>
+            </div>
             <div id="resultsTraineesAssistanceSearch" class="resultsTraineesSearch"></div>
             <div class="inputGroup" id="inputGroupAssistDate">
-                <label><i class="fa-regular fa-calendar"></i> Fecha Asistencia</label>
-                <input class="inputGroupInput" type="date" name="assistDate" id="assistDate" autocomplete="off" required>
-            </div>
+                            <input class="inputGroupInput" type="date" name="assistDate" id="assistDate" autocomplete="on" required>
+                            <label class="inputGroupLabel inputDate" for="assistDate" id="labelDate"><i class="fa-solid fa-calendar-days"></i> Fecha de Asistencia</label>
+                        </div>
             <div class="inputGroup">
                 <label class="inputGroupLabel" for="selectedRoom"><i class="bi bi-door-open"></i></label>
                 <select class="inputGroupSelect" name="selectedRoom" id="selectedRoom" required>
@@ -114,7 +117,7 @@
                 <button class="btn btnAlt" type="reset"><i class="fa-solid fa-eraser"></i> Limpiar</button>
             </div>
             <div class="buttonGroup">
-                <button id="btnNavigateRegAssist" class="btn"><i class="fa-solid fa-clipboard-list"></i> Ver Registros</button>
+                <button id="btnNavigateRegAssist" class="btn btnAlt"><i class="fa-solid fa-clipboard-list"></i> Ver Registros</button>
             </div>
         </div>
         <p id="messageSheetAssist" class="message"></p>
@@ -126,16 +129,21 @@
     <div class="containerModal">
         <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
         <div class="titlePg">
-            <i class="fa-solid fa-user"></i>
-            <h1>Lista</h1>
+            <i class="fa-solid fa-user-graduate"></i>
+            <h1>Aprendices</h1>
         </div>
-        <!-- <input type="hidden" id="inputIdSheetList"> -->
-        <input type="text" id="traineesListSearch" placeholder="Buscar por documento">
-        <div id="resultsTraineesListSearch" class="resultsTraineesSearch"></div>
-        <div class="buttonGroup">
-            <button id="openModalAdd" onclick="openModal(`dataSheetAddTrainees`); closeModal(`dataSheetListTrainees`)"
-                class="btn btnAlt"><i class="fa-solid fa-square-plus"></i>
-                Nuevo</button>
+        <div class="form">
+            <div class="buttonGroup">
+                <button id="openModalAdd" onclick="openModal(`dataSheetAddTrainees`); closeModal(`dataSheetListTrainees`)"
+                    class="btn"><i class="fa-solid fa-square-plus"></i>
+                    Agregar Aprendices</button>
+            </div>
+            <div class="inputGroup">
+                    <input class="inputGroupInput" type="number" name="traineesListSearch" id="traineesListSearch"
+                        autocomplete="off" required>
+                    <label class="inputGroupLabel" for="traineesListSearch"><i class="fa-solid fa-magnifying-glass"></i> Filtrar por documento</label>
+            </div>
+            <div id="resultsTraineesListSearch" class="resultsTraineesSearch"></div>
         </div>
         <p id="messageSheetList" class="message"></p>
     </div>
@@ -149,14 +157,18 @@
             <i class="fa-solid fa-user-plus"></i>
             <h1>Nuevo Aprendiz</h1>
         </div>
-        <input type="number" id="traineesAddSearch" placeholder="Buscar por documento">
-        <div id="resultsTraineesAddSearch" class="resultsTraineesSearch"></div>
-        <!-- <h2>Seleccionados</h2> -->
-        <!-- <div id="selectedTraineesContainer" class="resultsTraineesSearch"></div> -->
-        <div class="buttonGroup">
-            <button id="saveTraineesSelected" data-selection="selectedTraineesAdd" class="btn btnAlt" type="submit"><i
-                    class="fa-solid fa-floppy-disk"></i>
-                Guardar</button>
+        <div class="form">
+            <div class="inputGroup">
+                    <input class="inputGroupInput" type="number" name="traineesAddSearch" id="traineesAddSearch"
+                        autocomplete="off" required>
+                    <label class="inputGroupLabel" for="traineesAddSearch"><i class="fa-solid fa-magnifying-glass"></i> Buscar por documento</label>
+            </div>
+            <div id="resultsTraineesAddSearch" class="resultsTraineesSearch"></div>
+            <div class="buttonGroup">
+                <button id="saveTraineesSelected" data-selection="selectedTraineesAdd" class="btn" type="submit"><i
+                        class="fa-solid fa-floppy-disk"></i>
+                    Guardar</button>
+            </div>
         </div>
         <p id="messageSheetAdd" class="message"></p>
     </div>
