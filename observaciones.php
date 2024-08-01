@@ -5,7 +5,7 @@ $titlePg = 'Observaciones';
 $titlePgIcon = 'fa-binoculars icon';
 
 include('./view/layout/header.php');
-if ($userIdRole === 1 || $userIdRole === 2) {
+if ($userIdRole === 1 || $userIdRole === 2 || $userIdRole === 4) {
     $titlePgRight = '
         <a href="./registro-observaciones" class="btnUi btnUiAlt">
             <i class="fas fa-clipboard-list"></i>

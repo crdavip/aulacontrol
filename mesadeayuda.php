@@ -1,6 +1,6 @@
 <?php
 require_once ('./model/sessions.php');
-if ($userIdRole !== 1 && $userIdRole !== 2) {
+if ($userIdRole !== 1 && $userIdRole !== 4) {
     header("Location: ./");
     exit();
 }
@@ -16,7 +16,7 @@ $titlePgRight = '
     </div>';
 include ('./view/layout/header.php');
 
-if ($userIdRole === 1) {
+if ($userIdRole === 1 || $userIdRole === 4) {
     $titlePgRight .= '
     <a href="./registro-mesadeayuda" class="btnUi btnUiAlt">
         <i class="fas fa-clipboard-list"></i>

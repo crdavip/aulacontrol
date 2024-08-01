@@ -62,7 +62,7 @@ if (!isset($userId)) {
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if ($userIdRole == 1) { ?>
+                    <?php if ($userIdRole == 1 || $userIdRole == 2) { ?>
                         <li class="navLink">
                             <a href="./fichas">
                                 <i class="fa-solid fa-table icon"></i>
@@ -78,7 +78,7 @@ if (!isset($userId)) {
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if ($userIdRole == 1) { ?>
+                    <?php if ($userIdRole == 1 || $userIdRole == 2 || $userIdRole == 3) { ?>
                         <li class="navLink">
                             <a href="./equipos">
                                 <i class="fa-solid fa-desktop icon"></i>
@@ -86,7 +86,7 @@ if (!isset($userId)) {
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if ($userIdRole == 1) { ?>
+                    <?php if ($userIdRole == 1 || $userIdRole == 4) { ?>
                         <li class="navLink">
                             <a href="./mesadeayuda">
                                 <i class="fa-solid fa-handshake-angle icon"></i>

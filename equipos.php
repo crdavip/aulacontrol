@@ -1,6 +1,6 @@
 <?php
 require_once ('./model/sessions.php');
-if ($userIdRole !== 1 && $userIdRole !== 2) {
+if ($userIdRole !== 1 && $userIdRole !== 2 && $userIdRole !== 3) {
     header("Location: ./");
     exit();
 }
@@ -16,21 +16,28 @@ $titlePgRight = '
     </div>';
 include ('./view/layout/header.php');
 
-if ($userIdRole === 1) {
-    $titlePgRight .= '
+$titlePgRight .= '
     <a id="assocDeviceBtn" data-id="'.$userId.'" class="btnUi btnUiAlt">
         <i class="fa-solid fa-qrcode"></i>
         <p>Vincular Equipo</p>
     </a>
+';
+
+if ($userIdRole === 1 || $userIdRole === 2) {
+    $titlePgRight .= '
     <a href="./registro-equipos" class="btnUi btnUiAlt">
         <i class="fas fa-clipboard-list"></i>
         <p>Ver Registros</p>
-    </a>
+    </a>';
+}
+if ($userIdRole === 1) {
+    $titlePgRight .= '
     <a onclick="openModal(`createDevice`)" id="createDeviceBtn" class="btnUi">
         <i class="fa-solid fa-square-plus"></i>
         <p>Nuevo Equipo</p>
     </a>';
 }
+
 
 include_once ('./view/layout/titlePg.php');
 ?>

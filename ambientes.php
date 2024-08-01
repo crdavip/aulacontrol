@@ -15,17 +15,23 @@ $titlePgRight = '
         </select>
     </div>';
 include('./view/layout/header.php');
-if ($userIdRole === 1) {
+if ($userIdRole === 1 || $userIdRole === 2) {
     $titlePgRight .= '
         <a href="./registro-ambientes" class="btnUi btnUiAlt">
             <i class="fas fa-clipboard-list"></i>
             <p>Ver Registros</p>
-        </a>
-        <a onclick="openModal(`roomCreate`)" class="btnUi">
-            <i class="fa-solid fa-square-plus"></i>
-            <p>Nuevo Ambiente</p>
         </a>';
 }
+if ($userIdRole === 1) {
+    $titlePgRight .= '
+            <a onclick="openModal(`roomCreate`)" class="btnUi">
+            <i class="fa-solid fa-square-plus"></i>
+            <p>Nuevo Ambiente</p>
+        </a>
+    ';
+}
+
+
 
 include_once('./view/layout/titlePg.php');
 ?>

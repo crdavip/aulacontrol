@@ -1,6 +1,6 @@
 <?php
 require_once('./model/sessions.php');
-if ($userIdRole !== 1 && $userIdRole !== 2) {
+if ($userIdRole !== 1 && $userIdRole !== 4) {
     header("Location: ./");
     exit();
 }
