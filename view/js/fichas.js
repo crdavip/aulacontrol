@@ -156,7 +156,7 @@ const createDataSheetCard = (dataSheets) => {
     card.classList.add("card");
     const cardTop = document.createElement("div");
     cardTop.classList.add("cardTop");
-    if (userRolView == 1) {
+    if (userRolView == 1 || userRolView == 2) {
       const cardMenu = document.createElement("a");
       cardMenu.classList.add("cardMenu");
       cardMenu.innerHTML = '<i class="fa-solid fa-ellipsis"></i>';
@@ -174,8 +174,10 @@ const createDataSheetCard = (dataSheets) => {
       btnDelete.innerHTML = '<i class="fa-solid fa-trash"></i>Eliminar';
       cardMenuItems.appendChild(btnTrainees);
       cardMenuItems.appendChild(btnAssistance);
-      cardMenuItems.appendChild(btnEdit);
-      cardMenuItems.appendChild(btnDelete);
+      if (userRolView != 2) {
+        cardMenuItems.appendChild(btnEdit);
+        cardMenuItems.appendChild(btnDelete); 
+      }
       cardTop.appendChild(cardMenuItems);
       cardTop.appendChild(cardMenu);
       dropDown(cardMenu, cardMenuItems);
