@@ -9,10 +9,7 @@ $titlePgIcon = 'fa-table icon';
 $titlePgRight = '
     <div class="containerFilterPg">
         <label for="numberInputFilter"><i class="fa-solid fa-magnifying-glass"></i></label>
-        <input type="text" class="filterSearchPg" name="numberInputFilter" id="numberInputFilter" placeholder="Buscar:" autocomplete="off">
-        <select class="filterSelectPg" id="centerSelectFilter">
-            <option value="all">Centro</option>
-        </select>
+        <input type="text" class="filterSearchPg" name="numberInputFilter" id="numberInputFilter" placeholder="Buscar Ficha:" autocomplete="off">
     </div>';
 include('./view/layout/header.php');
 if ($userIdRole === 1) {

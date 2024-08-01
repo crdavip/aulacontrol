@@ -18,9 +18,11 @@ class Fichas extends ConnPDO
   {
     $sql = "SELECT f.idFicha, f.ficha, f.detalle AS curso, f.aprendices, f.idCentro, c.siglas AS centro
             FROM ficha AS f
-            INNER JOIN centro AS c ON c.idCentro = f.idCentro ";
+            INNER JOIN centro AS c ON c.idCentro = f.idCentro
+            WHERE c.idCentro = ?
+            ORDER BY f.idFicha DESC";
     $stmt = $this->getConn()->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([$_SESSION['idCenter']]);
     $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($row, JSON_UNESCAPED_UNICODE);
   }
