@@ -7,6 +7,10 @@ $titlePgIcon = 'fa-binoculars icon';
 include('./view/layout/header.php');
 if ($userIdRole === 1 || $userIdRole === 2 || $userIdRole === 4) {
     $titlePgRight = '
+        <div class="containerFilterPg">
+            <label for="docInputFilter"><i class="fa-solid fa-magnifying-glass"></i></label>
+            <input type="text" class="filterSearchPg" name="docInputFilter" id="docInputFilter" placeholder="Buscar Doc:" autocomplete="off">
+        </div>
         <a href="./registro-observaciones" class="btnUi btnUiAlt">
             <i class="fas fa-clipboard-list"></i>
             <p>Ver Registros</p>

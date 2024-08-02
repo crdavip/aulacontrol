@@ -1,6 +1,7 @@
 import { getDataHistory } from "../js/fetch.js";
 
-const dateInputFilter = document.getElementById("dateInputFilter");
+// const dateInputFilter = document.getElementById("dateInputFilter");
+const docInputFilter = document.getElementById("docInputFilter");
 const selectPgLimit = document.getElementById("selectPgLimit");
 const pgNextBtn = document.getElementById("pgNext");
 const pgPrevBtn = document.getElementById("pgPrev");
@@ -29,13 +30,15 @@ const formatDate = (data) => {
   return { dateFormat: dateFormat, timeFormat: timeFormat };
 };
 
+let rowsForInput;
+
 const getHistory = async (history) => {
   let filteredHistory = history.sort((a, b) => {
       return a.estado === b.estado ? 0 : a.estado === 0 ? -1 : 1;
     });
-  console.log("filteredObs ", filteredHistory)
   tableBody.innerHTML = "";
-  filteredHistory.forEach((row) => {
+  rowsForInput = filteredHistory;
+  rowsForInput.forEach((row) => {
     const postDate = formatDate(row.fechaPublicacion);
     const checkedDate = formatDate(row.fechaRevision);
     tableBody.innerHTML += `
@@ -148,29 +151,21 @@ const pagination = (data) => {
 
 pagination(dataHistory);
 
-//Filtrar Registros
-const filterHistory = async () => {
-  const center = centerSelectFilter.value;
-  const number = numberInputFilter.value;
-  const date = dateInputFilter.value;
-  if (center !== "all") {
-    dataHistory = dataHistory.filter((row) => row.centro == center);
-  } else {
-    dataHistory = await getDataHistory(regAmbientesAPI);
-  }
-  if (number !== "") {
-    dataHistory = dataHistory.filter((row) =>
-      `${row.numero.toLowerCase()}`.includes(`${number.toLowerCase()}`)
+const filterUsers = () => {
+  const doc = docInputFilter.value;
+  let newRows = rowsForInput;
+  if (doc !== "") {
+    newRows = newRows.filter((row) =>
+      `${row.docuUsuario}`.includes(`${doc}`)
     );
+
+    renderHistory(newRows);
+  } else {
+    renderHistory(history);
   }
-  if (date !== "") {
-    dataHistory = dataHistory.filter((row) => row.inicio.includes(date));
-  }
-  pagination(dataHistory);
 };
-// centerSelectFilter.addEventListener("change", filterHistory);
-numberInputFilter.addEventListener("keyup", filterHistory);
-dateInputFilter.addEventListener("change", filterHistory);
+
+docInputFilter.addEventListener("keyup", filterUsers);
 
 selectPgLimit.addEventListener("change", () => {
   pgLimit = parseInt(selectPgLimit.value);

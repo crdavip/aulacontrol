@@ -8,10 +8,8 @@ $titlePg = 'Registro de Observaciones';
 $titlePgIcon = 'fa-clipboard-list icon';
 $titlePgRight = '
     <div class="containerFilterPg">
-        <input type="number" name="documentInputFilter" id="documentInputFilter">
-        <br>
-        <br>
-        <input type="date" class="filterDatePg" name="dateInputFilter" id="dateInputFilter">
+        <label for="docInputFilter"><i class="fa-solid fa-magnifying-glass"></i></label>
+        <input type="text" class="filterSearchPg" name="docInputFilter" id="docInputFilter" placeholder="Buscar Doc:" autocomplete="off">
     </div>';
 include('./view/layout/header.php');
 include_once('./view/layout/titlePg.php');

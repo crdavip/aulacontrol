@@ -1,9 +1,9 @@
+const docInputFilter = document.getElementById("docInputFilter");
+
 let objects = [];
 const loadRenderObservations = async () => {
   const data = await getData(observacionesAPI);
   objects = data;
-  console.log(data)
-  console.log(objects);
   renderObservations(objects);
 }
 
@@ -13,6 +13,7 @@ const updateRenderObservations = async () => {
   await loadRenderObservations();
 };
 
+let rowsForInput;
 const userRolView = document.getElementById("userRolView")
 
 const createObservationCard = (observations) => {
@@ -25,7 +26,7 @@ const createObservationCard = (observations) => {
   } else {
     filteredObs = observations.filter((obs) => obs.estado == 0);
   }
-  console.log("filteredObs ", filteredObs)
+  rowsForInput = filteredObs;
   filteredObs.forEach((obs) => {
     const cardUser = document.createElement("div");
     cardUser.className = "card";
@@ -116,6 +117,21 @@ const renderObservations = async (data) => {
     row.innerHTML = "No hay resultados para mostrar.";
   }
 };
+
+const filterUsers = () => {
+  const doc = docInputFilter.value;
+  let newRows = rowsForInput;
+  if (doc !== "") {
+    newRows = newRows.filter((row) =>
+      `${row.documento}`.includes(`${doc}`)
+    );
+    renderObservations(newRows);
+  } else {
+    renderObservations(objects);
+  }
+};
+
+docInputFilter.addEventListener("keyup", filterUsers);
 
 sendForm(
   "observationCreateForm",
