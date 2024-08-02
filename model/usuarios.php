@@ -67,7 +67,7 @@ class Usuarios extends ConnPDO
 
   function getUsers()
   {
-    $sql = "SELECT u.idUsuario, u.documento, u.estado, ud.nombre, ud.imagen, ud.idCentro, ud.correo, c.siglas, rol.idCargo, rol.detalle AS cargo
+    $sql = "SELECT u.idUsuario, u.documento, u.estado, ud.nombre, ud.imagen, ud.imagenQr, ud.idCentro, ud.correo, c.siglas, rol.idCargo, rol.detalle AS cargo
           FROM usuario AS u
           INNER JOIN usuario_detalle AS ud ON u.idUsuario = ud.idUsuario
           INNER JOIN centro AS c ON ud.idCentro = c.idCentro

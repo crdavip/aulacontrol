@@ -55,7 +55,6 @@ const loadAllTrainees = async () => {
     allTraineesAdd = trainees;
     allTraineesAssist = traineesAssist;
     filteredTraineesAdd = trainees;
-    console.log(filteredTraineesAdd);
     filteredTraineesAssist = traineesAssist;
     renderTrainees(resultsAndSelectedContainer, selectedTraineesAdd, filteredTraineesAdd, allTraineesAdd, "add");
     renderTrainees(resultsAssistanceSearchDiv, selectedTraineesAssist, filteredTraineesAssist, allTraineesAssist, "assist");
@@ -133,9 +132,7 @@ const toggleSelection = (id, render) => {
     if (selectedTraineesAssist.has(id)) {
       selectedTraineesAssist.delete(id);
     } else {
-      console.log(selectedTraineesAssist);
       selectedTraineesAssist.add(id);
-      console.log(selectedTraineesAssist);
     }
     renderTrainees(resultsAssistanceSearchDiv, selectedTraineesAssist, filteredTraineesAssist, allTraineesAssist, render);
   }
@@ -372,7 +369,6 @@ saveButtons.forEach(button => {
         envrmnt: parseInt(idRoomSelected),
       }
     }
-    console.log("body: ", bodyObject);
     if (idsToSave.length > 0) {
       try {
         const response = await fetch(`${apiRequired}.php`, {
@@ -384,7 +380,6 @@ saveButtons.forEach(button => {
         });
 
         const result = await response.json();
-        console.log("result", result);
         let messageType;
         let messageContent;
 
@@ -426,7 +421,6 @@ saveButtons.forEach(button => {
 });
 
 btnNavigateRegAssist.addEventListener('click', () => {
-  console.log(idSheetAssistance);
   window.location.href = "./registro-asistencia";
 });
 

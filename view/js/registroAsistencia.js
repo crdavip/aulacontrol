@@ -24,7 +24,6 @@ pgLimit = parseInt(selectPgLimit.value);
 const getDataHistory = async (API) => {
   const res = await fetch(`${API}`);
   const data = await res.json();
-  console.log(data);
   return data;
 }
 
@@ -33,9 +32,7 @@ const idSheetExport = document.getElementById("idSheetExport");
 idSheetExport.value = sheet;
 
 const initializeDataHistory = async () => {
-  console.log("sheet in regs :", sheet);
   dataHistory = await getDataHistory(`${regAsistenciaAPI}.php?sheet=${sheet}`);
-  console.log(dataHistory);
   pages = Math.ceil(dataHistory.length / pgLimit);
   history = await dataHistory.slice(pgFrom, pgLimit);
 
@@ -154,7 +151,6 @@ searchAssistanceTraineesInput.addEventListener('keyup', () => filterTrainees(fil
 
 const getDataAmbs = async () => {
   const dataAmbientes = await getData(ambientesAPI);
-  console.log(dataAmbientes);
   let roomsList = await dataAmbientes;
   roomsList = roomsList.filter(roomItem => roomItem.centro === "CDMC" && roomItem.numero !== "Mesa Ayuda");
   let contentSelectTagRooms = roomsList.map((room) => {
