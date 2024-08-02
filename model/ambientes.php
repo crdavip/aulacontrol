@@ -26,6 +26,17 @@ class Ambientes extends ConnPDO
     echo json_encode($classRoom);
   }
 
+  public function getCountRooms(){
+    $sql = "SELECT COUNT(*) AS rooms
+            FROM ambiente AS a
+            INNER JOIN centro AS c ON c.idCentro = a.idCentro
+            WHERE c.idCentro = ? AND a.numero != 'Mesa Ayuda'";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$_SESSION['idCenter']]);
+    $rooms = $stmt->fetch(PDO::FETCH_ASSOC);
+    echo json_encode($rooms);
+  }
+
   function getRoom($roomId)
   {
     $sql = "SELECT a.idAmbiente, a.numero, a.estado, a.afluencia, c.idCentro, c.siglas AS centro

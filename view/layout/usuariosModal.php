@@ -105,7 +105,7 @@
             <input type="hidden" name="userIdDelete" id="userIdDelete">
             <p class="modalTxt">Esta acción no se puede revertir. <strong>¿Desea continuar?</strong></p>
             <div class="buttonGroup">
-                <button id="confirmDeleteButton" class="btn btnAlt" type="submit"><i class="bi bi-trash3"></i> Eliminar</button>
+                <button id="confirmDeleteButton" class="btn btnAlt" type="submit"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
             </div>
         </form>
         <p id="messageDelete" class="message"></p>

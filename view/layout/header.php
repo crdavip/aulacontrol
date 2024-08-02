@@ -9,6 +9,7 @@ $userImg = $_SESSION['img'];
 $userImgQr = $_SESSION['imgQr'];
 $userCenter = $_SESSION['center'];
 $userFirstTime = $_SESSION['firstTime'];
+$userAcron = $_SESSION['acron'];
 
 if (!isset($userId)) {
     header('Location: ./ingreso');

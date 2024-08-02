@@ -12,5 +12,6 @@ $userStatus = $_SESSION['status'];
 $userBirth = $_SESSION['birth'];
 $userCenter = $_SESSION['center'];
 $userIdCenter = $_SESSION['idCenter'];
+$userAcron = $_SESSION['acron'];
 $userFirstTime = $_SESSION['firstTime'];
 ?>

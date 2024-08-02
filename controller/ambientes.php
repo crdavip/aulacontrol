@@ -14,7 +14,19 @@ switch ($method) {
         if (isset($_GET['columns'])) {
             $columns = json_decode($_GET['columns']);
             echo json_encode($functions->getColumns('ambiente', $columns), JSON_UNESCAPED_UNICODE);
-        } else {
+        } elseif (isset($_GET['getCount'])) {
+            $getCount = $_GET['getCount'];
+      
+            if ($getCount == "allRooms") {
+              $rooms->getCountRooms();
+              exit;
+            } else {
+              $icon = $functions->getIcon('Err');
+              echo json_encode(['success' => false, 'message' => "$icon Parece que ocurrió un error."]);
+              exit;
+            }
+    
+          } else {
             $rooms->getRooms();
         }
         break;
