@@ -295,18 +295,15 @@ const ExportFormExcel = async (formId, urlAPI) => {
     try {
       const response = await fetch(url);
       if (response.redirected) {
-        console.log('Redirected to:', response.url);
         window.location.href = response.url;
         return;
       }
       if (!response.ok) {
-        console.log('Response not OK:', response.statusText);
         window.location.href = '../../not-found.php';
         return;
       }
       const blob = await response.blob();
       if (blob.size === 0) {
-        console.log('Blob is empty, redirecting to not found page.');
         window.location.href = '../../not-found.php';
         return;
       }

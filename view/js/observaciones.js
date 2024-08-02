@@ -2,8 +2,6 @@ let objects = [];
 const loadRenderObservations = async () => {
   const data = await getData(observacionesAPI);
   objects = data;
-  console.log(data)
-  console.log(objects);
   renderObservations(objects);
 }
 
@@ -25,7 +23,6 @@ const createObservationCard = (observations) => {
   } else {
     filteredObs = observations.filter((obs) => obs.estado == 0);
   }
-  console.log("filteredObs ", filteredObs)
   filteredObs.forEach((obs) => {
     const cardUser = document.createElement("div");
     cardUser.className = "card";

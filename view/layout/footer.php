@@ -83,7 +83,7 @@
             <h1><?= $userName; ?></h1>
             <span>CC <?= $userDoc; ?> - <?= $userRole; ?></span>
         </div>
-        <img id="designViewImg" src="<?= $userImgQr; ?>" alt="QR">
+        <img class="imgQr" src="<?= $userImgQr; ?>" alt="QR">
     </div>
 </section>
 

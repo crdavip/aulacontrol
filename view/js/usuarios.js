@@ -29,15 +29,25 @@ const createUserCard = (users) => {
       cardRoomMenu.innerHTML = '<i class="fa-solid fa-ellipsis"></i>';
       const cardRoomMenuItems = document.createElement("div");
       cardRoomMenuItems.classList.add("cardRoomMenuItems");
+      const btnViewQr = document.createElement("a");
+      btnViewQr.innerHTML = '<i class="fa-solid fa-qrcode"></i></i>Ver QR';
       const btnEdit = document.createElement("a");
       btnEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>Editar';
       const btnDelete = document.createElement("a");
       btnDelete.innerHTML = '<i class="fa-solid fa-trash"></i>Eliminar';
+      cardRoomMenuItems.appendChild(btnViewQr);
       cardRoomMenuItems.appendChild(btnEdit);
       cardRoomMenuItems.appendChild(btnDelete);
       cardUserTop.appendChild(cardRoomMenuItems);
       cardUserTop.appendChild(cardRoomMenu);
       dropDown(cardRoomMenu, cardRoomMenuItems);
+      btnViewQr.addEventListener("click", () => {
+        openModal("usersViewQr");
+        const viewQrTitle = document.querySelector(".viewQrTitle");
+        const usersViewQrImg = document.getElementById("usersViewQrImg");
+        viewQrTitle.textContent = `${user.documento}`;
+        usersViewQrImg.src = user.imagenQr;
+      });
       btnEdit.addEventListener("click", () => {
         loadDataForm({
           inputs: ["userIdEdit", "nameUserEdit", "docUserEdit", "mailUserEdit", "rolUserEdit", "centerUserEdit"],

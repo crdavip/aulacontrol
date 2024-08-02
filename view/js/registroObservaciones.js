@@ -33,7 +33,6 @@ const getHistory = async (history) => {
   let filteredHistory = history.sort((a, b) => {
       return a.estado === b.estado ? 0 : a.estado === 0 ? -1 : 1;
     });
-  console.log("filteredObs ", filteredHistory)
   tableBody.innerHTML = "";
   filteredHistory.forEach((row) => {
     const postDate = formatDate(row.fechaPublicacion);

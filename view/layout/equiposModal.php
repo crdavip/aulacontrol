@@ -216,3 +216,14 @@
         <p id="messageRoomExport" class="message"></p>
     </div>
 </section>
+
+<!-- Modal ViewQR -->
+<section class="modal" id="deviceViewQr">
+    <div class="containerModal">
+        <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
+        <div class="titlePgAlt">
+            <h1 class="viewQrTitle"></h1>
+        </div>
+        <img id="deviceViewQrImg" class="imgQr" src="" alt="QR">
+    </div>
+</section>

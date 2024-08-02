@@ -38,7 +38,7 @@ class Equipos extends ConnPDO
 
   function getDevices()
   {
-    $sql = "SELECT c.idComputador, c.ref, c.marca, c.estado, a.numero AS ambiente, ce.siglas AS centro
+    $sql = "SELECT c.idComputador, c.ref, c.marca, c.estado, c.imagenQr, a.numero AS ambiente, ce.siglas AS centro
             FROM computador AS c
             INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente
             INNER JOIN centro AS ce ON ce.idCentro = a.idCentro
@@ -52,7 +52,7 @@ class Equipos extends ConnPDO
 
   function getHelpDevices()
   {
-    $sql = "SELECT c.idComputador, c.ref, c.marca, c.estado, a.numero AS ambiente, ce.siglas AS centro
+    $sql = "SELECT c.idComputador, c.ref, c.marca, c.estado, c.imagenQr, a.numero AS ambiente, ce.siglas AS centro
             FROM computador AS c
             INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente
             INNER JOIN centro AS ce ON ce.idCentro = a.idCentro

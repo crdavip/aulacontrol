@@ -754,11 +754,6 @@ a {
   transition: opacity 0.5s;
 }
 
-#designViewImg {
-  width: 90%;
-  height: auto;
-}
-
 .inputGroup {
   width: 100%;
   position: relative;
@@ -2220,6 +2215,11 @@ td img {
 
 .statisticValue {
   color: var(--primario);
+}
+
+.imgQr {
+  width: 90%;
+  height: auto;
 }
 
 @media all and (max-width: 768px) {

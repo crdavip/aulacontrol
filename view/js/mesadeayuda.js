@@ -81,11 +81,14 @@ const createDeviceCard  = (devices) => {
         ? (btnAssoc.innerHTML = '<i class="fa-solid fa-qrcode"></i>Vincular')
         : (btnAssoc.innerHTML =
           '<i class="fa-solid fa-qrcode"></i>Desvincular');
+      const btnViewQr = document.createElement("a");
+      btnViewQr.innerHTML = '<i class="fa-solid fa-qrcode"></i></i>Ver QR';
       const btnEdit = document.createElement("a");
       btnEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>Editar';
       const btnDelete = document.createElement("a");
       btnDelete.innerHTML = '<i class="fa-solid fa-trash"></i>Eliminar';
       cardMenuItems.appendChild(btnAssoc);
+      cardMenuItems.appendChild(btnViewQr);
       cardMenuItems.appendChild(btnEdit);
       cardMenuItems.appendChild(btnDelete);
       cardTop.appendChild(cardMenuItems);
@@ -93,6 +96,13 @@ const createDeviceCard  = (devices) => {
       dropDown(cardMenu, cardMenuItems);
       btnAssoc.addEventListener("click", () => {
         deviceAssoc(device);
+      });
+      btnViewQr.addEventListener("click", () => {
+        openModal("deviceViewQr");
+        const viewQrTitle = document.querySelector(".viewQrTitle");
+        const deviceViewQrImg = document.getElementById("deviceViewQrImg");
+        viewQrTitle.textContent = `${device.marca} - REF ${device.ref}`;
+        deviceViewQrImg.src = device.imagenQr;
       });
       btnEdit.addEventListener("click", () => {
         const selectEditCenter = document.getElementById("centerDeviceEdit");

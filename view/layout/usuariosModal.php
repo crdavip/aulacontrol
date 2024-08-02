@@ -134,3 +134,14 @@
         <p id="messageImport" class="message"></p>
     </div>
 </section>
+
+<!-- Modal ViewQR -->
+<section class="modal" id="usersViewQr">
+    <div class="containerModal">
+        <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
+        <div class="titlePgAlt">
+            <h1 class="viewQrTitle"></h1>
+        </div>
+        <img id="usersViewQrImg" class="imgQr" src="" alt="QR">
+    </div>
+</section>
