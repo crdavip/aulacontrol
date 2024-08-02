@@ -2222,6 +2222,48 @@ td img {
   color: var(--primario);
 }
 
+@media all and (max-width: 768px) {
+  .header .userInfo p {
+    display: none;
+  }
+
+  .titlePg {
+    flex-direction: column;
+    padding: 1em 0;
+
+    & h1 {
+      font-size: 1.75rem;
+    }
+
+    & i {
+      font-size: 2rem;
+    }
+  }
+
+  .titlePgRight {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+
+  .containerPg .content {
+    padding: 130px 1rem;
+  }
+
+  .hero {
+    flex-direction: column;
+    max-height: 550px;
+  }
+  
+  .heroLeft {
+    width: 100%;
+    padding: 2rem 0;
+  }
+  
+  .heroRight {
+    width: 100%;
+  }
+}
+
 @media all and (max-width: 600px) {
   :root {
     font-size: 15px;
@@ -2291,24 +2333,6 @@ td img {
 
   .userItems {
     right: 1rem;
-  }
-
-  .titlePg {
-    flex-direction: column;
-    padding: 1em 0;
-
-    & h1 {
-      font-size: 1.75rem;
-    }
-
-    & i {
-      font-size: 2rem;
-    }
-  }
-
-  .titlePgRight {
-    flex-direction: column-reverse;
-    width: 100%;
   }
 
   .containerModal .closeModal {
