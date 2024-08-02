@@ -17,7 +17,7 @@
                 </select>
             </div>
             <p>Descripción</p>
-                <textarea cols="4" rows="8" type="text" name="descriptionObservation" id="descriptionObservation"
+                <textarea cols="4" rows="8" type="text" class="textAreaObs" name="descriptionObservation" id="descriptionObservation"
                     autocomplete="off" required></textarea>
             <div class="buttonGroup">
                 <button class="btn" type="submit"><i class="fa-solid fa-square-plus"></i> Enviar</button>
