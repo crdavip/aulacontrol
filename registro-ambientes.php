@@ -9,7 +9,7 @@ $titlePgIcon = 'fa-clipboard-list icon';
 $titlePgRight = '
     <div class="containerFilterPg">
         <label for="numberInputFilter"><i class="fa-solid fa-magnifying-glass"></i></label>
-        <input type="text" class="filterSearchPg" name="numberInputFilter" id="numberInputFilter" placeholder="Buscar:" autocomplete="off">
+        <input type="text" class="filterSearchPg" name="numberInputFilter" id="numberInputFilter" placeholder="Buscar Amb:" autocomplete="off">
         <input type="date" class="filterDatePg" name="dateInputFilter" id="dateInputFilter">
     </div>';
 include('./view/layout/header.php');

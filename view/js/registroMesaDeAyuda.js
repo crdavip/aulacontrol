@@ -84,20 +84,9 @@ const updateDataHistory = () => {
 const loadItemsPg = (pages) => {
   const paginationItems = document.getElementById("paginationItems");
   paginationItems.innerHTML = "";
-  for (let i = 0; i < pages; i++) {
-    const paginationItem = document.createElement("button");
-    paginationItem.classList.add("paginationItem");
-    paginationItem.addEventListener("click", () => {
-      pgShow(i);
-    });
-    paginationItem.innerHTML = `${i + 1}`;
-    paginationItem.innerHTML == pgActive
-      ? paginationItem.classList.add("paginationItemActive")
-      : null;
-    pgActive == 1 ? pgPrevBtn.disabled = true : pgPrevBtn.disabled = false;
-    pgActive == pages ? pgNextBtn.disabled = true : pgNextBtn.disabled = false;
-    paginationItems.appendChild(paginationItem);
-  }
+  paginationItems.innerHTML = `Página <strong>${pgActive}</strong> de <strong>${pages}</strong>`;
+  pgActive == 1 ? pgPrevBtn.disabled = true : pgPrevBtn.disabled = false;
+  pgActive == pages ? pgNextBtn.disabled = true : pgNextBtn.disabled = false;
 };
 
 const pgShow = (page) => {
@@ -148,23 +137,19 @@ pagination(dataHistory);
 
 //Filtrar Registros
 const filterHistory = async () => {
-  const center = centerSelectFilter.value;
   const number = numberInputFilter.value;
   const date = dateInputFilter.value;
-  if (center !== "all") {
-    dataHistory = dataHistory.filter((row) => row.centro == center);
-  } else {
-    dataHistory = await getDataHistory(regAmbientesAPI);
-  }
+  let newDataHistory = dataHistory;
   if (number !== "") {
-    dataHistory = dataHistory.filter((row) =>
-      `${row.numero.toLowerCase()}`.includes(`${number.toLowerCase()}`)
+    newDataHistory = newDataHistory.filter((row) =>
+      `${row.documento}`.includes(`${number}`)
     );
   }
   if (date !== "") {
-    dataHistory = dataHistory.filter((row) => row.inicio.includes(date));
+    newDataHistory = newDataHistory.filter((row) => row.fecha.includes(date));
   }
-  pagination(dataHistory);
+  pagination(newDataHistory);
+  renderHistory(newDataHistory);
 };
 // centerSelectFilter.addEventListener("change", filterHistory);
 numberInputFilter.addEventListener("keyup", filterHistory);
