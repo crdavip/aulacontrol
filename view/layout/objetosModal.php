@@ -83,7 +83,7 @@
             <input type="hidden" name="objectIdDelete" id="objectIdDelete">
             <p class="modalTxt">Se eliminará el objeto y todos los registros asociados. <strong>¿Desea continuar?</strong></p>
             <div class="buttonGroup">
-                <button id="confirmDeleteButton" class="btn btnAlt" type="submit"><i class="bi bi-trash3"></i>
+                <button id="confirmDeleteButton" class="btn btnAlt" type="submit"><i class="fa-solid fa-trash-can"></i>
                     Eliminar</button>
             </div>
         </form>
@@ -151,7 +151,7 @@
                 <input class="inputGroupInput" type="date" name="endDatePdf" id="endDatePdf" autocomplete="off" required>
             </div>
             <div class="inputGroup">
-                <label class="inputGroupLabel" for="selectedCenterPdf"><i class="bi bi-door-open"></i></label>
+                <label class="inputGroupLabel" for="selectedCenterPdf"><i class="fa-solid fa-door-open"></i></label>
                 <select class="inputGroupSelect" name="selectedCenterPdf" id="selectedCenterPdf" required>
                 </select>
             </div>
@@ -182,7 +182,7 @@
                 <input class="inputGroupInput" type="date" name="endDateExcel" id="endDateExcel" autocomplete="off" required>
             </div>
             <div class="inputGroup">
-                <label class="inputGroupLabel" for="selectedCenterExcel"><i class="bi bi-door-open"></i></label>
+                <label class="inputGroupLabel" for="selectedCenterExcel"><i class="fa-solid fa-door-open"></i></label>
                 <select class="inputGroupSelect" name="selectedCenterExcel" id="selectedCenterExcel" required>
                 </select>
             </div>

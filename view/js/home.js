@@ -1,6 +1,6 @@
 const strongStudents = document.getElementById("strongStudents");
 const strongInstructor = document.getElementById("strongInstructor");
-const strongObs = document.getElementById("strongObs");
+const strongRooms = document.getElementById("strongRooms");
 const strongDevices = document.getElementById("strongDevices");
 
 
@@ -25,18 +25,18 @@ const getDataDevices = async () => {
   strongDevices.textContent = result.devices;
 }
 
-const getDataObs = async () => {
-  const response = await fetch(`${observacionesAPI}.php?getCount=allObs`);
+const getDataRooms = async () => {
+  const response = await fetch(`${ambientesAPI}.php?getCount=allRooms`);
   const result = await response.json();
-  strongObs.textContent = '';
-  strongObs.textContent = result.observations;
+  strongRooms.textContent = '';
+  strongRooms.textContent = result.rooms;
 }
 
 const loadRenderStatistics = () => {
   getDataStudents();
   getDataInstructors();
   getDataDevices();
-  getDataObs();
+  getDataRooms();
 }
 
 window.addEventListener("DOMContentLoaded", loadRenderStatistics);

@@ -79,7 +79,7 @@
             <input type="hidden" name="dataSheetIdDelete" id="dataSheetIdDelete">
             <p class="modalTxt">Esta acción no se puede revertir. <strong>¿Desea continuar?</strong></p>
             <div class="buttonGroup">
-                <button id="confirmDeleteButton" class="btn btnAlt" type="submit"><i class="bi bi-trash3"></i>
+                <button id="confirmDeleteButton" class="btn btnAlt" type="submit"><i class="fa-solid fa-trash-can"></i>
                     Eliminar</button>
             </div>
         </form>
@@ -107,7 +107,7 @@
                             <label class="inputGroupLabel inputDate" for="assistDate" id="labelDate"><i class="fa-solid fa-calendar-days"></i> Fecha de Asistencia</label>
                         </div>
             <div class="inputGroup">
-                <label class="inputGroupLabel" for="selectedRoom"><i class="bi bi-door-open"></i></label>
+                <label class="inputGroupLabel" for="selectedRoom"><i class="fa-solid fa-door-open"></i></label>
                 <select class="inputGroupSelect" name="selectedRoom" id="selectedRoom" required>
                 </select>
             </div>
@@ -187,7 +187,7 @@
             <input type="hidden" name="dataSheetIdRemoveSheet" id="dataSheetIdRemoveSheet">
             <p class="modalTxt">Remover Aprendiz de esta ficha. <strong>¿Desea continuar?</strong></p>
             <div class="buttonGroup">
-                <button id="confirmRemoveButton" class="btn btnAlt" type="submit"><i class="bi bi-trash3"></i>
+                <button id="confirmRemoveButton" class="btn btnAlt" type="submit"><i class="fa-solid fa-trash-can"></i>
                     Eliminar</button>
             </div>
         </form>

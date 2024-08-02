@@ -15,7 +15,7 @@
                 <input class="inputGroupInput" type="date" name="date" id="date" autocomplete="off" required>
             </div>
             <div class="inputGroup">
-                <label class="inputGroupLabel" for="selectedRoom"><i class="bi bi-door-open"></i></label>
+                <label class="inputGroupLabel" for="selectedRoom"><i class="fa-solid fa-door-open"></i></label>
                 <select class="inputGroupSelect" name="selectedRoom" id="selectedRoom" required>
                 </select>
             </div>
@@ -46,7 +46,7 @@
                 <input class="inputGroupInput" type="date" name="endDatePdf" id="endDatePdf" autocomplete="off" required>
             </div>
             <div class="inputGroup">
-                <label class="inputGroupLabel" for="selectedRoomPdf"><i class="bi bi-door-open"></i></label>
+                <label class="inputGroupLabel" for="selectedRoomPdf"><i class="fa-solid fa-door-open"></i></label>
                 <select class="inputGroupSelect" name="selectedRoomPdf" id="selectedRoomPdf" required>
                 </select>
             </div>

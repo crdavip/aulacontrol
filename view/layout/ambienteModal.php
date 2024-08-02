@@ -67,7 +67,7 @@
             <input type="hidden" name="roomIdDelete" id="roomIdDelete">
             <p class="modalTxt">Esta acción no se puede revertir. <strong>¿Desea continuar?</strong></p>
             <div class="buttonGroup">
-                <button id="confirmDeleteButton" class="btn btnAlt" type="submit"><i class="bi bi-trash3"></i> Eliminar</button>
+                <button id="confirmDeleteButton" class="btn btnAlt" type="submit"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
             </div>
         </form>
         <p id="messageDelete" class="message"></p>
@@ -106,7 +106,7 @@
                 <input class="inputGroupInput" type="date" name="endDatePdf" id="endDatePdf" autocomplete="off" required>
             </div>
             <div class="inputGroup">
-                <label class="inputGroupLabel" for="selectedRoomPdf"><i class="bi bi-door-open"></i></label>
+                <label class="inputGroupLabel" for="selectedRoomPdf"><i class="fa-solid fa-door-open"></i></label>
                 <select class="inputGroupSelect" name="selectedRoomPdf" id="selectedRoomPdf" required>
                 </select>
             </div>
@@ -137,7 +137,7 @@
                 <input class="inputGroupInput" type="date" name="endDateExcel" id="endDateExcel" autocomplete="off" required>
             </div>
             <div class="inputGroup">
-                <label class="inputGroupLabel" for="selectedRoomExcel"><i class="bi bi-door-open"></i></label>
+                <label class="inputGroupLabel" for="selectedRoomExcel"><i class="fa-solid fa-door-open"></i></label>
                 <select class="inputGroupSelect" name="selectedRoomExcel" id="selectedRoomExcel" required>
                 </select>
             </div>

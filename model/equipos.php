@@ -65,9 +65,13 @@ class Equipos extends ConnPDO
   }
 
   public function getCountDevices(){
-    $sql = "SELECT COUNT(*) AS devices FROM computador";
+    $sql = "SELECT COUNT(*) AS devices
+            FROM computador AS c
+            INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente
+            INNER JOIN centro AS ce ON ce.idCentro = a.idCentro
+            WHERE ce.idCentro = ?";
     $stmt = $this->getConn()->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([$_SESSION['idCenter']]);
     $devices = $stmt->fetch(PDO::FETCH_ASSOC);
     echo json_encode($devices);
   }
