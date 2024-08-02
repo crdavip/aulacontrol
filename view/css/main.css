@@ -2072,6 +2072,12 @@ td img {
   position: relative;
 }
 
+.textAreaObs {
+  padding: 4px;
+  border-radius: 5px;
+  background-color: var(--gris-claro);
+}
+
 .bkDarkCoverNotClick {
   position: absolute;
   top: 0;
