@@ -70,20 +70,9 @@ const updateDataHistory = () => {
 const loadItemsPg = (pages) => {
   const paginationItems = document.getElementById("paginationItems");
   paginationItems.innerHTML = "";
-  for (let i = 0; i < pages; i++) {
-    const paginationItem = document.createElement("button");
-    paginationItem.classList.add("paginationItem");
-    paginationItem.addEventListener("click", () => {
-      pgShow(i);
-    });
-    paginationItem.innerHTML = `${i + 1}`;
-    paginationItem.innerHTML == pgActive
-      ? paginationItem.classList.add("paginationItemActive")
-      : null;
-    pgActive == 1 ? pgPrevBtn.disabled = true : pgPrevBtn.disabled = false;
-    pgActive == pages ? pgNextBtn.disabled = true : pgNextBtn.disabled = false;
-    paginationItems.appendChild(paginationItem);
-  }
+  paginationItems.innerHTML = `Página <strong>${pgActive}</strong> de <strong>${pages}</strong>`;
+  pgActive == 1 ? pgPrevBtn.disabled = true : pgPrevBtn.disabled = false;
+  pgActive == pages ? pgNextBtn.disabled = true : pgNextBtn.disabled = false;
 };
 
 const pgShow = (page) => {
@@ -136,15 +125,17 @@ pagination(dataHistory);
 const filterHistory = async () => {
   const number = numberInputFilter.value;
   const date = dateInputFilter.value;
+  let newDataHistory = dataHistory;
   if (number !== "") {
-    dataHistory = dataHistory.filter((row) =>
+    newDataHistory = newDataHistory.filter((row) =>
       `${row.numero.toLowerCase()}`.includes(`${number.toLowerCase()}`)
     );
   }
   if (date !== "") {
-    dataHistory = dataHistory.filter((row) => row.inicio.includes(date));
+    newDataHistory = newDataHistory.filter((row) => row.inicio.includes(date));
   }
-  pagination(dataHistory);
+  pagination(newDataHistory);
+  renderHistory(newDataHistory);
 };
 numberInputFilter.addEventListener("keyup", filterHistory);
 dateInputFilter.addEventListener("change", filterHistory);
