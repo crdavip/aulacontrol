@@ -64,9 +64,10 @@ class RegistroObservaciones extends ConnPDO
   function updateObservationHistory($idUser, $idObs)
   {
     try {
-      $sql = "UPDATE registro_observaciones SET fechaRevision = CURDATE(), estado = 1, idRevisador = ? WHERE idObservacion = ?";
+      $date = date('Y-m-d');
+      $sql = "UPDATE registro_observaciones SET fechaRevision = ?, estado = 1, idRevisador = ? WHERE idObservacion = ?";
       $stmt = $this->getConn()->prepare($sql);
-      $stmt->execute([$idUser, $idObs]);
+      $stmt->execute([$date, $idUser, $idObs]);
 
       $icon = $this->functions->getIcon('OK');
       echo json_encode(['success' => true, 'message' => "$icon Observacion marcada como revisada."]);
