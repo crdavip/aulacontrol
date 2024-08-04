@@ -25,6 +25,8 @@
                         </div>
                         <div class="dataSenaCard">
                             <p>C.C. <span id="docUserSenaCard"><?= $userDoc; ?></span></p>
+                            <p><span id="docUserSenaCard"><?= $userEmail; ?></span></p>
+                            <p><span id="docUserSenaCard"><?= $userCenter; ?></span></p>
                         </div>
                     </div>
                 </div>

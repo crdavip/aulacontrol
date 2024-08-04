@@ -194,7 +194,7 @@ const getHistory = async (history) => {
           <p><span>Asistieron: </span><strong>${row.presentes}</strong></p>
         </div>
         <div>
-          <h3>Aprendices</h3>
+          <h4>Aprendices:</h4>
           ${apprenticesHtml}
         </div>
       </div>

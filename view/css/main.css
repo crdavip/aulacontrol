@@ -1855,6 +1855,7 @@ a {
 
 .dataSenaCard {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 
   & p {
