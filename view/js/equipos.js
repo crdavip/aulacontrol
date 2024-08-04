@@ -1,4 +1,5 @@
 const numberInputFilter = document.getElementById("numberInputFilter");
+const envInputFilter = document.getElementById("envInputFilter");
 const centerSelectFilter = document.getElementById("centerSelectFilter");
 const statusSelectFilter = document.getElementById("statusSelectFilter");
 
@@ -233,8 +234,21 @@ const filterDevices = () => {
   }
   renderDevices(newdevices);
 };
+
+const filterByEnv = () => {
+  const env = envInputFilter.value;
+  let newdevices = devices;
+  if (env !== "") {
+    newdevices = newdevices.filter((device) =>
+      `${device.ambiente.toLowerCase()}`.includes(`${env.toLowerCase()}`)
+    );
+  }
+  renderDevices(newdevices);
+};
+
 statusSelectFilter.addEventListener("change", filterDevices);
 numberInputFilter.addEventListener("keyup", filterDevices);
+envInputFilter.addEventListener("keyup", filterByEnv);
 
 sendForm(
   "createDeviceForm",
