@@ -212,8 +212,31 @@ class Usuarios extends ConnPDO
 
   function deleteUsers($idUser)
   {
-    $sql = "DELETE FROM usuario WHERE idUsuario=?";
-    $stmt = $this->getConn()->prepare($sql);
-    $stmt->execute([$idUser]);
+    $this->getConn()->beginTransaction();
+
+    try {
+      $checkSql = "SELECT idFicha FROM aprendices WHERE idUsuario = ?";
+      $checkStmt = $this->getConn()->prepare($checkSql);
+      $checkStmt->execute([$idUser]);
+      $ficha = $checkStmt->fetch(PDO::FETCH_ASSOC);
+
+      if ($ficha) {
+        $idFicha = $ficha['idFicha'];
+        $updateFichaSql = "UPDATE ficha SET aprendices = aprendices - 1 WHERE idFicha = ?";
+        $updateFichaStmt = $this->getConn()->prepare($updateFichaSql);
+        $updateFichaStmt->execute([$idFicha]);
+        $deleteAprendicesSql = "DELETE FROM aprendices WHERE idUsuario = ?";
+        $deleteAprendicesStmt = $this->getConn()->prepare($deleteAprendicesSql);
+        $deleteAprendicesStmt->execute([$idUser]);
+      }
+      $deleteUserSql = "DELETE FROM usuario WHERE idUsuario = ?";
+      $deleteUserStmt = $this->getConn()->prepare($deleteUserSql);
+      $deleteUserStmt->execute([$idUser]);
+      $this->getConn()->commit();
+    } catch (Exception $e) {
+      $this->getConn()->rollBack();
+      $icon = $this->functions->getIcon('Err');
+      echo json_encode(['success' => false, 'message' => "$icon Error al eliminar el usuario"]);
+    }
   }
 }

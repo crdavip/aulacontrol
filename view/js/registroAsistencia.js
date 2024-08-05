@@ -184,7 +184,7 @@ const getHistory = async (history) => {
       <td data-title="Fecha">${row.fecha}</td>
       <td data-title="Ficha">${row.numeroFicha}</td>
       <td data-title="Accion" class="tdBool">
-        <button class="btnShowDetailsAssist" data-id-assist="${row.idAsistencia}">
+        <button class="btnShowDetailsAssist paginationBtn" data-id-assist="${row.idAsistencia}">
           <i class="fa-solid fa-chevron-down"></i>
         </button>
       </td>
