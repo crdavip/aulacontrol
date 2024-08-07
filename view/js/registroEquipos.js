@@ -1,5 +1,6 @@
 import { getDataHistory } from "../js/fetch.js";
 
+const envInputFilter = document.getElementById("envInputFilter");
 const numberInputFilter = document.getElementById("numberInputFilter");
 const dateInputFilter = document.getElementById("dateInputFilter");
 const selectPgLimit = document.getElementById("selectPgLimit");
@@ -134,6 +135,7 @@ pagination(dataHistory);
 const filterHistory = async () => {
   const number = numberInputFilter.value;
   const date = dateInputFilter.value;
+  const env = envInputFilter.value;
   let newDataHistory = dataHistory;
   if (number !== "") {
     newDataHistory = newDataHistory.filter((row) =>
@@ -141,13 +143,20 @@ const filterHistory = async () => {
     );
   }
   if (date !== "") {
-    newDataHistory = newDataHistory.filter((row) => row.fecha.includes(date));
+    newDataHistory = newDataHistory.filter((row) => row.inicio.includes(date));
+  }
+  if (env !== "") {
+    newDataHistory = newDataHistory.filter((device) =>
+      `${device.ambiente.toLowerCase()}`.includes(`${env.toLowerCase()}`)
+    );
   }
   pagination(newDataHistory);
   renderHistory(newDataHistory);
 };
+
 numberInputFilter.addEventListener("keyup", filterHistory);
 dateInputFilter.addEventListener("change", filterHistory);
+envInputFilter.addEventListener("keyup", filterHistory);
 
 selectPgLimit.addEventListener("change", () => {
   pgLimit = parseInt(selectPgLimit.value);
