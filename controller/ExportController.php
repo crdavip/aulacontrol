@@ -8,6 +8,7 @@ require_once '../model/equipos.php';
 require_once '../model/objetos.php';
 require_once '../model/registroObjetos.php';
 require_once '../model/registroAsistencia.php';
+require_once '../model/registroObservaciones.php';
 
 class ExportController
 {
@@ -23,7 +24,7 @@ class ExportController
         $startDatetime = $startDate;
         $endDatetime = $endDate;
 
-        if ($report !== "registroAsistencia") {
+        if ($report !== "registroAsistencia" || $report !== "registroObservaciones") {
             $startDatetime = "$startDate 00:00:00";
             $endDatetime = "$endDate 23:59:59";
         }
@@ -50,6 +51,32 @@ class ExportController
     {
         $classInstance = new RegistroAsistencia();
         $this->results = $classInstance->getGroupOfHistoryAssist($idSheet, $idInstructor);
+        if ($this->results == null) {
+            header('Location: ../not-found.php');
+            exit;
+        } else {
+            $this->prepareReportData($report);
+            $this->validateFormat($format);
+        }
+    }
+
+    public function exportRegObservations($startDate, $endDate, $stateObs, $typeObs, $exportBy, $format, $report)
+    {
+        $classInstance = new RegistroObservaciones();
+        switch ($exportBy) {
+            case 'dateStateType':
+                $this->results = $classInstance->getGroupOfHistoryByDateTypeState($startDate, $endDate, $stateObs, $typeObs);
+                break;
+            case 'type':
+                $this->results = $classInstance->getGroupOfHistoryByType($startDate, $endDate, $typeObs);
+                break;
+            case 'state':
+                $this->results = $classInstance->getGroupOfHistoryByState($startDate, $endDate, $stateObs);
+                break;
+            default:
+                $this->results = $classInstance->getGroupOfHistoryOnlyByDate($startDate, $endDate);
+                break;
+        }
         if ($this->results == null) {
             header('Location: ../not-found.php');
             exit;
@@ -184,6 +211,43 @@ class ExportController
                         $row['centro'],
                         $row['usuario'],
                         $row['documento']
+                    ];
+                }
+                break;
+            case "registroObservaciones":
+                $centerNumber = $this->results[0]['centro'];
+                $this->title = "Reporte de Observaciones";
+                $this->subtitle = "Reporte Observaciones del $centerNumber";
+
+                $this->headers = ['Registro', 'Observacion', 'Descripcion', 'Publicado', 'Estado', 'Tipo de Asunto', 'Usuario', 'Documento', 'Fecha Revision', 'Revisado Por', 'Documento quien Reviso'];
+                foreach ($this->results as $row) {
+                    $state = "";
+                    $checker = "";
+                    $docChecker = "";
+                    $dateChecking = "";
+                    if ($row['estado'] == 0) {
+                        $state = "PENDIENTE";
+                        $checker = "PENDIENTE";
+                        $docChecker = "PENDIENTE";
+                        $dateChecking = "PENDIENTE";
+                    } else {
+                        $state = "REVISADO";
+                        $checker = $row['nombreRevisor'];
+                        $docChecker = $row['docRevisor'];
+                        $dateChecking = $row['fechaRevision'];
+                    }
+                    $this->data[] = [
+                        $row['idRegistro'],
+                        $row['idObservacion'],
+                        $row['descripcion'],
+                        $row['fechaPublicacion'],
+                        $state,
+                        $row['tipoAsunto'],
+                        $row['usuario'],
+                        $row['documento'],
+                        $dateChecking,
+                        $checker,
+                        $docChecker,
                     ];
                 }
                 break;

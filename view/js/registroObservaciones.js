@@ -160,3 +160,8 @@ selectPgLimit.addEventListener("change", () => {
   pgLimit = parseInt(selectPgLimit.value);
   pagination(dataHistory);
 });
+
+ExportFormExcel(
+  "regObsExportFormExcel",
+  regObservacionesAPI,
+);
