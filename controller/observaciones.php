@@ -32,7 +32,8 @@ switch ($method) {
 
     } else {
       $user = $_SESSION['userId'];
-      if ($user == 1 || $user == 2) {
+      $role = $_SESSION['idRole'];
+      if ($role == 1 || $role == 4) {
         $observations->getObservations();
       } else {
         $observations->getObservationsUser($user);

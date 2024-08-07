@@ -1,10 +1,25 @@
 const docInputFilter = document.getElementById("docInputFilter");
 
+let unchecked = false;
+const validatorObsInformation = (data) => {
+  data.forEach(obs => {
+    if (obs.estado == 0) {
+      unchecked = true;
+    }
+  });
+}
+
 let objects = [];
 const loadRenderObservations = async () => {
   const data = await getData(observacionesAPI);
   objects = data;
-  renderObservations(objects);
+  validatorObsInformation(data);
+  if (unchecked) {
+    renderObservations(objects);
+  } else {
+    renderObservations([]);
+  }
+  console.log(data)
 }
 
 window.addEventListener("DOMContentLoaded", loadRenderObservations);
@@ -19,12 +34,16 @@ const userRolView = document.getElementById("userRolView")
 const createObservationCard = (observations) => {
   const fragment = document.createDocumentFragment();
   let filteredObs
-  if(userRolView.value == 3 || userRolView.value == 4){
-    filteredObs = observations.sort((a, b) => {
-      return a.estado === b.estado ? 0 : a.estado === 0 ? -1 : 1;
-    });
-  } else {
-    filteredObs = observations.filter((obs) => obs.estado == 0);
+  // if(userRolView.value == 3 || userRolView.value == 4){
+  //   filteredObs = observations.sort((a, b) => {
+  //     return a.estado === b.estado ? 0 : a.estado === 0 ? -1 : 1;
+  //   });
+  // } else {
+  //   filteredObs = observations.filter((obs) => obs.estado == 0);
+  // }
+  filteredObs = observations.filter((obs) => obs.estado == 0);
+  if (userRolView.value == 4) {
+    filteredObs = filteredObs.filter((obs) => obs.tipoAsunto == "EQUIPOS");
   }
   rowsForInput = filteredObs;
   filteredObs.forEach((obs) => {
@@ -68,8 +87,8 @@ const createObservationCard = (observations) => {
     // Btn Revision
     const cardUserObservationDivBtn = document.createElement("div");
     cardUserObservationDivBtn.classList.add("cardBodyTxt");
-    if (userRolView.value == 3 || userRolView == 4) {
-      if(obs.estado === 0){
+    if (userRolView.value == 2 || userRolView.value == 3) {
+      if (obs.estado === 0) {
         cardUserObservationDivBtn.innerHTML = `
           <p><i class="fa-regular fa-circle"></i>  Por revisar</p>
         `;
@@ -114,7 +133,11 @@ const renderObservations = async (data) => {
     row.appendChild(cards);
     initializeEventListeners();
   } else {
-    row.innerHTML = "No hay resultados para mostrar.";
+    if (userRolView.value == 2 || userRolView.value == 3) {
+      row.innerHTML = "<div></div><div><p>No hay resultados para mostrar.</p> <p>Recuerda: Si habias hecho una observación anteriormente y ya no puedes verla aquí, es porque ya se ha dado revisión y solución a tu solicitud. Si el objetivo de la observación no se ha resuelto intenta enviar otra observación o contacta directamente al soporte de TI del Centro.</p></div>";
+    } else {
+      row.innerHTML = "No hay resultados para mostrar.";
+    }
   }
 };
 
@@ -131,7 +154,9 @@ const filterUsers = () => {
   }
 };
 
-docInputFilter.addEventListener("keyup", filterUsers);
+if (userRolView.value == 1 || userRolView.value == 4) {
+  docInputFilter.addEventListener("keyup", filterUsers);
+}
 
 sendForm(
   "observationCreateForm",

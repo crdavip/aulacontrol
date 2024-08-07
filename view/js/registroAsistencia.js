@@ -184,7 +184,7 @@ const getHistory = async (history) => {
       <td data-title="Fecha">${row.fecha}</td>
       <td data-title="Ficha">${row.numeroFicha}</td>
       <td data-title="Accion" class="tdBool">
-        <button class="btnShowDetailsAssist" data-id-assist="${row.idAsistencia}">
+        <button class="btnShowDetailsAssist paginationBtn" data-id-assist="${row.idAsistencia}">
           <i class="fa-solid fa-chevron-down"></i>
         </button>
       </td>
@@ -194,7 +194,7 @@ const getHistory = async (history) => {
           <p><span>Asistieron: </span><strong>${row.presentes}</strong></p>
         </div>
         <div>
-          <h3>Aprendices</h3>
+          <h4>Aprendices:</h4>
           ${apprenticesHtml}
         </div>
       </div>

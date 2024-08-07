@@ -1,5 +1,5 @@
 <?php
-require_once('./model/sessions.php');
+require_once ('./model/sessions.php');
 if ($userIdRole !== 1 && $userIdRole !== 2 && $userIdRole !== 4) {
     header("Location: ./");
     exit();
@@ -10,9 +10,20 @@ $titlePgRight = '
     <div class="containerFilterPg">
         <label for="docInputFilter"><i class="fa-solid fa-magnifying-glass"></i></label>
         <input type="text" class="filterSearchPg" name="docInputFilter" id="docInputFilter" placeholder="Buscar Doc:" autocomplete="off">
-    </div>';
-include('./view/layout/header.php');
-include_once('./view/layout/titlePg.php');
+    </div>'
+;
+
+if ($userIdRole === 1) {
+    $titlePgRight .= '
+        <a onclick="openModal(`regObsExportExcel`)" class="btnUi btnUiAlt">
+            <i class="fa-solid fa-file-excel"></i>
+            <p>Exportar Excel</p>
+        </a>'
+    ;
+}
+
+include ('./view/layout/header.php');
+include_once ('./view/layout/titlePg.php');
 ?>
 
 <div class="rowFull">
@@ -48,6 +59,6 @@ include_once('./view/layout/titlePg.php');
 </div>
 
 <?php
-include_once('./view/layout/ambienteModal.php');
-include('./view/layout/footer.php');
+include_once ('./view/layout/observacionesModal.php');
+include ('./view/layout/footer.php');
 ?>

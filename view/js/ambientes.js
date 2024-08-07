@@ -25,7 +25,7 @@ const createRoomCard = (rooms) => {
     cardRoom.classList.add("card");
     const cardBody = document.createElement("div");
     cardBody.classList.add("cardBody", "cardBodyRoom");
-    if (userRolView == 1) {
+    if (userRolView == 1 || userRolView == 5) {
       const cardRoomMenu = document.createElement("a");
       cardRoomMenu.classList.add("cardRoomMenu");
       cardRoomMenu.innerHTML = '<i class="fa-solid fa-ellipsis"></i>';
@@ -35,14 +35,16 @@ const createRoomCard = (rooms) => {
       room.estado == "Disponible"
         ? (btnAssoc.innerHTML = '<i class="fa-solid fa-qrcode"></i>Vincular')
         : (btnAssoc.innerHTML =
-            '<i class="fa-solid fa-qrcode"></i>Desvincular');
+          '<i class="fa-solid fa-qrcode"></i>Desvincular');
       const btnEdit = document.createElement("a");
       btnEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>Editar';
       const btnDelete = document.createElement("a");
       btnDelete.innerHTML = '<i class="fa-solid fa-trash"></i>Eliminar';
       cardRoomMenuItems.appendChild(btnAssoc);
-      cardRoomMenuItems.appendChild(btnEdit);
-      cardRoomMenuItems.appendChild(btnDelete);
+      if (userRolView == 1) {
+        cardRoomMenuItems.appendChild(btnEdit);
+        cardRoomMenuItems.appendChild(btnDelete);
+      }
       cardBody.appendChild(cardRoomMenuItems);
       cardBody.appendChild(cardRoomMenu);
       dropDown(cardRoomMenu, cardRoomMenuItems);

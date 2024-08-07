@@ -1,6 +1,6 @@
 <?php
 require_once('./model/sessions.php');
-if ($userIdRole !== 1 && $userIdRole !== 2) {
+if ($userIdRole !== 1 && $userIdRole !== 2 && $userIdRole !== 5) {
     header("Location: ./");
     exit();
 }
@@ -14,7 +14,7 @@ $titlePgRight = '
     </div>';
 include('./view/layout/header.php');
 
-if ($userIdRole === 1 || $userIdRole === 2) {
+if ($userIdRole === 1 || $userIdRole === 2 || $userIdRole === 5) {
     $titlePgRight .= '
         <a onclick="openModal(`roomExportExcel`)" class="btnUi btnUiAlt">
             <i class="fa-solid fa-file-excel"></i>

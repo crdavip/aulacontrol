@@ -22,7 +22,7 @@ class RegistroObservaciones extends ConnPDO
             LEFT JOIN usuario AS r ON r.idUsuario = ro.idRevisador
             INNER JOIN centro AS ce ON ce.idCentro = ud.idCentro
             WHERE ce.idCentro = ?
-            ORDER BY ro.idRegistro DESC";
+            ORDER BY ro.estado, ro.idRegistro DESC";
 
     $stmt = $this->getConn()->prepare($sql);
     $stmt->execute([$_SESSION['idCenter']]);
@@ -30,20 +30,38 @@ class RegistroObservaciones extends ConnPDO
     echo json_encode($rows, JSON_UNESCAPED_UNICODE);
   }
 
-  function getObjectHistory($idObject)
+  function getGroupOfHistoryOnlyByDate($startDate, $endDate)
   {
-    $sql = "SELECT ro.idRegistro, ud.nombre AS usuario, ud.imagen, u.documento, o.idObjeto, o.descripcion, o.color, cent.siglas AS centro, ro.inicio, ro.fin FROM registro_objeto AS ro INNER JOIN objetos AS o ON o.idObjeto = ro.idObjeto INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN centro AS cent ON cent.idCentro = ro.idCentro WHERE ro.idObjeto = ? ORDER BY idRegistro AND fin IS NULL";
+    $sql = "SELECT ro.*, ud.nombre AS usuario, u.documento AS documento, rd.nombre AS nombreRevisor, r.documento AS docRevisor, o.*, c.detalle AS centro FROM registro_observaciones AS ro INNER JOIN observaciones AS o ON ro.idObservacion = o.idObservacion INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN centro AS c ON c.idCentro = ud.idCentro LEFT JOIN usuario_detalle AS rd ON rd.idUsuario = ro.idRevisador LEFT JOIN usuario AS r ON r.idUsuario = ro.idRevisador WHERE ro.fechaPublicacion >= ? AND fechaPublicacion <= ? ORDER BY ro.estado, ro.idRegistro DESC";
     $stmt = $this->getConn()->prepare($sql);
-    $stmt->execute([$idObject]);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    echo json_encode($row);
+    $stmt->execute([$startDate, $endDate]);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $rows;
   }
 
-  function getGroupOfHistory($idCenter, $startDateTime, $endDateTime)
+  function getGroupOfHistoryByState($startDate, $endDate, $state)
   {
-    $sql = "SELECT ro.*, c.siglas AS centro, ud.nombre AS usuario, u.documento AS documento, o.descripcion, o.color FROM registro_objeto AS ro INNER JOIN objetos AS o ON ro.idObjeto = o.idObjeto INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN centro AS c ON c.idCentro = c.idCentro INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario WHERE c.idCentro = ? AND inicio >= ? AND fin <= ? ORDER BY ro.idRegistro DESC";
+    $sql = "SELECT ro.*, ud.nombre AS usuario, u.documento AS documento, rd.nombre AS nombreRevisor, r.documento AS docRevisor, o.*, c.detalle AS centro FROM registro_observaciones AS ro INNER JOIN observaciones AS o ON ro.idObservacion = o.idObservacion INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN centro AS c ON c.idCentro = ud.idCentro LEFT JOIN usuario_detalle AS rd ON rd.idUsuario = ro.idRevisador LEFT JOIN usuario AS r ON r.idUsuario = ro.idRevisador WHERE ro.fechaPublicacion >= ? AND fechaPublicacion <= ? AND ro.estado = ? ORDER BY ro.idRegistro DESC";
     $stmt = $this->getConn()->prepare($sql);
-    $stmt->execute([$idCenter, $startDateTime, $endDateTime]);
+    $stmt->execute([$startDate, $endDate, $state]);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $rows;
+  }
+
+  function getGroupOfHistoryByType($startDate, $endDate, $typeObs)
+  {
+    $sql = "SELECT ro.*, ud.nombre AS usuario, u.documento AS documento, rd.nombre AS nombreRevisor, r.documento AS docRevisor, o.*, c.detalle AS centro FROM registro_observaciones AS ro INNER JOIN observaciones AS o ON ro.idObservacion = o.idObservacion INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN centro AS c ON c.idCentro = ud.idCentro LEFT JOIN usuario_detalle AS rd ON rd.idUsuario = ro.idRevisador LEFT JOIN usuario AS r ON r.idUsuario = ro.idRevisador WHERE ro.fechaPublicacion >= ? AND fechaPublicacion <= ? AND o.tipoAsunto = ? ORDER BY ro.estado, ro.idRegistro DESC";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$startDate, $endDate, $typeObs]);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $rows;
+  }
+
+  function getGroupOfHistoryByDateTypeState($startDate, $endDate, $state, $typeObs)
+  {
+    $sql = "SELECT ro.*, ud.nombre AS usuario, u.documento AS documento, rd.nombre AS nombreRevisor, r.documento AS docRevisor, o.*, c.detalle AS centro FROM registro_observaciones AS ro INNER JOIN observaciones AS o ON ro.idObservacion = o.idObservacion INNER JOIN usuario_detalle AS ud ON ud.idUsuario = o.idUsuario INNER JOIN usuario AS u ON u.idUsuario = o.idUsuario INNER JOIN centro AS c ON c.idCentro = ud.idCentro LEFT JOIN usuario_detalle AS rd ON rd.idUsuario = ro.idRevisador LEFT JOIN usuario AS r ON r.idUsuario = ro.idRevisador WHERE ro.fechaPublicacion >= ? AND fechaPublicacion <= ? AND o.tipoAsunto = ? AND ro.estado = ? ORDER BY ro.idRegistro DESC";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$startDate, $endDate, $typeObs, $state]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $rows;
   }
@@ -61,12 +79,15 @@ class RegistroObservaciones extends ConnPDO
     }
   }
 
+
+
   function updateObservationHistory($idUser, $idObs)
   {
     try {
-      $sql = "UPDATE registro_observaciones SET fechaRevision = CURDATE(), estado = 1, idRevisador = ? WHERE idObservacion = ?";
+      $date = date('Y-m-d');
+      $sql = "UPDATE registro_observaciones SET fechaRevision = ?, estado = 1, idRevisador = ? WHERE idObservacion = ?";
       $stmt = $this->getConn()->prepare($sql);
-      $stmt->execute([$idUser, $idObs]);
+      $stmt->execute([$date, $idUser, $idObs]);
 
       $icon = $this->functions->getIcon('OK');
       echo json_encode(['success' => true, 'message' => "$icon Observacion marcada como revisada."]);

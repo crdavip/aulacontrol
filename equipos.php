@@ -8,6 +8,8 @@ $titlePg = 'Equipos';
 $titlePgIcon = 'fa-solid fa-desktop icon';
 $titlePgRight = '
     <div class="containerFilterPg">
+        <label for="envInputFilter"><i class="fa-solid fa-magnifying-glass"></i></label>
+        <input type="text" class="filterSearchPg" name="envInputFilter" id="envInputFilter" placeholder="Ambiente:" autocomplete="off">
         <label for="numberInputFilter"><i class="fa-solid fa-magnifying-glass"></i></label>
         <input type="text" class="filterSearchPg" name="numberInputFilter" id="numberInputFilter" placeholder="Buscar Ref:" autocomplete="off">
         <select class="filterSelectPg" id="statusSelectFilter">
