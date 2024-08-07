@@ -55,7 +55,7 @@ if (!isset($userId)) {
                             <span class="text navText">Panel</span>
                         </a>
                     </li>
-                    <?php if ($userIdRole == 1 || $userIdRole == 2) { ?>
+                    <?php if ($userIdRole == 1 || $userIdRole == 2 || $userIdRole == 5) { ?>
                         <li class="navLink">
                             <a href="./ambientes">
                                 <i class="fa-solid fa-kaaba icon"></i>
