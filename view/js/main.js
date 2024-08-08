@@ -366,6 +366,7 @@ const centrosAPI = `./controller/centros`;
 const cargosAPI = `./controller/cargos`;
 const usuariosAPI = `./controller/usuarios`;
 const importUsuariosAPI = `./controller/importarUsuarios`;
+const importEquiposAPI = `./controller/importarEquipos`;
 const fichasAPI = `./controller/fichas`;
 const equiposAPI = `./controller/equipos`;
 const regEquiposAPI = `./controller/registroEquipos`;
