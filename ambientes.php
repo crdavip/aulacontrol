@@ -17,6 +17,10 @@ $titlePgRight = '
 include('./view/layout/header.php');
 if ($userIdRole === 1 || $userIdRole === 2 || $userIdRole == 5) {
     $titlePgRight .= '
+        <a id="btnExportExcel" onclick="" class="btnUi btnUiAlt">
+            <i class="fa-solid fa-file-excel"></i>
+            <p>Exportar Excel</p>
+        </a>
         <a href="./registro-ambientes" class="btnUi btnUiAlt">
             <i class="fas fa-clipboard-list"></i>
             <p>Ver Registros</p>

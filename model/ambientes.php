@@ -105,4 +105,17 @@ class Ambientes extends ConnPDO
       echo json_encode(['success' => false, 'message' => "$icon El ambiente tiene una vinculación activa"]);
     }
   }
+
+  function getAmbsExport()
+  {
+    $sql = "SELECT a.*, c.detalle AS centro
+          FROM ambiente AS a
+          INNER JOIN centro AS c ON a.idCentro = c.idCentro
+          WHERE a.idCentro = ?
+          ORDER BY a.idAmbiente DESC";
+    $stmt = $this->getConn()->prepare($sql);
+    $stmt->execute([$_SESSION['idCenter']]);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $rows;
+  }
 }
