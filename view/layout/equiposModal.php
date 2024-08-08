@@ -217,6 +217,29 @@
     </div>
 </section>
 
+<!-- Modal Import -->
+<section class="modal" id="deviceImport">
+    <div class="containerModal">
+        <button class="closeModal"><i class="fa-solid fa-xmark"></i></button>
+        <div class="titlePg">
+            <i class="fa-solid fa-file-csv"></i>
+            <h1>Importar Equipos</h1>
+        </div>
+        <form id="deviceImportForm" action="" class="form" enctype="multipart/form-data">
+            <p class="modalTxt">Recuerde revisar la guía y usar la plantilla recomendada para importar equipos.</p>
+            <div class="containerLinks">
+                <a href="./view/docs/guiaEquipos.pdf" target="_blank" class="modalLink"><i class="fa-solid fa-book"></i> Ver Guía</a>
+                <a href="./view/docs/plantillaEquipos.csv" class="modalLink"><i class="fa-solid fa-download"></i> Descargar Plantilla</a>
+            </div>
+            <input  type="file" name="dataDevices" id="dataDevices" accept="text/csv"/>
+            <div class="buttonGroup">
+                <button id="uploaddataDevices" class="btn" type="submit"><i class="fa-solid fa-file-arrow-up"></i> Cargar</button>
+            </div>
+        </form>
+        <p id="messageImport" class="message"></p>
+    </div>
+</section>
+
 <!-- Modal ViewQR -->
 <section class="modal" id="deviceViewQr">
     <div class="containerModal">

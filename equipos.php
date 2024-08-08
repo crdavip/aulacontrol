@@ -34,6 +34,10 @@ if ($userIdRole === 1 || $userIdRole === 2) {
 }
 if ($userIdRole === 1) {
     $titlePgRight .= '
+    <a onclick="openModal(`deviceImport`)" class="btnUi">
+        <i class="fa-solid fa-file-csv"></i>
+        <p>Importar CSV</p>
+    </a>
     <a onclick="openModal(`createDevice`)" id="createDeviceBtn" class="btnUi">
         <i class="fa-solid fa-square-plus"></i>
         <p>Nuevo Equipo</p>

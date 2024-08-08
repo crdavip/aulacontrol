@@ -76,6 +76,14 @@ class Equipos extends ConnPDO
     echo json_encode($devices);
   }
 
+  function getRefCount($ref)
+  {
+    $sqlCheck = ("SELECT ref FROM computador WHERE ref=? ");
+    $stmtCheck = $this->getConn()->prepare($sqlCheck);
+    $stmtCheck->execute([$ref]);
+    return $stmtCheck->rowCount();
+  }
+
   function getDevicesExport($idAmbiente) {
     $sql = "SELECT c.idComputador, c.ref, c.marca, c.estado, a.numero AS ambiente FROM computador AS c INNER JOIN ambiente AS a ON a.idAmbiente = c.idAmbiente WHERE c.idAmbiente = ? ORDER BY c.ref DESC";
     $stmt = $this->getConn()->prepare($sql);
@@ -107,6 +115,28 @@ class Equipos extends ConnPDO
     } else {
       $icon = $this->functions->getIcon('Err');
       echo json_encode(['success' => false, 'message' => "$icon Error al actualizar el equipo"]);
+    }
+  }
+
+  function createDevicesImport($reference, $brand, $stateDevice, $imageQr, $room)
+  {
+    $sql = "INSERT INTO computador (ref, marca, estado, imagenQr, idAmbiente) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $this->getConn()->prepare($sql);
+    if ($stmt->execute([$reference, $brand, $stateDevice, $imageQr, $room])) {
+      $_SESSION['success'] = true;
+    } else {
+      $_SESSION['success'] = false;
+    }
+  }
+
+  function editDevicesImport($ref, $brand, $idRoom)
+  {
+    $sql = "UPDATE computador SET ref=?, marca=?, idAmbiente=? WHERE ref=?";
+    $stmt = $this->getConn()->prepare($sql);
+    if ($stmt->execute([$ref, $brand, $idRoom, $ref])) {
+      $_SESSION['success'] = true;
+    } else {
+      $_SESSION['success'] = false;
     }
   }
 

@@ -339,3 +339,21 @@ const filterDoc = async (doc) => {
     showMessage("messageDeviceAssoc", "messageErr", data.message, "", 2000);
   }
 };
+
+const deviceImportForm = document.getElementById("deviceImportForm");
+deviceImportForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const formData = new FormData(deviceImportForm);
+  const res = await fetch(importEquiposAPI, {
+    method: "POST",
+    body: formData,
+  });
+  const data = await res.json();
+  if (data.success == true) {
+    updateRenderDevices();
+    deviceImportForm.reset();
+    showMessage("messageImport", "messageOK", data.message, "deviceImport", 1500);
+  } else {
+    showMessage("messageImport", "messageErr", data.message, "", 1500);
+  }
+});

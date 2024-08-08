@@ -22,6 +22,10 @@ if ($userIdRole === 1 || $userIdRole === 4) {
         <i class="fas fa-clipboard-list"></i>
         <p>Ver Registros</p>
     </a>
+    <a onclick="openModal(`deviceImport`)" class="btnUi">
+        <i class="fa-solid fa-file-csv"></i>
+        <p>Importar CSV</p>
+    </a>
     <a onclick="openModal(`createDevice`)" id="createDeviceBtn" class="btnUi">
         <i class="fa-solid fa-square-plus"></i>
         <p>Nuevo Equipo</p>
