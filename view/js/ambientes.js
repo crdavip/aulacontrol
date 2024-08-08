@@ -254,3 +254,7 @@ const filterDoc = async (doc) => {
     showMessage("messageRoomAssoc", "messageErr", data.message, "", 2000);
   }
 };
+
+document.getElementById('btnExportExcel').addEventListener('click', () => {
+  exportToExcel(ambientesAPI);
+});

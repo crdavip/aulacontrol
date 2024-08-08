@@ -155,23 +155,23 @@ sendForm(
   1500
 );
 
-  const userImportForm = document.getElementById("userImportForm");
-  userImportForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const formData = new FormData(userImportForm);
-    const res = await fetch(importUsuariosAPI, {
-      method: "POST",
-      body: formData,
-    });
-    const data = await res.json();
-    if (data.success == true) {
-      updateRenderUsers();
-      userImportForm.reset();
-      showMessage("messageImport", "messageOK", data.message, "userImport", 1500);
-    } else {
-      showMessage("messageImport", "messageErr", data.message, "", 1500);
-    }
+const userImportForm = document.getElementById("userImportForm");
+userImportForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const formData = new FormData(userImportForm);
+  const res = await fetch(importUsuariosAPI, {
+    method: "POST",
+    body: formData,
   });
+  const data = await res.json();
+  if (data.success == true) {
+    updateRenderUsers();
+    userImportForm.reset();
+    showMessage("messageImport", "messageOK", data.message, "userImport", 1500);
+  } else {
+    showMessage("messageImport", "messageErr", data.message, "", 1500);
+  }
+});
 
 // Asignar eventos a los botones
 document.getElementById('btnExportPdf').addEventListener('click', () => {
