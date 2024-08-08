@@ -228,7 +228,7 @@
         <form id="deviceImportForm" action="" class="form" enctype="multipart/form-data">
             <p class="modalTxt">Recuerde revisar la guía y usar la plantilla recomendada para importar equipos.</p>
             <div class="containerLinks">
-                <a href="./view/docs/guiaUsuarios.pdf" target="_blank" class="modalLink"><i class="fa-solid fa-book"></i> Ver Guía</a>
+                <a href="./view/docs/guiaEquipos.pdf" target="_blank" class="modalLink"><i class="fa-solid fa-book"></i> Ver Guía</a>
                 <a href="./view/docs/plantillaEquipos.csv" class="modalLink"><i class="fa-solid fa-download"></i> Descargar Plantilla</a>
             </div>
             <input  type="file" name="dataDevices" id="dataDevices" accept="text/csv"/>
