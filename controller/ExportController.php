@@ -2,6 +2,7 @@
 require_once '../model/ExportExcel.php';
 require_once '../model/ExportPDF.php';
 require_once '../model/registroAmbientes.php';
+require_once '../model/ambientes.php';
 require_once '../model/usuarios.php';
 require_once '../model/registroEquipos.php';
 require_once '../model/equipos.php';
@@ -105,6 +106,10 @@ class ExportController
                     $this->results = $classInstance->getDevicesExport($idItem);
                     break;
                 }
+            case 'ambientes':
+                $classInstance = new Ambientes();
+                $this->results = $classInstance->getAmbsExport();
+                break;
             default:
                 $classInstance = null;
                 break;
@@ -263,6 +268,19 @@ class ExportController
                         $row['estado'],
                         $row['correo'],
                         $row['cargo']
+                    ];
+                }
+                break;
+            case "ambientes":
+                $this->title = "Reporte Ambientes";
+                $this->subtitle = "Ambientes del ". $_SESSION['center'];
+
+                $this->headers = ['Id Ambiente', 'Numero', 'Estado'];
+                foreach ($this->results as $row) {
+                    $this->data[] = [
+                        $row['idAmbiente'],
+                        $row['numero'],
+                        $row['estado']
                     ];
                 }
                 break;

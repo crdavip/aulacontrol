@@ -2,7 +2,9 @@
 require_once ('../model/sessions.php');
 require_once ('./funciones.php');
 require_once ('../model/ambientes.php');
+require_once('./ExportController.php');
 
+$exportController = new ExportController();
 $rooms = new Ambientes();
 $functions = new Funciones();
 
@@ -25,8 +27,18 @@ switch ($method) {
               echo json_encode(['success' => false, 'message' => "$icon Parece que ocurrió un error."]);
               exit;
             }
-    
-          } else {
+        } elseif (isset($_GET['format'])) {
+            $format = $_GET['format'];
+
+            if ($format === "excel") {
+                $exportController->simpleExport($format, "ambientes");
+            } elseif ($format === "pdf") {
+                $exportController->simpleExport($format, "ambientes");
+            } else {
+                $icon = $functions->getIcon('Err');
+                echo json_encode(['success' => false, 'message' => "$icon No es un formato válido."]);
+            }
+        } else {
             $rooms->getRooms();
         }
         break;
