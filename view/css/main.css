@@ -768,7 +768,7 @@ a {
 
 .inputGroup p {
   color: var(--gris-oscuro);
-  line-height: 1.25rem;
+  line-height: 1.15rem;
   text-align: center;
 
   & > span {
@@ -786,7 +786,7 @@ a {
   background: transparent;
   color: var(--gris-oscuro);
   padding: 0.8rem 0 0 1.25rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
 }
 
@@ -815,9 +815,9 @@ a {
   position: absolute;
   top: 0;
   left: 0;
-  transform: translate(1.25rem, 40%);
+  transform: translate(1.25rem, 55%);
   color: var(--gris-oscuro);
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .inputGroupLabelFile {
@@ -1028,7 +1028,7 @@ a {
 
 .form {
   display: grid;
-  gap: 1em;
+  gap: 0.5em;
   width: 80%;
 }
 
@@ -1151,6 +1151,7 @@ a {
   padding: 0.5em 0;
   margin-bottom: 1rem;
   border-bottom: 2px solid var(--primario);
+  gap: 12px;
 
   & h1 {
     font-size: 2rem;
@@ -1373,6 +1374,7 @@ a {
 
 .cardBodyTxt .cardUserH3 {
   font-size: 1.5rem;
+  margin-bottom: 8px;
 }
 
 .btnUi {

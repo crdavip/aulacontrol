@@ -173,7 +173,7 @@ const createDataSheetCard = (dataSheets) => {
       cardMenuItems.appendChild(btnAssistance);
       if (userRolView != 2) {
         cardMenuItems.appendChild(btnEdit);
-        cardMenuItems.appendChild(btnDelete); 
+        cardMenuItems.appendChild(btnDelete);
       }
       cardTop.appendChild(cardMenuItems);
       cardTop.appendChild(cardMenu);
@@ -251,7 +251,7 @@ const filterDataSheets = () => {
   if (number !== "") {
     newDataSheets = newDataSheets.filter((dataSheet) =>
       `${dataSheet.ficha}`.includes(`${number}`)
-  );
+    );
   }
   renderDataSheets(newDataSheets);
 };
@@ -270,7 +270,8 @@ const getDataOfSheetList = async () => {
     results.forEach(result => {
       const div = document.createElement('div');
       div.classList.add("divCardSearchTrainee")
-      div.innerHTML = `
+      if (userRolView == 1) {
+        div.innerHTML = `
           <div>
             <img class="imgTrainee" src=${result.imagen} with="50" heigh="50"  alt="">
             <div>
@@ -279,7 +280,18 @@ const getDataOfSheetList = async () => {
             </div>
           </div>
           <button id="btnOpenModalRemove" onclick="openRemoveModal(this)" data-id-trainee="${result.idAprendices}" data-id-sheet="${result.idFicha}" class="btnDelete"><i class="fa-regular fa-trash-can"></i></button>
-            `;
+      `;
+      } else if (userRolView == 2) {
+        div.innerHTML = `
+          <div>
+            <img class="imgTrainee" src=${result.imagen} with="50" heigh="50"  alt="">
+            <div>
+              <span class="nameTrainee">${result.nombre}</span>
+              <span>${result.documento}</span>
+            </div>
+          </div>
+        `;
+      }
       resultsListSearchDiv.appendChild(div);
     });
 
@@ -298,16 +310,28 @@ searchListTraineesInput.addEventListener('keyup', async function () {
     results.forEach(result => {
       const div = document.createElement('div');
       div.classList.add("divCardSearchTrainee");
-      div.innerHTML = `
+      if(userRolView == 1){
+        div.innerHTML = `
         <div>
           <img class="imgTrainee" src=${result.imagen} alt="">
           <div>
-            <span>${result.nombre}</span>
+            <span class="nameTrainee">${result.nombre}</span>
             <span>${result.documento}</span>
           </div>
         </div>
-        <button id="btnOpenModalRemove" onclick="openRemoveModal(this)" data-id-trainee="${result.idAprendices}" data-id-sheet="${result.idFicha}" class="btn btnAlt"><i class="fa-regular fa-trash-can"></i></button>
-          `;
+        <button id="btnOpenModalRemove" onclick="openRemoveModal(this)" data-id-trainee="${result.idAprendices}" data-id-sheet="${result.idFicha}" class="btnDelete"><i class="fa-regular fa-trash-can"></i></button>
+      `;
+      } else if (userRolView == 2){
+        div.innerHTML = `
+        <div>
+          <img class="imgTrainee" src=${result.imagen} alt="">
+          <div>
+            <span class="nameTrainee">${result.nombre}</span>
+            <span>${result.documento}</span>
+          </div>
+        </div>
+      `;
+      }
       resultsListSearchDiv.appendChild(div);
     });
   } else {
