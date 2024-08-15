@@ -66,6 +66,7 @@ class RegistroAsistencia extends ConnPDO
       LEFT JOIN usuario iu ON i.idUsuario = iu.idUsuario
       WHERE am.idCentro = ? AND a.idFicha = ?
       GROUP BY a.idAsistencia, f.ficha, f.aprendices, i.nombre, iu.documento
+      ORDER BY a.fecha DESC
     ";
     $stmt = $this->getConn()->prepare($sql);
     $stmt->execute([$center, $sheet]);
@@ -104,7 +105,7 @@ class RegistroAsistencia extends ConnPDO
     echo json_encode($regsAssist, JSON_UNESCAPED_UNICODE);
   }
 
-  public function getGroupOfHistoryAssist($idSheet, $idInstructor) {
+  public function getGroupOfHistoryAssist($idSheet) {
     $sql = "SELECT 
       a.*,
       ra.idRegistro, 
@@ -127,11 +128,12 @@ class RegistroAsistencia extends ConnPDO
       JOIN ambiente am ON a.idAmbiente = am.idAmbiente 
       LEFT JOIN usuario_detalle i ON a.idInstructor = i.idUsuario
       LEFT JOIN usuario iu ON i.idUsuario = iu.idUsuario
-      WHERE a.idFicha = ? AND a.idInstructor = ? 
+      WHERE a.idFicha = ?
       GROUP BY a.idAsistencia, f.ficha, f.aprendices, i.nombre, iu.documento
+      ORDER BY a.fecha DESC
     ";
     $stmt = $this->getConn()->prepare($sql);
-    $stmt->execute([$idSheet, $idInstructor]);
+    $stmt->execute([$idSheet]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $rows;
   }
