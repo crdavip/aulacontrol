@@ -51,7 +51,6 @@ switch ($method) {
       }
       $regAssistance->getAllRegsByCenterAndSheet($center, $sheet);
     } else {
-      // ! No se usa -------------------------------->
       $centerDetail = $_SESSION['center'];
       $center;
       if ($centerDetail === "Centro del Diseño y Manufactura del Cuero") {

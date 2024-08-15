@@ -35,7 +35,6 @@ class ExportController
             exit;
         } else {
             $classInstance = $this->classSelector($report);
-            print ($this->results);
             $this->results = $classInstance->getGroupOfHistory($selectedItem, $startDatetime, $endDatetime);
         }
 
@@ -51,7 +50,7 @@ class ExportController
     public function exportRegAsist($idInstructor, $idSheet, $report, $format)
     {
         $classInstance = new RegistroAsistencia();
-        $this->results = $classInstance->getGroupOfHistoryAssist($idSheet, $idInstructor);
+        $this->results = $classInstance->getGroupOfHistoryAssist($idSheet);
         if ($this->results == null) {
             header('Location: ../not-found.php');
             exit;

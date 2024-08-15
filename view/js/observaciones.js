@@ -87,7 +87,7 @@ const createObservationCard = (observations) => {
     // Btn Revision
     const cardUserObservationDivBtn = document.createElement("div");
     cardUserObservationDivBtn.classList.add("cardBodyTxt");
-    if (userRolView.value == 2 || userRolView.value == 3) {
+    if (userRolView.value == 2 || userRolView.value == 3 || userRolView.value == 5) {
       if (obs.estado === 0) {
         cardUserObservationDivBtn.innerHTML = `
           <p><i class="fa-regular fa-circle"></i>  Por revisar</p>
@@ -133,7 +133,7 @@ const renderObservations = async (data) => {
     row.appendChild(cards);
     initializeEventListeners();
   } else {
-    if (userRolView.value == 2 || userRolView.value == 3) {
+    if (userRolView.value == 2 || userRolView.value == 3 || userRolView == 5) {
       row.innerHTML = "<div></div><div><p>No hay resultados para mostrar.</p> <p>Recuerda: Si habias hecho una observación anteriormente y ya no puedes verla aquí, es porque ya se ha dado revisión y solución a tu solicitud. Si el objetivo de la observación no se ha resuelto intenta enviar otra observación o contacta directamente al soporte de TI del Centro.</p></div>";
     } else {
       row.innerHTML = "No hay resultados para mostrar.";

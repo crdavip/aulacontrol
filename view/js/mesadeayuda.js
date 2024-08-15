@@ -70,7 +70,7 @@ const createDeviceCard  = (devices) => {
     cardDevice.classList.add("card");
     const cardTop = document.createElement("div");
     cardTop.classList.add("cardTop");
-    if (userRolView == 1) {
+    if (userRolView == 1 || userRolView == 4) {
       const cardMenu = document.createElement("a");
       cardMenu.classList.add("cardMenu");
       cardMenu.innerHTML = '<i class="fa-solid fa-ellipsis"></i>';

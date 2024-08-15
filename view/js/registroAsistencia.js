@@ -21,6 +21,7 @@ selectPgLimit.addEventListener("change", () => {
 });
 pgLimit = parseInt(selectPgLimit.value);
 
+
 const getDataHistory = async (API) => {
   const res = await fetch(`${API}`);
   const data = await res.json();
@@ -36,8 +37,6 @@ const initializeDataHistory = async () => {
   pages = Math.ceil(dataHistory.length / pgLimit);
   history = await dataHistory.slice(pgFrom, pgLimit);
 
-  // pagination(dataHistory);
-  // Aquí puedes continuar con la lógica que depende de dataHistory
   pagination(dataHistory);
 }
 
@@ -55,99 +54,20 @@ const roomUpdate = document.getElementById("selectedRoom");
 const searchAssistanceTraineesInput = document.getElementById("traineesAssistanceSearch");
 const resultsAssistanceSearchDiv = document.getElementById("resultsTraineesAssistanceSearch");
 let allTraineesAssist = [];
+let logOfTraineesPerSheet = [];
 let filteredTraineesAssist = [];
 let selectedTraineesAssist = new Set();
 let idSheetAssistance;
 
-const loadAllTrainees = async () => {
+const loadTraineesSheet = async (sheet) => {
   try {
-    const responseAssist = await fetch(`${aprendicesAPI}.php?paramSheet=${idSheetAssistance}`);
+    const responseAssist = await fetch(`${aprendicesAPI}.php?paramSheet=${sheet}`);
     const traineesAssist = await responseAssist.json();
-    allTraineesAssist = traineesAssist;
-    filteredTraineesAssist = traineesAssist;
-    renderTrainees(resultsAssistanceSearchDiv, selectedTraineesAssist, filteredTraineesAssist, allTraineesAssist, "assist");
+    return traineesAssist;
   } catch (error) {
     console.error('Error al cargar los aprendices:', error);
   }
 };
-
-const renderTrainees = (divOfRender, selectedTrainees, filteredTrainees, allTrainees, render) => {
-  divOfRender.innerHTML = '';
-  const traineesToRender = filteredTrainees.filter(trainee => !selectedTrainees.has(trainee.idUsuario));
-  if (allTrainees.length === 0) {
-    divOfRender.innerHTML = '<p>Ningún aprendiz asociado.</p>';
-  }
-
-  traineesToRender.forEach(trainee => {
-    const div = document.createElement('div');
-    div.classList.add("divCardSearchTrainee");
-    div.innerHTML = `
-      <div>
-        <img src="${trainee.imagen}" width="50" height="50" alt="">
-        <div>
-          <span>${trainee.nombre}</span>
-          <span>${trainee.documento}</span>
-        </div>
-      </div>
-      <button onclick="toggleSelection(${trainee.idUsuario}, 'assist')">
-        <i class="fa-solid ${selectedTrainees.has(trainee.idUsuario) ? 'fa-minus' : 'fa-plus'}"></i>
-      </button>
-    `;
-    divOfRender.appendChild(div);
-  });
-
-  selectedTrainees.forEach(id => {
-    const trainee = allTrainees.find(t => t.idUsuario === id);
-    if (trainee) {
-      const div = document.createElement('div');
-      div.classList.add("divCardSearchTrainee");
-      div.innerHTML = `
-        <div>
-          <img src="${trainee.imagen}" width="50" height="50" alt="">
-          <div>
-            <span>${trainee.nombre}</span>
-            <span>${trainee.documento}</span>
-          </div>
-        </div>
-        <button onclick="toggleSelection(${trainee.idUsuario}, 'assist')">
-          <i class="fa-solid fa-minus"></i>
-        </button>
-      `;
-      divOfRender.appendChild(div);
-    }
-  });
-};
-
-const filterTrainees = (filteredTrainees, allTrainees, divOfRender, selectedTrainees, render) => {
-  const query = render === "add" ? searchAddTraineesInput.value : searchAssistanceTraineesInput.value;
-  filteredTrainees = allTrainees.filter(trainee => {
-    const documentStr = trainee.documento.toString();
-    return documentStr.startsWith(query);
-  }
-  );
-  renderTrainees(divOfRender, selectedTrainees, filteredTrainees, allTrainees, render);
-};
-
-toggleSelection = (id, render) => {
-  if (render == "add") {
-    if (selectedTraineesAdd.has(id)) {
-      selectedTraineesAdd.delete(id);
-    } else {
-      selectedTraineesAdd.add(id);
-    }
-    renderTrainees(resultsAndSelectedContainer, selectedTraineesAdd, filteredTraineesAdd, allTraineesAdd, render);
-  } else {
-    if (selectedTraineesAssist.has(id)) {
-      selectedTraineesAssist.delete(id);
-    } else {
-      selectedTraineesAssist.add(id);
-    }
-    renderTrainees(resultsAssistanceSearchDiv, selectedTraineesAssist, filteredTraineesAssist, allTraineesAssist, render);
-  }
-};
-
-searchAssistanceTraineesInput.addEventListener('keyup', () => filterTrainees(filteredTraineesAssist, allTraineesAssist, resultsAssistanceSearchDiv, selectedTraineesAssist, "assist"));
-// #################### FIN  ASISTENCIA #####################3
 
 const getDataAmbs = async () => {
   const dataAmbientes = await getData(ambientesAPI);
@@ -157,21 +77,24 @@ const getDataAmbs = async () => {
     return `<option value="${room.idAmbiente}">${room.numero}</option>`;
   }).join("");
 
-  // roomPdf.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
-  // roomExcel.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
   roomUpdate.innerHTML = `<option value="">Seleccione un Ambiente</option>` + contentSelectTagRooms;
 }
 
 const getHistory = async (history) => {
   tableBody.innerHTML = "";
   history.forEach((row) => {
-    const docs = row.docUsuarios.split(',');
+    const docs = row.docUsuarios.split(',').map(doc => doc.trim());
     const names = row.nombresUsuarios.split(',');
+    let missingTrainees = [];
+    logOfTraineesPerSheet[0].forEach((trainee) => {
+      const traineeInDocs = docs.includes(trainee.documento.toString());
+      if (!traineeInDocs) {
+        missingTrainees.push(trainee);
+      }
+    });
 
-    // Construir el contenido para los aprendices
-    const apprenticesHtml = docs.map((doc, index) => {
-      const name = names[index] || '';
-      return `<p><span>Documento: </span><strong>${doc}</strong> - <span>Nombre: </span><strong>${name}</strong></p>`;
+    const apprenticesHtml = missingTrainees.map((trainee) => {
+      return `<p><span>Documento: </span><strong>${trainee.documento}</strong> - <span>Nombre: </span><strong>${trainee.nombre}</strong></p>`;
     }).join('');
 
     tableBody.innerHTML += `
@@ -193,10 +116,13 @@ const getHistory = async (history) => {
           <p><span>Total de aprendices: </span><strong>${row.totalAprendices}</strong></p>    
           <p><span>Asistieron: </span><strong>${row.presentes}</strong></p>
         </div>
-        <div>
-          <h4>Aprendices:</h4>
+        ${logOfTraineesPerSheet[0].length == docs.length
+        ? `<div></div>`
+        : `<div>
+          <h4>No asistieron a formación</h4>
           ${apprenticesHtml}
-        </div>
+          </div>`
+      }
       </div>
     </tr>
     `;
@@ -234,9 +160,15 @@ const getHistory = async (history) => {
   });
 };
 
-const renderHistory = (history) => {
+const renderHistory = async (history) => {
   if (history.length > 0) {
     tableBody.innerHTML = "";
+    const restoredTrainees = await loadTraineesSheet(history[0].idFicha);
+    if (restoredTrainees && restoredTrainees.length > 0 && restoredTrainees[0].idFicha) {
+      logOfTraineesPerSheet.push(restoredTrainees);
+    } else {
+      tableBody.innerHTML = "Parece que no existen aprendices en la ficha...";
+    }
     getHistory(history);
     getDataAmbs();
   } else {
@@ -246,6 +178,7 @@ const renderHistory = (history) => {
 
 const updateDataHistory = () => {
   history = dataHistory.slice(pgFrom, pgLimit * pgActive);
+
   renderHistory(history);
 }
 
@@ -313,11 +246,6 @@ ExportFormExcel(
   "regAssistExportFormExcel",
   regAsistenciaAPI,
 );
-
-// ExportFormPdf(
-//   "regAssistExportFormPdf",
-//   regAsistenciaAPI,
-// );
 
 sendForm(
   "regAssistEditForm",

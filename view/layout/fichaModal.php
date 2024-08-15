@@ -1,3 +1,5 @@
+<?php require_once ('./model/sessions.php'); ?>
+
 <!-- Modal Create -->
 <section class="modal" id="dataSheetCreate">
     <div class="containerModal">
@@ -97,15 +99,17 @@
         </div>
         <div class="form">
             <div class="inputGroup">
-                    <input class="inputGroupInput" type="number" name="traineesAssistanceSearch" id="traineesAssistanceSearch"
-                        autocomplete="off" required>
-                    <label class="inputGroupLabel" for="traineesAssistanceSearch"><i class="fa-solid fa-magnifying-glass"></i> Buscar por documento</label>
+                <input class="inputGroupInput" type="number" name="traineesAssistanceSearch"
+                    id="traineesAssistanceSearch" autocomplete="off" required>
+                <label class="inputGroupLabel" for="traineesAssistanceSearch"><i
+                        class="fa-solid fa-magnifying-glass"></i> Buscar por documento</label>
             </div>
             <div id="resultsTraineesAssistanceSearch" class="resultsTraineesSearch"></div>
             <div class="inputGroup" id="inputGroupAssistDate">
-                            <input class="inputGroupInput" type="date" name="assistDate" id="assistDate" autocomplete="on" required>
-                            <label class="inputGroupLabel inputDate" for="assistDate" id="labelDate"><i class="fa-solid fa-calendar-days"></i> Fecha de Asistencia</label>
-                        </div>
+                <input class="inputGroupInput" type="date" name="assistDate" id="assistDate" autocomplete="on" required>
+                <label class="inputGroupLabel inputDate" for="assistDate" id="labelDate"><i
+                        class="fa-solid fa-calendar-days"></i> Fecha de Asistencia</label>
+            </div>
             <div class="inputGroup">
                 <label class="inputGroupLabel" for="selectedRoom"><i class="fa-solid fa-door-open"></i></label>
                 <select class="inputGroupSelect" name="selectedRoom" id="selectedRoom" required>
@@ -117,7 +121,8 @@
                 <button class="btn btnAlt" type="reset"><i class="fa-solid fa-eraser"></i> Limpiar</button>
             </div>
             <div class="buttonGroup">
-                <button id="btnNavigateRegAssist" class="btn btnAlt"><i class="fa-solid fa-clipboard-list"></i> Ver Registros</button>
+                <button id="btnNavigateRegAssist" class="btn btnAlt"><i class="fa-solid fa-clipboard-list"></i> Ver
+                    Registros</button>
             </div>
         </div>
         <p id="messageSheetAssist" class="message"></p>
@@ -133,15 +138,19 @@
             <h1>Aprendices</h1>
         </div>
         <div class="form">
-            <div class="buttonGroup">
-                <button id="openModalAdd" onclick="openModal(`dataSheetAddTrainees`); closeModal(`dataSheetListTrainees`)"
-                    class="btn"><i class="fa-solid fa-square-plus"></i>
-                    Agregar Aprendices</button>
-            </div>
+            <?php if ($userIdRole == 1) { ?>
+                <div class="buttonGroup">
+                    <button id="openModalAdd"
+                        onclick="openModal(`dataSheetAddTrainees`); closeModal(`dataSheetListTrainees`)" class="btn"><i
+                            class="fa-solid fa-square-plus"></i>
+                        Agregar Aprendices</button>
+                </div>
+            <?php } ?>
             <div class="inputGroup">
-                    <input class="inputGroupInput" type="number" name="traineesListSearch" id="traineesListSearch"
-                        autocomplete="off" required>
-                    <label class="inputGroupLabel" for="traineesListSearch"><i class="fa-solid fa-magnifying-glass"></i> Filtrar por documento</label>
+                <input class="inputGroupInput" type="number" name="traineesListSearch" id="traineesListSearch"
+                    autocomplete="off" required>
+                <label class="inputGroupLabel" for="traineesListSearch"><i class="fa-solid fa-magnifying-glass"></i>
+                    Filtrar por documento</label>
             </div>
             <div id="resultsTraineesListSearch" class="resultsTraineesSearch"></div>
         </div>
@@ -159,9 +168,10 @@
         </div>
         <div class="form">
             <div class="inputGroup">
-                    <input class="inputGroupInput" type="number" name="traineesAddSearch" id="traineesAddSearch"
-                        autocomplete="off" required>
-                    <label class="inputGroupLabel" for="traineesAddSearch"><i class="fa-solid fa-magnifying-glass"></i> Buscar por documento</label>
+                <input class="inputGroupInput" type="number" name="traineesAddSearch" id="traineesAddSearch"
+                    autocomplete="off" required>
+                <label class="inputGroupLabel" for="traineesAddSearch"><i class="fa-solid fa-magnifying-glass"></i>
+                    Buscar por documento</label>
             </div>
             <div id="resultsTraineesAddSearch" class="resultsTraineesSearch"></div>
             <div class="buttonGroup">
