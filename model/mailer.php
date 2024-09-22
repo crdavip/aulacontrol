@@ -16,10 +16,10 @@ class Mailer
             //Server settings
             $phpmailer->SMTPDebug = SMTP::DEBUG_OFF;                         //Enable verbose debug output (SMTP::DEBUG_OFF)
             $phpmailer->isSMTP();                                            //Send using SMTP
-            $phpmailer->Host       = 'smtp.hostinger.com';                   //Set the SMTP server to send through
+            $phpmailer->Host       = 'xxx';                   //Set the SMTP server to send through
             $phpmailer->SMTPAuth   = true;                                   //Enable SMTP authentication
-            $phpmailer->Username   = 'no-reply@cristiandavid.com.co';        //SMTP username
-            $phpmailer->Password   = 'Bmim940101**';                         //SMTP password
+            $phpmailer->Username   = 'xxx';        //SMTP username
+            $phpmailer->Password   = 'xxx';                         //SMTP password
             $phpmailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
             $phpmailer->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
