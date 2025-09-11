@@ -10,6 +10,7 @@ $userImgQr = $_SESSION['imgQr'];
 $userCenter = $_SESSION['center'];
 $userFirstTime = $_SESSION['firstTime'];
 $userAcron = $_SESSION['acron'];
+$device = $_SESSION['device'];
 
 if (!isset($userId)) {
     header('Location: ./ingreso');
@@ -49,6 +50,16 @@ if (!isset($userId)) {
         <div class="sidenavMenu">
             <div class="menu">
                 <ul class="menuLinks">
+                    <?php if ($device === "mobile") { ?>
+                        <li class="navLink">
+                            <a onclick="openModal('userProfile')" id="profileMenu">
+                                <div class="userImage" id="userImage">
+                                    <img class="userImagePic" id="userImagePic" src="" alt="profile">
+                                </div>
+                                <span class="text navText"><?php echo $userName ?></span>
+                            </a>
+                        </li>
+                    <?php } ?>
                     <li class="navLink">
                         <a href="./">
                             <i class="fa-solid fa-gauge-high icon"></i>
@@ -74,7 +85,7 @@ if (!isset($userId)) {
                     <?php if ($userIdRole == 1) { ?>
                         <li class="navLink">
                             <a href="./usuarios">
-                            <i class="fa-solid fa-user icon"></i>
+                                <i class="fa-solid fa-user icon"></i>
                                 <span class="text navText">Usuarios</span>
                             </a>
                         </li>
@@ -96,19 +107,27 @@ if (!isset($userId)) {
                         </li>
                     <?php } ?>
                     <!-- <?php if ($userIdRole == 1) { ?> -->
-                        <!-- <li class="navLink">
+                    <!-- <li class="navLink">
                             <a href="./objetos">
                                 <i class="fa-solid fa-cubes icon"></i>
                                 <span class="text navText">Objetos</span>
                             </a>
                         </li> -->
                     <!-- <?php } ?> -->
+                    <li class="navLink">
+                        <a href="./observaciones">
+                            <i class="fa-solid fa-binoculars icon"></i>
+                            <span class="text navText">Observaciones</span>
+                        </a>
+                    </li>
+                    <?php if ($device === "mobile") { ?>
                         <li class="navLink">
-                            <a href="./observaciones">
-                                <i class="fa-solid fa-binoculars icon"></i>
-                                <span class="text navText">Observaciones</span>
+                            <a href="./model/logout">
+                                <i class="fa-solid fa-right-from-bracket icon"></i>
+                                <span class="text navText">Salir</span>
                             </a>
                         </li>
+                    <?php } ?>
                 </ul>
             </div>
             <div class="sidenavBottom">

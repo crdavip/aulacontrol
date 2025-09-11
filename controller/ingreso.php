@@ -51,6 +51,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['idCenter'] = $row['idCentro'];
             $_SESSION['acron'] = $row['siglas'];
 
+            $user_agent = $_SERVER['HTTP_USER_AGENT'];
+            if (strpos($user_agent, 'Mobile') !== false || 
+              strpos($user_agent, 'Android') !== false ||
+              strpos($user_agent, 'iPhone') !== false ||
+              strpos($user_agent, 'iPad') !== false) {
+              $_SESSION['device'] = 'mobile';
+            } else {
+                $_SESSION['device'] = 'desktop';
+            }
+
+            $_SESSION['user_agent'] = $user_agent;
+
             echo json_encode(['successUser' => true, 'image' => $row['imagen']]);
           } else {
             echo json_encode(['successUser' => false, 'message' => '¡Usuario Desactivado!']);

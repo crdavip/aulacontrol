@@ -10,10 +10,8 @@
   --gris-oscuro: #222222;
   --blanco: #ffffff;
   --color-error: #b33f19;
-  --primario-svg: invert(65%) sepia(15%) saturate(7356%) hue-rotate(53deg)
-    brightness(96%) contrast(80%);
-  --blanco-svg: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg)
-    brightness(102%) contrast(102%);
+  --primario-svg: invert(65%) sepia(15%) saturate(7356%) hue-rotate(53deg) brightness(96%) contrast(80%);
+  --blanco-svg: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
   --modal-bg: rgba(255, 255, 255, 1);
   --tran: all 0.5s ease;
 }
@@ -369,8 +367,6 @@ a {
   & .text {
     margin-left: 1rem;
   }
-
-
 }
 
 .darkmodeAlt {
@@ -549,7 +545,8 @@ a {
   z-index: 2;
 }
 
-.cardMenuItems, .cardRoomMenuItems {
+.cardMenuItems,
+.cardRoomMenuItems {
   top: 0;
   right: 0;
   width: 145px;
@@ -964,7 +961,8 @@ a {
 }
 
 .messageOK,
-.messageErr, .messageAlert {
+.messageErr,
+.messageAlert {
   display: block;
   transition: all 0.5s;
   line-height: 1.1rem;
@@ -1130,7 +1128,7 @@ a {
   gap: 1rem;
 }
 
-.firstTimeTxt h2{
+.firstTimeTxt h2 {
   text-align: left;
 }
 
@@ -1274,7 +1272,8 @@ a {
   }
 }
 
-.cardMenu, .cardRoomMenu {
+.cardMenu,
+.cardRoomMenu {
   position: absolute;
   background: transparent;
   color: var(--negro);
@@ -1288,8 +1287,8 @@ a {
 }
 
 .cardMenu {
-  top: .5rem;
-  right: .5rem;
+  top: 0.5rem;
+  right: 0.5rem;
 }
 
 .btnDelete {
@@ -1321,7 +1320,8 @@ a {
   object-position: center;
 }
 
-.cardRoomNum, .cardDataSheetNum {
+.cardRoomNum,
+.cardDataSheetNum {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1402,7 +1402,8 @@ a {
   background: var(--segundario);
 }
 
-.containerFilterPg, .pagination {
+.containerFilterPg,
+.pagination {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1484,7 +1485,7 @@ a {
   width: 2rem;
   height: 2rem;
   cursor: pointer;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
 
   &:hover {
     background: var(--terciario);
@@ -1497,13 +1498,14 @@ a {
   }
 }
 
-.paginationItem, .paginationItemActive {
+.paginationItem,
+.paginationItemActive {
   width: 2rem;
   height: 2rem;
   background: transparent;
   cursor: pointer;
   border: none;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   color: var(--negro);
 
   &:hover {
@@ -1745,7 +1747,8 @@ a {
   font-weight: 700;
 }
 
-.containerQr, .containerProfile {
+.containerQr,
+.containerProfile {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1890,7 +1893,7 @@ table {
 
 th,
 td {
-  padding: .5rem;
+  padding: 0.5rem;
   text-align: left;
   line-height: 1rem;
 }
@@ -1940,7 +1943,7 @@ td img {
 }
 
 .tdStatus {
-  font-size: .75rem;
+  font-size: 0.75rem;
   font-weight: 700;
   border: 1px solid var(--segundario);
   padding: 0.5rem 1rem;
@@ -1948,10 +1951,11 @@ td img {
   border-radius: 0.25rem;
 }
 
-.tdTrue, .tdFalse {
+.tdTrue,
+.tdFalse {
   display: grid;
   place-content: center;
-  font-size: .75rem;
+  font-size: 0.75rem;
   font-weight: 700;
   width: 2.25rem;
   height: 2.25rem;
@@ -1969,17 +1973,20 @@ td img {
 }
 
 .tdTime {
-  font-size: .85rem;
+  font-size: 0.85rem;
   line-height: 1.5rem;
   font-weight: 300;
 }
 
-.historyUserName, .historyRoomNum, .tdDate {
+.historyUserName,
+.historyRoomNum,
+.tdDate {
   color: var(--primario);
 }
 
-.historyUserDoc, .historyCenterName {
-  font-size: .85rem;
+.historyUserDoc,
+.historyCenterName {
+  font-size: 0.85rem;
 }
 
 .tablePagination {
@@ -2001,7 +2008,7 @@ td img {
   gap: 0.5rem;
 }
 
-.descCardBody{
+.descCardBody {
   font-weight: 500 !important;
   font-size: 16px;
 }
@@ -2018,7 +2025,8 @@ td img {
   gap: 6px;
 }
 
-.temptFlexContainer > .tdFalse, .temptFlexContainer > .tdTrue {
+.temptFlexContainer > .tdFalse,
+.temptFlexContainer > .tdTrue {
   cursor: pointer;
 }
 
@@ -2058,8 +2066,8 @@ td img {
 
 .btnEntranceMarkPosition {
   position: absolute;
-  bottom: .5rem;
-  right: .5rem;
+  bottom: 0.5rem;
+  right: 0.5rem;
 }
 
 .btnExitMarkObject:hover {
@@ -2102,7 +2110,8 @@ td img {
   pointer-events: auto;
 }
 
-.divCardSearchTrainee, .divCardSearchTrainee > div {
+.divCardSearchTrainee,
+.divCardSearchTrainee > div {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -2140,7 +2149,6 @@ td img {
 
 #resultsTraineesSearch {
   width: 76%;
-
 }
 
 .wrapperContainer {
@@ -2262,12 +2270,12 @@ td img {
     flex-direction: column;
     max-height: 550px;
   }
-  
+
   .heroLeft {
     width: 100%;
     padding: 2rem 0;
   }
-  
+
   .heroRight {
     width: 100%;
   }
@@ -2331,8 +2339,18 @@ td img {
     height: 35px;
   }
 
+  .header .userInfo {
+    display: none;
+  }
+
   .header .userInfo p {
     display: none;
+  }
+
+  #profileMenu {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
   }
 
   .userImage {
@@ -2447,11 +2465,11 @@ td img {
     width: 100%;
   }
 
-  table tr{
+  table tr {
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
   }
 
   table td[data-title] {
@@ -2484,5 +2502,5 @@ td img {
 
   .tablePagination {
     flex-direction: column;
-}
+  }
 }

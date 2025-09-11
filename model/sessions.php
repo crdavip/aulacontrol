@@ -14,4 +14,5 @@ $userCenter = $_SESSION['center'];
 $userIdCenter = $_SESSION['idCenter'];
 $userAcron = $_SESSION['acron'];
 $userFirstTime = $_SESSION['firstTime'];
+$device = $_SESSION['device'];
 ?>
