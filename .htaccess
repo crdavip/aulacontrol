@@ -1,6 +1,8 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    # En local usar  "RewriteBase /aulacontrol/"
     RewriteBase /aulacontrol/
+    # En remoto usar  "RewriteBase /"
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^([^\.]+)$ $1.php [NC,L]

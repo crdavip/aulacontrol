@@ -54,6 +54,7 @@ private $database = "aulacontrol";
 ### 5. Iniciar el servidor
 
 ```bash
+Revisa la sección de "Configuración Adicional"
 Ya esta lista para ser usada en un servidor con Apache
 ```
 
@@ -72,7 +73,8 @@ Ya esta lista para ser usada en un servidor con Apache
 ## 🛠️ Configuración Adicional
 
 ```bash
-- GD      # Activar el GD de PHP en tu servidor "php.ini"
+- GD            # Activar el GD de PHP en tu servidor "php.ini"
+- .htaccess     # Cambiar RewriteBase /aulacontrol/ por RewriteBase /
 ```
 
 ---
