@@ -24,7 +24,7 @@ Proyecto creado para el SENA, esta plataforma sirve para llevar el control de lo
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/crdavip/aulacontrol
+git clone https://github.com/crdavip/aulacontrol.git
 cd aulacontrol
 ```
 
